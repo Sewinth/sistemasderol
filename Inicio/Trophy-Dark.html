@@ -7,22 +7,39 @@
   <style>
 
 style>
-    /* Estilos para la imagen de cabecera con texto encima */
+    /* Contenedor principal de la cabecera */
     .hero-cabecera {
       position: relative;
       width: 100%;
-      height: 150px;
-      margin-bottom: 30px;
+      height: 220px; /* ~40% de la altura original que se ve en tu captura */
+      margin: 0 auto 30px auto;
       border-bottom: 2px solid #a65c52;
       overflow: hidden;
     }
 
+    /* Imagen centrada y oscurecida */
     .cabecera {
       width: 100%;
-      height: 40%;
+      height: 100%;
       object-fit: cover;
+      object-position: center;
       display: block;
-      filter: brightness(0.5); /* Oscurece un poco la imagen para leer bien */
+      filter: brightness(0.55);
+    }
+
+    /* Título centrado en medio de la imagen */
+    .hero-cabecera h1 {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      margin: 0;
+      width: 90%;
+      text-align: center;
+      color: #c9b9a5;
+      font-size: 2.4rem;
+      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.95);
+      z-index: 2;
     }
 
     .contenido-cabecera {
@@ -35,16 +52,20 @@ style>
       z-index: 2;
     }
 
+    /* Botón en la esquina inferior izquierda */
     .btn-volver {
-      align-self: flex-start;
-      background: rgba(17, 17, 17, 0.75);
+      position: absolute;
+      bottom: 15px;
+      left: 15px;
+      background: rgba(17, 17, 17, 0.8);
       color: #e5e0d8;
       border: 1px solid #a65c52;
       padding: 6px 12px;
       border-radius: 4px;
       text-decoration: none;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       letter-spacing: 0.5px;
+      z-index: 2;
     }
 
     .btn-volver:hover {
@@ -186,11 +207,10 @@ style>
 <body>
 
  <header class="hero-cabecera">
-  <img src="../imagenes/Trophy_Dark_Wallpaper.jpg" alt="Cabecera Trophy Dark" class="cabecera">
-  
-  <div class="contenido-cabecera">
+    <img src="../imagenes/Trophy_Dark_Wallpaper.jpg" alt="Cabecera Trophy Dark" class="cabecera">
     <h1>Trophy Dark</h1>
     <a href="https://sewinth.github.io/sistemasderol/Inicio.html" class="btn-volver">← VOLVER AL INICIO</a>
+  <div class="contenido-cabecera">
   </div>
 </header>
   
