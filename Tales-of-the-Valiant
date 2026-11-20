@@ -1,1 +1,54 @@
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tales of the Valiant | Archivo de Rol</title>
+  <style>
+    body {
+      background: #111;
+      color: #e5e0d8;
+      font-family: Georgia, serif;
+      max-width: 900px;
+      margin: 50px auto;
+      padding: 20px;
+      line-height: 1.7;
+    }
+
+    a {
+      color: #a65c52;
+    }
+
+    h1, h2 {
+      color: #c9b9a5;
+    }
+  </style>
+</head>
+<body>
+
+  <a href="index.html">← Volver al inicio</a>
+
+  <h1>Tales of the valiant</h1>
+  <p>Black Flag Roleplaying</p>
+
+  <hr>
+
+  <h2>Introducción</h2>
+  <p>Aquí puedes incorporar tus apuntes y contenidos del juego.</p>
+
+  <h2>Reglas</h2>
+  <p>Aquí puedes organizar las reglas del sistema.</p>
+
+  <h2>Material de consulta</h2>
+
+<ul>
+  <li>
+    <a href="documentos/totv-creacion-personajes.html">
+      TotV - Creación de Personajes
+    </a>
+  </li>
+</ul>
+
+</body>
+</html>
