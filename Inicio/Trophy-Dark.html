@@ -94,68 +94,66 @@
       object-position: center 25%;
     }
 
-    /* Agrega esto dentro de tu etiqueta <style> */
-details {
-  margin-top: 25px;
-  border-left: 2px solid #a65c52;
-  padding-left: 15px;
-}
+    /* DESPLEGABLES*/
+    details {
+      margin-top: 25px;
+      border-left: 2px solid #a65c52;
+      padding-left: 15px;
+    }
 
-summary {
-  list-style: none; /* Oculta el triángulo por defecto del navegador */
-  cursor: pointer;
-  user-select: none;
-  display: flex;
-  align-items: flex-start; /* Alinea el símbolo con la primera línea del título */
-  gap: 10px;
-}
+    summary {
+      list-style: none; /* Oculta el triángulo por defecto del navegador */
+      cursor: pointer;
+      user-select: none;
+      display: flex;
+      align-items: flex-start; /* Alinea el símbolo con la primera línea del título */
+      gap: 10px;
+    }
 
-summary::-webkit-details-marker {
-  display: none; /* Oculta el triángulo por defecto en Safari/Chrome */
-}
+    summary::-webkit-details-marker {
+      display: none; /* Oculta el triángulo por defecto en Safari/Chrome */
+    }
 
 /* Símbolo personalizado a la izquierda */
-summary::before {
-  content: "▸"; /* Puedes cambiarlo por "+" o "›" */
-  color: #a65c52;
-  font-size: 1.3em;
-  line-height: 1.2;
-  transition: transform 0.2s ease;
-}
-
-/* Rota el símbolo cuando el desplegable se abre */
-details[open] summary::before {
-  transform: rotate(90deg);
-}
+    summary::before {
+      content: "▸";
+      color: #a65c52;
+      font-size: 1.3em;
+      line-height: 1.2;
+      transition: transform 0.2s ease;
+    }
+/* Rotacón de símbolo */
+    details[open] summary::before {
+      transform: rotate(90deg);
+    }
 
 /* Título del desplegable */
-.summary-title {
-  display: block;
-  color: #c9b9a5;
-  font-size: 1.3em;
-  font-weight: bold;
-  line-height: 1.2;
-}
-
-summary:hover .summary-title {
-  color: #a65c52;
-}
+    .summary-title {
+      display: block;
+      color: #c9b9a5;
+      font-size: 1.3em;
+      font-weight: bold;
+      line-height: 1.2;
+    }
+    summary:hover .summary-title {
+      color: #a65c52;
+    }
 
 /* Pequeña descripción siempre visible debajo del título */
-.summary-desc {
-  display: block;
-  color: #9e968b;
-  font-size: 0.95em;
-  font-style: italic;
-  margin-top: 4px;
-  line-height: 1.4;
-}
+    .summary-desc {
+      display: block;
+      color: #9e968b;
+      font-size: 0.95em;
+      font-style: italic;
+      margin-top: 4px;
+      line-height: 1.4;
+    }
 
 /* Contenido que se despliega */
-.details-content {
-  margin-top: 15px;
-  padding-left: 22px; /* Alinea el texto desplegado con el título, salvando el símbolo */
-}
+    .details-content {
+      margin-top: 15px;
+      padding-left: 22px; /* Alinea el texto desplegado con el título, salvando el símbolo */
+    }
     
     body {
       background: #111;
@@ -302,23 +300,92 @@ summary:hover .summary-title {
 
 <p>Cuando un jugador intenta algo arriesgado, el DJ puede pedirle una tirada. La cantidad y el tipo de dados dependen de las circunstancias, las características del personaje y las habilidades que pueda utilizar.</p>
 
-<!-- Menú desplegable. Prueba 2> -->
+  <h2>¿CÓMO JUGAR?</h2>
+  <p>Aquí puedes organizar las reglas del sistema.</p>
+
+  
+  <!-- Menú desplegable > -->
 <details>
   <summary>
     <div class="summary-header">
-      <span class="summary-title">Incursión: El Bosque de Kalduhr</span>
-      <span class="summary-desc">Una breve descripción introductoria siempre visible antes de desplegar.</span>
+      <span class="summary-title">Tirada de Riesgo </span>
+      <span class="summary-desc">Esta es la mecánica principal del juego.</span>
     </div>
   </summary>
 
   <div class="details-content">
-    <p>Aquí va todo el texto largo, las tablas o los detalles de la incursión que aparecerán al hacer clic.</p>
+<p>Se utilizan dados de dos colores:</p>
+
+<ul>
+  <li><strong>Dados claros:</strong> representan las capacidades, conocimientos y ventajas del personaje.</li>
+  <li><strong>Dados oscuros:</strong> representan el peligro y el riesgo que está asumiendo.</li>
+</ul>
+
+<p>El procedimiento es el siguiente:</p>
+
+<ol>
+  <li>El jugador explica qué quiere conseguir.</li>
+  <li>El DJ y los demás jugadores plantean qué podría salir mal.</li>
+  <li>Se reúnen los dados correspondientes.</li>
+  <li>Se lanzan todos los dados y se observa el resultado más alto.</li>
+</ol>
+
+<table>
+  <thead>
+    <tr>
+      <th>Situación</th>
+      <th>Dados</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>El personaje tiene una ocupación o trasfondo pertinente</td>
+      <td>+1 claro</td>
+    </tr>
+    <tr>
+      <td>Acepta un Pacto con el Diablo</td>
+      <td>+1 claro</td>
+    </tr>
+    <tr>
+      <td>*Arriesga su cuerpo o mente</td>
+      <td>+1 oscuro</td>
+    </tr>
+    <tr>
+      <td>Realiza un ritual</td>
+      <td>+1 oscuro obligatorio</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Hay una regla especialmente importante: si el dado oscuro más alto iguala o supera al dado claro más alto, el personaje marca 1 punto de Ruina.</p>
+
+<p>Además, si el jugador no está conforme con el resultado y su dado más alto es claro, puede agregar un dado oscuro (Arriesga su cuerpo o mente) y volver a lanzar todos los dados. Esta acción se puede repetir, pero si el dado oscuro termina dominando, sufrirá Ruina.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Resultado más alto</th>
+      <th>Consecuencia</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1, 2 o 3</td>
+      <td>Fracaso. La situación empeora.</td>
+    </tr>
+    <tr>
+      <td>4 o 5</td>
+      <td>Éxito con una complicación.</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>Éxito sin complicaciones adicionales.</td>
+    </tr>
+  </tbody>
+</table>
   </div>
 </details>
   
-  <h2>¿CÓMO JUGAR?</h2>
-  <p>Aquí puedes organizar las reglas del sistema.</p>
-
   <h2>Material de consulta</h2>
   <p>Aquí puedes agregar tablas, referencias y otros recursos.</p>
 
