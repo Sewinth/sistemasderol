@@ -11,7 +11,7 @@
       width: 100%;
       height: 250px;
       object-fit: cover;
-      display: block 30px;
+      display: block;
       margin-bottom: 30px;
       border-bottom: 2px solid #a65c52;
     }
@@ -150,9 +150,9 @@
 <body>
 
   <!-- IMAGEN DE CABECERA -->
-  <cabecera>
+  <header>
     <img src="imagenes/Trophy_Dark_Wallpaper.jpg" alt="Cabecera Trophy Dark" class="cabecera">
-  </cabecera>
+  </header>
 
   <a href="https://sewinth.github.io/sistemasderol/Inicio.html">← VOLVER AL INICIO</a>
 
@@ -200,14 +200,14 @@
 
         <div class="carrusel" id="carrusel">
 
-            <a href="Inicio/delta-green.html" class="tarjeta-recomendacion">
-                <img src="imgagenes/DG_Wallpaper.jpg" alt="Delta Green">
+            <a href="Inicio/Delta-Green.html" class="tarjeta-recomendacion">
+                <img src="imagenes/DG_Wallpaper.jpg" alt="Delta Green">
                 <h3>Delta Green</h3>
                 <span>Investigación y horror</span>
             </a>
 
             <a href="Inicio/Alien-RPG.html" class="tarjeta-recomendacion">
-                <img src="imgagenes/Alien_RPG_Wallpaper.jpeg" alt="Alien RPG">
+                <img src="imagenes/Alien_RPG_Wallpaper.jpeg" alt="Alien RPG">
                 <h3>Alien RPG</h3>
                 <span>Terror y supervivencia</span>
             </a>
@@ -222,9 +222,24 @@
                 <img src="imagenes/Cthulhu_RPG_Wallpaper.jpg" alt="La Llamada de Cthulhu">
                 <h3>La Llamada de Cthulhu</h3>
                 <span>Misterio, horror e investigación</span>
-            </a>
+             </a>
 
         </div>
+
+        <div class="carrusel-controles">
+
+            <button type="button" aria-label="Anterior">
+                &#8592;
+            </button>
+
+            <button type="button" aria-label="Siguiente">
+                &#8594;
+            </button>
+        </div>
+
+    </div>
+
+</section>
 
       <script>
 document.addEventListener("DOMContentLoaded", function () {
