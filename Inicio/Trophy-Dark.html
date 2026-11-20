@@ -52,7 +52,7 @@
       z-index: 2;
     }
 
-    /* Botón en la esquina inferior izquierda */
+    /* Botón: Volver al inicio */
     .btn-volver {
       position: absolute;
       bottom: 15px;
@@ -94,25 +94,68 @@
       object-position: center 25%;
     }
 
-/* CSS: Agrégalo dentro de tu etiqueta <style> */
+    /* Agrega esto dentro de tu etiqueta <style> */
 details {
-  margin-top: 20px;
-  border-left: 2px solid #a65c52; /* Línea lateral en tu color de acento */
+  margin-top: 25px;
+  border-left: 2px solid #a65c52;
   padding-left: 15px;
 }
 
 summary {
+  list-style: none; /* Oculta el triángulo por defecto del navegador */
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: flex-start; /* Alinea el símbolo con la primera línea del título */
+  gap: 10px;
+}
+
+summary::-webkit-details-marker {
+  display: none; /* Oculta el triángulo por defecto en Safari/Chrome */
+}
+
+/* Símbolo personalizado a la izquierda */
+summary::before {
+  content: "▸"; /* Puedes cambiarlo por "+" o "›" */
+  color: #a65c52;
+  font-size: 1.3em;
+  line-height: 1.2;
+  transition: transform 0.2s ease;
+}
+
+/* Rota el símbolo cuando el desplegable se abre */
+details[open] summary::before {
+  transform: rotate(90deg);
+}
+
+/* Título del desplegable */
+.summary-title {
+  display: block;
   color: #c9b9a5;
-  font-size: 1.3em; /* Tamaño similar a un encabezado h2 */
+  font-size: 1.3em;
   font-weight: bold;
-  cursor: pointer; /* Cambia el cursor a una manito al pasar por encima */
-  user-select: none; /* Evita que se seleccione el texto al hacer clic rápido */
+  line-height: 1.2;
 }
 
-summary:hover {
-  color: #a65c52; /* Cambia de color al pasar el mouse */
+summary:hover .summary-title {
+  color: #a65c52;
 }
 
+/* Pequeña descripción siempre visible debajo del título */
+.summary-desc {
+  display: block;
+  color: #9e968b;
+  font-size: 0.95em;
+  font-style: italic;
+  margin-top: 4px;
+  line-height: 1.4;
+}
+
+/* Contenido que se despliega */
+.details-content {
+  margin-top: 15px;
+  padding-left: 22px; /* Alinea el texto desplegado con el título, salvando el símbolo */
+}
     
     body {
       background: #111;
@@ -259,13 +302,21 @@ summary:hover {
 
 <p>Cuando un jugador intenta algo arriesgado, el DJ puede pedirle una tirada. La cantidad y el tipo de dados dependen de las circunstancias, las características del personaje y las habilidades que pueda utilizar.</p>
 
-<!-- Menú desplegable. Prueba 1> -->
+<!-- Menú desplegable. Prueba 2> -->
 <details>
-  <summary><h2>¿CÓMO JUGAR</h2></summary>
-  <p>Aquí va todo el texto largo, las reglas o la descripción que quieres mantener oculta hasta que el usuario haga clic en el encabezado.</p>
+  <summary>
+    <div class="summary-header">
+      <span class="summary-title">Incursión: El Bosque de Kalduhr</span>
+      <span class="summary-desc">Una breve descripción introductoria siempre visible antes de desplegar.</span>
+    </div>
+  </summary>
+
+  <div class="details-content">
+    <p>Aquí va todo el texto largo, las tablas o los detalles de la incursión que aparecerán al hacer clic.</p>
+  </div>
 </details>
   
-  <h2>¿CÓMO JUGAR</h2>
+  <h2>¿CÓMO JUGAR?</h2>
   <p>Aquí puedes organizar las reglas del sistema.</p>
 
   <h2>Material de consulta</h2>
