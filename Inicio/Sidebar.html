@@ -1,0 +1,19 @@
+<h3>Sistemas de Rol</h3>
+<ul>
+  <li><a href="Alien-RPG.html">Alien RPG</a></li>
+  <li><a href="Aquelarre.html">Aquelarre</a></li>
+  <li><a href="Cazador-5ta.html">Cazador 5ta</a></li>
+  <li><a href="Delta-Green.html">Delta Green</a></li>
+  <li><a href="DnD-5e.html">Dungeons & Dragons 5.0</a></li>
+  <li><a href="Forbidden-Lands.html">Forbidden Lands</a></li>
+  <li><a href="La-Llamada-de-Cthulhu.html">La Llamada de Cthulhu</a></li>
+  <li><a href="Trophy-Dark.html">Trophy Dark</a></li>
+</ul>
+
+<script>
+  fetch('sidebar.html')
+    .then(respuesta => respuesta.text())
+    .then(html => {
+      document.getElementById('barra-lateral').innerHTML = html;
+    });
+</script>
