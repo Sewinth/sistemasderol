@@ -204,39 +204,55 @@
 
         </div>
 
-        <div class="carrusel-controles">
-            <button onclick="moverCarrusel(-1)" aria-label="Anterior">
-                &#8592;
-            </button>
-
-            <button onclick="moverCarrusel(1)" aria-label="Siguiente">
-                &#8594;
-            </button>
-        </div>
-
-    </div>
-
-</section>
-
-  <script>
-function moverCarrusel(direccion) {
+      <script>
+document.addEventListener("DOMContentLoaded", function () {
 
     const carrusel = document.getElementById("carrusel");
 
-    const tarjeta = carrusel.querySelector(
-        ".tarjeta-recomendacion"
+    const botones = document.querySelectorAll(
+        ".carrusel-controles button"
     );
 
-    const espacio = 15;
+    function moverCarrusel(direccion) {
 
-    const desplazamiento =
-        tarjeta.offsetWidth + espacio;
+        const tarjetas = carrusel.querySelectorAll(
+            ".tarjeta-recomendacion"
+        );
 
-    carrusel.scrollBy({
-        left: desplazamiento * direccion,
-        behavior: "smooth"
+        const espacio = 15;
+
+        const desplazamiento =
+            tarjetas[0].offsetWidth + espacio;
+
+        const maximo =
+            carrusel.scrollWidth - carrusel.clientWidth;
+
+        let nuevaPosicion =
+            carrusel.scrollLeft + desplazamiento * direccion;
+
+        if (nuevaPosicion > maximo + 5) {
+            nuevaPosicion = 0;
+        }
+
+        if (nuevaPosicion < -5) {
+            nuevaPosicion = maximo;
+        }
+
+        carrusel.scrollTo({
+            left: nuevaPosicion,
+            behavior: "smooth"
+        });
+    }
+
+    botones[0].addEventListener("click", function () {
+        moverCarrusel(-1);
     });
-}
+
+    botones[1].addEventListener("click", function () {
+        moverCarrusel(1);
+    });
+
+});
 </script>
   
 </body>
