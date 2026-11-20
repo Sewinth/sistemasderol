@@ -32,15 +32,105 @@
     h1, h2 {
       color: #c9b9a5;
     }
+
+.recomendaciones {
+    margin-top: 45px;
+}
+
+.recomendaciones h2 {
+    color: #c9b9a5;
+}
+
+.recomendaciones p {
+    color: #aaa49b;
+}
+
+.carrusel-contenedor {
+    overflow: hidden;
+    margin-top: 20px;
+}
+
+.carrusel {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+}
+
+.carrusel::-webkit-scrollbar {
+    display: none;
+}
+
+.tarjeta-recomendacion {
+    flex: 0 0 calc(50% - 8px);
+    box-sizing: border-box;
+    background: #1b1b1b;
+    border: 1px solid #34302d;
+    border-radius: 7px;
+    padding: 12px;
+    text-decoration: none;
+}
+
+.tarjeta-recomendacion img {
+    width: 100%;
+    height: 130px;
+    object-fit: cover;
+    border-radius: 4px;
+    display: block;
+}
+
+.tarjeta-recomendacion h3 {
+    color: #c9b9a5;
+    margin: 12px 0 5px;
+}
+
+.tarjeta-recomendacion span {
+    color: #aaa49b;
+    font-size: 0.85rem;
+}
+
+.tarjeta-recomendacion:hover {
+    border-color: #a65c52;
+}
+
+.carrusel-controles {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.carrusel-controles button {
+    background: #1b1b1b;
+    color: #c9b9a5;
+    border: 1px solid #45413d;
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.carrusel-controles button:hover {
+    background: #a65c52;
+    color: white;
+}
+
+@media (max-width: 600px) {
+    .tarjeta-recomendacion {
+        flex: 0 0 85%;
+    }
+}
     
   </style>
 </head>
 <body>
 
   <!-- IMAGEN DE CABECERA -->
-  <header>
+  <cabecera>
     <img src="imagenes/Trophy_Dark_Wallpaper.jpg" alt="Cabecera Trophy Dark" class="cabecera">
-  </header>
+  </cabecera>
 
   <a href="https://sewinth.github.io/sistemasderol/Inicio.html">← VOLVER AL INICIO</a>
 
@@ -78,5 +168,56 @@
   <h2>Material de consulta</h2>
   <p>Aquí puedes agregar tablas, referencias y otros recursos.</p>
 
+<hr>
+
+<section class="recomendaciones">
+
+    <h2>También en el Archivo</h2>
+    <p>Explora otros juegos de rol.</p>
+
+    <div class="carrusel-contenedor">
+
+        <div class="carrusel" id="carrusel">
+
+            <a href="delta-green.html" class="tarjeta-recomendacion">
+                <img src="img/Delta_Green.jpg" alt="Delta Green">
+                <h3>Delta Green</h3>
+                <span>Investigación y horror</span>
+            </a>
+
+            <a href="Alien-RPG.html" class="tarjeta-recomendacion">
+                <img src="img/Alien_RPG.jpg" alt="Alien RPG">
+                <h3>Alien RPG</h3>
+                <span>Terror y supervivencia</span>
+            </a>
+
+            <a href="Forbidden-Lands.html" class="tarjeta-recomendacion">
+                <img src="img/Forbidden_Lands.jpg" alt="Forbidden Lands">
+                <h3>Forbidden Lands</h3>
+                <span>Fantasía y exploración</span>
+            </a>
+
+            <a href="La-Llamada-de-Cthulhu.html" class="tarjeta-recomendacion">
+                <img src="img/La_Llamada.jpg" alt="La Llamada de Cthulhu">
+                <h3>La Llamada de Cthulhu</h3>
+                <span>Misterio y horror</span>
+            </a>
+
+        </div>
+
+        <div class="carrusel-controles">
+            <button onclick="moverCarrusel(-1)" aria-label="Anterior">
+                &#8592;
+            </button>
+
+            <button onclick="moverCarrusel(1)" aria-label="Siguiente">
+                &#8594;
+            </button>
+        </div>
+
+    </div>
+
+</section>
+  
 </body>
 </html>
