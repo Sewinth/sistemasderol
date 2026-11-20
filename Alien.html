@@ -1,1 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Encabezado desplegable</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #1e293b;
+      color: #ffffff;
+      padding: 0 24px;
+      height: 64px;
+    }
+
+    .logo {
+      font-size: 1.25rem;
+      font-weight: bold;
+      text-decoration: none;
+      color: #ffffff;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+
+    nav li {
+      position: relative;
+    }
+
+    nav a {
+      display: block;
+      color: #ffffff;
+      text-decoration: none;
+      padding: 20px 8px;
+    }
+
+    nav a:hover,
+    nav li:focus-within > a {
+      color: #38bdf8;
+    }
+
+    /* Submenú desplegable */
+    .submenu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: #334155;
+      min-width: 180px;
+      flex-direction: column;
+      gap: 0;
+      border-radius: 0 0 6px 6px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      z-index: 10;
+    }
+
+    .submenu a {
+      padding: 12px 16px;
+    }
+
+    .submenu a:hover {
+      background-color: #475569;
+    }
+
+    nav li:hover .submenu,
+    nav li:focus-within .submenu {
+      display: flex;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="#" class="logo">MiSitio</a>
+    <nav aria-label="Navegación principal">
+      <ul>
+        <li><a href="#">Inicio</a></li>
+        <li>
+          <a href="#">Servicios ▾</a>
+          <ul class="submenu">
+            <li><a href="#">Diseño web</a></li>
+            <li><a href="#">Desarrollo</a></li>
+            <li><a href="#">SEO</a></li>
+          </ul>
+        </li>
+        <li><a href="#">Contacto</a></li>
+      </ul>
+    </nav>
+  </header>
+</body>
+</html>
 
