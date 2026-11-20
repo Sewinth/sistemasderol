@@ -217,6 +217,27 @@
     </div>
 
 </section>
+
+  <script>
+function moverCarrusel(direccion) {
+
+    const carrusel = document.getElementById("carrusel");
+
+    const tarjeta = carrusel.querySelector(
+        ".tarjeta-recomendacion"
+    );
+
+    const espacio = 15;
+
+    const desplazamiento =
+        tarjeta.offsetWidth + espacio;
+
+    carrusel.scrollBy({
+        left: desplazamiento * direccion,
+        behavior: "smooth"
+    });
+}
+</script>
   
 </body>
 </html>
