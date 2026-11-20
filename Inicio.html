@@ -1,51 +1,12 @@
-<!-- #region --><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Arcanum del Rol</title>
 
     <style>
-        
- 
-/* Imágenes de las tarjetas */
-.card img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-  display: block;
-  border-radius: 6px;
-  margin-bottom: 15px;
-}
-
-/* Ajuste exclusivo de la imagen de Delta Green */
-.card img.deltagreen-img {
-    object-fit: cover;
-    object-position: center 100%;
-        }
-/* Ajuste exclusivo de la imagen de Forbidden Lands */
-.card img.forbiddenlands-img {
-    object-fit: cover;
-    object-position: center 45%;
-        }
-/* Ajuste exclusivo de la imagen de Punk Terra */
-.card img.punkterra-img {
-    object-fit: cover;
-    object-position: center 75%;
-        }
-/* Ajuste exclusivo de la imagen de Tales of the Valiant */
-.card img.talesotvaliant-img {
-    object-fit: cover;
-    object-position: center 15%;
-        }
-        
-/* Efecto al pasar el cursor */
-.card:hover img {
-  opacity: 0.55;
-  transition: opacity 0.3s ease;
-}
-
+        /* #region 1. ESTILOS BASE Y GENERALES */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -58,7 +19,9 @@
             font-family: Georgia, serif;
             line-height: 1.6;
         }
+        /* #endregion */
 
+        /* #region 2. HEADER Y TÍTULOS */
         header {
             padding: 65px 20px 45px;
             text-align: center;
@@ -85,7 +48,9 @@
             font-size: 15px;
             margin-top: 12px;
         }
+        /* #endregion */
 
+        /* #region 3. CONTENEDOR PRINCIPAL E INTRODUCCIÓN */
         main {
             max-width: 1050px;
             margin: auto;
@@ -98,7 +63,7 @@
             text-align: center;
         }
 
-        .intro h3 {
+        .intro h2 {
             font-size: 23px;
             font-weight: normal;
             margin-bottom: 15px;
@@ -117,7 +82,9 @@
             text-transform: uppercase;
             margin-bottom: 22px;
         }
+        /* #endregion */
 
+        /* #region 4. GRILLA Y TARJETAS DE SISTEMAS */
         .systems {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -140,7 +107,7 @@
             transform: translateY(-3px);
         }
 
-        .card h3 {
+        .card h2 {
             font-size: 19px;
             font-weight: normal;
             margin-bottom: 8px;
@@ -160,7 +127,41 @@
             font-size: 11px;
             letter-spacing: 1px;
         }
+        /* #endregion */
 
+        /* #region 5. IMÁGENES Y AJUSTES DE POSICIÓN */
+        .card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+
+        .card:hover img {
+            opacity: 0.55;
+            transition: opacity 0.3s ease;
+        }
+
+        .card img.deltagreen-img {
+            object-position: center 100%;
+        }
+
+        .card img.forbiddenlands-img {
+            object-position: center 45%;
+        }
+
+        .card img.punkterra-img {
+            object-position: center 75%;
+        }
+
+        .card img.talesotvaliant-img {
+            object-position: center 15%;
+        }
+        /* #endregion */
+
+        /* #region 6. FOOTER Y RESPONSIVE */
         footer {
             border-top: 1px solid #38332f;
             text-align: center;
@@ -178,12 +179,14 @@
             header {
                 padding-top: 45px;
             }
-}
+        }
+        /* #endregion */
     </style>
 </head>
 
-<body><!-- #endregion -->
+<body>
 
+    <!-- #region ENCABEZADO -->
     <header>
         <div class="eyebrow">Biblioteca personal</div>
         <h1>ARCHIVO DE ROL</h1>
@@ -191,12 +194,13 @@
             Sistemas, reglamentos y mundos por explorar.
         </p>
     </header>
+    <!-- #endregion -->
 
     <main>
 
+        <!-- #region INTRODUCCIÓN -->
         <section class="intro">
             <h2>Un espacio para el juego y la imaginación</h2>
-
             <p>
                 Este archivo reúne distintos juegos de rol de mesa,
                 sus sistemas de reglas, mecánicas, procedimientos
@@ -204,7 +208,9 @@
                 para organizar conocimientos y preparar nuevas partidas.
             </p>
         </section>
+        <!-- #endregion -->
 
+        <!-- #region CATÁLOGO DE SISTEMAS -->
         <section>
             <div class="section-title">
                 Sistemas de juego
@@ -212,34 +218,39 @@
 
             <div class="systems">
 
+                <!-- Alien RPG -->
                 <a href="Inicio/Alien-RPG.html" class="card">
                     <img src="imagenes/Alien_RPG_Wallpaper.jpeg" alt="Alien RPG">
                     <h2>Alien</h2>
                     <p>Year Zero Engine</p>
                     <span>EXPLORAR ARCHIVO →</span>
                 </a>
-                
+
+                <!-- Aquelarre -->
                 <a href="Inicio/Aquelarre.html" class="card">
                     <img src="imagenes/Aquelarre_Wallpaper.jpg" alt="Aquelarre">
                     <h2>Aquelarre</h2>
                     <p>Basic Role-Playing</p>
                     <span>EXPLORAR ARCHIVO →</span>
                 </a>
-                
+
+                <!-- Cazador 5ta -->
                 <a href="Inicio/Cazador5e.html" class="card">
                     <img src="imagenes/Cazador_LaVenganza5_Wallpaper.jpg" alt="Cazador: La Venganza 5">
                     <h2>Cazador 5ta</h2>
                     <p>Storyteller System</p>
                     <span>EXPLORAR ARCHIVO →</span>
                 </a>
-                
+
+                <!-- Delta Green -->
                 <a href="Inicio/Delta-Green.html" class="card">
                     <img class="deltagreen-img" src="imagenes/DG-Wallpaper.JPG" alt="Delta Green">
-                  <h2>Delta Green</h2>
-                  <p>Basic Roleplaying (BRP / d100)</p>
+                    <h2>Delta Green</h2>
+                    <p>Basic Roleplaying (BRP / d100)</p>
                     <span>EXPLORAR ARCHIVO →</span>
                 </a>
 
+                <!-- Dungeons & Dragons 5.0 -->
                 <a href="Inicio/DnD_5.0.html" class="card">
                     <img src="imagenes/DnD_Wallpaper.jpg" alt="Dungeon and Dragons 5e">
                     <h2>Dungeons & Dragons 5.0</h2>
@@ -247,6 +258,7 @@
                     <span>EXPLORAR ARCHIVO →</span>
                 </a>
 
+                <!-- Forbidden Lands -->
                 <a href="Inicio/Forbidden-Lands.html" class="card">
                     <img class="forbiddenlands-img" src="imagenes/Forbidden_Lands_Wallpaper.jpeg" alt="Forbidden Lands">
                     <h2>Forbidden Lands</h2>
@@ -254,6 +266,7 @@
                     <span>EXPLORAR ARCHIVO →</span>
                 </a>
 
+                <!-- La Llamada de Cthulhu -->
                 <a href="Inicio/Llamada-de-Cthulhu.html" class="card">
                     <img src="imagenes/Cthulhu_RPG_Wallpaper.jpg" alt="La Llamada de Cthulhu">
                     <h2>La Llamada de Cthulhu</h2>
@@ -261,13 +274,15 @@
                     <span>EXPLORAR ARCHIVO →</span>
                 </a>
 
+                <!-- Punk Terra -->
                 <a href="Inicio/Punk-Terra.html" class="card">
                     <img class="punkterra-img" src="imagenes/PunkTerra_Wallpaper.webp" alt="Punk Terra">
                     <h2>Punk Terra</h2>
                     <p>Original d12</p>
                     <span>EXPLORAR ARCHIVO →</span>
                 </a>
-                
+
+                <!-- Tales of the Valiant -->
                 <a href="Inicio/Tales-of-the-Valiant.html" class="card">
                     <img class="talesotvaliant-img" src="imagenes/Tales_ot_Valiant_Wallpaper.avif" alt="Tales of the Valiant">
                     <h2>Tales of the Valiant</h2>
@@ -275,27 +290,25 @@
                     <span>EXPLORAR ARCHIVO →</span>
                 </a>
 
-                 <a href="Inicio/Tinta.html" class="card">
+                <!-- Tinta -->
+                <a href="Inicio/Tinta.html" class="card">
                     <img src="imagenes/Tinta_Wallpaper.webp" alt="Tinta">
                     <h2>Tinta</h2>
                     <p>Snowbright Studio</p>
                     <span>EXPLORAR ARCHIVO →</span>
                 </a>
-                
-                <a href="Inicio/Trophy-Dark.html" class="card">
-                    <img src="imagenes/Trophy_Dark_Wallpaper.jpg" alt="Trophy Dark">
-                    <h2>Trophy Dark</h2>
-                    <p>Trophy System</p>
-                    <span>EXPLORAR ARCHIVO →</span>
-                </a>
+
             </div>
         </section>
+        <!-- #endregion -->
 
     </main>
 
+    <!-- #region PIE DE PÁGINA -->
     <footer>
-        ARCHIVO DE ROL · BIBLIOTECA PERSONAL
+        Archivo personal de rol
     </footer>
+    <!-- #endregion -->
 
 </body>
 </html>
