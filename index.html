@@ -4,31 +4,226 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio</title>
+
+    <title>Archivo de Rol</title>
 
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
+            background: #111111;
+            color: #dedbd4;
+            font-family: Georgia, serif;
+            line-height: 1.6;
+        }
+
+        header {
+            padding: 65px 20px 45px;
+            text-align: center;
+            border-bottom: 1px solid #38332f;
+        }
+
+        .eyebrow {
+            color: #a65c52;
             font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
-            color: #222;
-            text-align: center-up;
-            padding: 60px 20px;
+            font-size: 11px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 18px;
         }
 
         h1 {
-            color: #333;
+            font-size: clamp(30px, 5vw, 48px);
+            font-weight: normal;
+            letter-spacing: 3px;
         }
 
-        p {
-            font-size: 18px;
+        .subtitle {
+            color: #99938a;
+            font-size: 15px;
+            margin-top: 12px;
+        }
+
+        main {
+            max-width: 1050px;
+            margin: auto;
+            padding: 55px 25px;
+        }
+
+        .intro {
+            max-width: 680px;
+            margin: 0 auto 55px;
+            text-align: center;
+        }
+
+        .intro h2 {
+            font-size: 23px;
+            font-weight: normal;
+            margin-bottom: 15px;
+        }
+
+        .intro p {
+            color: #a9a39a;
+            font-size: 15px;
+        }
+
+        .section-title {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            letter-spacing: 3px;
+            color: #a65c52;
+            text-transform: uppercase;
+            margin-bottom: 22px;
+        }
+
+        .systems {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .card {
+            display: block;
+            padding: 25px;
+            background: #1b1b1b;
+            border: 1px solid #34302d;
+            text-decoration: none;
+            color: inherit;
+            transition: 0.25s;
+        }
+
+        .card:hover {
+            background: #25211f;
+            border-color: #a65c52;
+            transform: translateY(-3px);
+        }
+
+        .card h3 {
+            font-size: 19px;
+            font-weight: normal;
+            margin-bottom: 8px;
+        }
+
+        .card p {
+            color: #918b83;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+        }
+
+        .card span {
+            display: block;
+            margin-top: 17px;
+            color: #a65c52;
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+            letter-spacing: 1px;
+        }
+
+        footer {
+            border-top: 1px solid #38332f;
+            text-align: center;
+            padding: 28px 15px;
+            color: #716c65;
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+        }
+
+        @media (max-width: 650px) {
+            .systems {
+                grid-template-columns: 1fr;
+            }
+
+            header {
+                padding-top: 45px;
+            }
         }
     </style>
 </head>
 
 <body>
-    <h1>Sistemas de rol</h1>
 
-    <p>Aquí pretendo subir un pequeño resumen de los sistemas de rol que he ido leyendo con los años, cosa de acceder a partes específicas con mayor facilidad desde la computadora.</p>
+    <header>
+        <div class="eyebrow">Biblioteca personal</div>
+        <h1>ARCHIVO DE ROL</h1>
+        <p class="subtitle">
+            Sistemas, reglamentos y mundos por explorar.
+        </p>
+    </header>
+
+    <main>
+
+        <section class="intro">
+            <h2>Un espacio para el juego y la imaginación</h2>
+
+            <p>
+                Este archivo reúne distintos juegos de rol de mesa,
+                sus sistemas de reglas, mecánicas, procedimientos
+                y recursos de consulta. Una biblioteca personal
+                para organizar conocimientos y preparar nuevas partidas.
+            </p>
+        </section>
+
+        <section>
+            <div class="section-title">
+                Sistemas de juego
+            </div>
+
+            <div class="systems">
+
+                <a class="card" href="alien.html">
+                    <h3>Alien</h3>
+                    <p>Year Zero Engine</p>
+                    <span>EXPLORAR ARCHIVO →</span>
+                </a>
+
+                <a class="card" href="cazador.html">
+                    <h3>Cazador 5ta</h3>
+                    <p>Storyteller System</p>
+                    <span>EXPLORAR ARCHIVO →</span>
+                </a>
+
+                <a class="card" href="delta-green.html">
+                    <h3>Delta Green</h3>
+                    <p>Basic Roleplaying (BRP / d100)</p>
+                    <span>EXPLORAR ARCHIVO →</span>
+                </a>
+
+                <a class="card" href="dnd.html">
+                    <h3>Dungeons & Dragons 5.0</h3>
+                    <p>D20 System</p>
+                    <span>EXPLORAR ARCHIVO →</span>
+                </a>
+
+                <a class="card" href="forbidden-lands.html">
+                    <h3>Forbidden Lands</h3>
+                    <p>Year Zero Engine</p>
+                    <span>EXPLORAR ARCHIVO →</span>
+                </a>
+
+                <a class="card" href="call-of-cthulhu.html">
+                    <h3>La Llamada de Cthulhu</h3>
+                    <p>Basic Roleplaying (BRP / d100)</p>
+                    <span>EXPLORAR ARCHIVO →</span>
+                </a>
+
+                <a class="card" href="trophy-dark.html">
+                    <h3>Trophy Dark</h3>
+                    <p>Trophy System</p>
+                    <span>EXPLORAR ARCHIVO →</span>
+                </a>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        ARCHIVO DE ROL · BIBLIOTECA PERSONAL
+    </footer>
 
 </body>
 </html>
