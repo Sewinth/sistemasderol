@@ -50,24 +50,34 @@
   margin-top: 8px;
   text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.9);
         }
-/* Botón SOBRE MI en la esquina inferior izquierda */
+/* Contenedor de botones centrados debajo del subtítulo */
+.hero-nav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap; /* Si agregas muchos botones, bajan a otra fila en celulares */
+  gap: 12px;       /* Separación entre cada botón */
+  margin-top: 20px;
+}
+
+/* Estilo de cada botón */
 .btn-cabecera {
-  position: absolute;
-  bottom: 15px;
-  left: 15px;
   background: rgba(17, 17, 17, 0.8);
   color: #e5e0d8;
   border: 1px solid #a65c52;
-  padding: 6px 12px;
+  padding: 7px 16px;
   border-radius: 4px;
   text-decoration: none;
-  font-size: 0.8rem;
-  letter-spacing: 0.5px;
-        }
+  font-family: Arial, sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  transition: 0.25s;
+}
+
 .btn-cabecera:hover {
   background: #a65c52;
-  color: #fff;
-        }     
+  color: #ffffff;
+}  
 /* Imágenes de las tarjetas */
 .card img {
   width: 100%;
@@ -227,10 +237,15 @@
   <div class="hero-contenido">
     <h1>ARCANUM DE ROL</h1>
     <p class="subtitle">Sistemas, reglamentos y mundos por explorar.</p>
-    <a href="Inicio/Sobre_Mi.html" class="btn-cabecera">SOBRE MI</a>
+    
+    <nav class="hero-nav">
+      <a href="Inicio/Sobre_Mi.html" class="btn-cabecera">Sobre Mí</a>
+      <!-- Para agregar más botones, solo duplica esta línea debajo: -->
+      <!-- <a href="Inicio/WXYZ.html" class="btn-cabecera">NombreBotón</a> -->
+    </nav>
   </div>
 </header>
-
+    
     <main>
 
         <section class="intro">
