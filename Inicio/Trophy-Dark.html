@@ -51,7 +51,7 @@
       justify-content: space-between; /* Pone el botón arriba y el título abajo */
       z-index: 2;
     }
-
+    
     /* Botón: Volver al inicio */
     .btn-volver {
       position: absolute;
@@ -80,6 +80,217 @@
       text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.9);
     }
 
+.char-generator {
+  border: 1px solid var(--border-color, #333);
+  background: var(--surface-color, #181818);
+  padding: 25px;
+  border-radius: 6px;
+  margin: 30px 0;
+}
+
+.char-generator h3 {
+  margin: 0 0 5px 0;
+  color: var(--heading-color, #c9b9a5);
+}
+
+.gen-subtitle {
+  margin: 0 0 20px 0;
+  font-size: 0.9em;
+  color: var(--muted-text, #aaa49b);
+}
+
+/* Contenedor de los dos dados */
+.dice-pair {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 20px;
+}
+
+.die-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8em;
+  color: var(--muted-text, #aaa49b);
+}
+
+/* Base de ambos dados */
+.die {
+  width: 64px;
+  height: 64px;
+  border-radius: 10px;
+  padding: 9px;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  place-items: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.45);
+}
+
+/* Dado Negro */
+.die-black {
+  background: #0d0d0d;
+  border: 2px solid #3a3530;
+}
+.die-black .pip {
+  background-color: #e5e0d8;
+}
+
+/* Dado Blanco / Hueso */
+.die-white {
+  background: #e5e0d8;
+  border: 2px solid #9e968b;
+}
+.die-white .pip {
+  background-color: #141414;
+}
+
+/* Puntos de los dados */
+.die .pip {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: none;
+}
+
+.die[data-face="1"] .pip:nth-child(1) { display: block; grid-area: 2 / 2; }
+.die[data-face="2"] .pip:nth-child(1) { display: block; grid-area: 1 / 3; }
+.die[data-face="2"] .pip:nth-child(2) { display: block; grid-area: 3 / 1; }
+.die[data-face="3"] .pip:nth-child(1) { display: block; grid-area: 1 / 3; }
+.die[data-face="3"] .pip:nth-child(2) { display: block; grid-area: 2 / 2; }
+.die[data-face="3"] .pip:nth-child(3) { display: block; grid-area: 3 / 1; }
+.die[data-face="4"] .pip:nth-child(1) { display: block; grid-area: 1 / 1; }
+.die[data-face="4"] .pip:nth-child(2) { display: block; grid-area: 1 / 3; }
+.die[data-face="4"] .pip:nth-child(3) { display: block; grid-area: 3 / 1; }
+.die[data-face="4"] .pip:nth-child(4) { display: block; grid-area: 3 / 3; }
+.die[data-face="5"] .pip:nth-child(1) { display: block; grid-area: 1 / 1; }
+.die[data-face="5"] .pip:nth-child(2) { display: block; grid-area: 1 / 3; }
+.die[data-face="5"] .pip:nth-child(3) { display: block; grid-area: 2 / 2; }
+.die[data-face="5"] .pip:nth-child(4) { display: block; grid-area: 3 / 1; }
+.die[data-face="5"] .pip:nth-child(5) { display: block; grid-area: 3 / 3; }
+.die[data-face="6"] .pip:nth-child(1) { display: block; grid-area: 1 / 1; }
+.die[data-face="6"] .pip:nth-child(2) { display: block; grid-area: 1 / 3; }
+.die[data-face="6"] .pip:nth-child(3) { display: block; grid-area: 2 / 1; }
+.die[data-face="6"] .pip:nth-child(4) { display: block; grid-area: 2 / 3; }
+.die[data-face="6"] .pip:nth-child(5) { display: block; grid-area: 3 / 1; }
+.die[data-face="6"] .pip:nth-child(6) { display: block; grid-area: 3 / 3; }
+
+@keyframes shake-die {
+  0%   { transform: rotate(0deg) scale(1); }
+  25%  { transform: rotate(-15deg) scale(1.07); }
+  50%  { transform: rotate(12deg) scale(1.07); }
+  75%  { transform: rotate(-6deg) scale(1.03); }
+  100% { transform: rotate(0deg) scale(1); }
+}
+
+.die.rolling {
+  animation: shake-die 0.3s ease;
+}
+
+/* Botones */
+.gen-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.btn-gen {
+  background: transparent;
+  color: var(--heading-color, #c9b9a5);
+  border: 1px solid var(--border-color, #333);
+  font-family: Georgia, serif;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: all 0.2s ease;
+}
+
+.btn-gen:hover {
+  border-color: var(--accent-color, #a65c52);
+  color: var(--accent-color, #a65c52);
+}
+
+.btn-gen-accent {
+  border-color: var(--accent-color, #a65c52);
+  color: var(--accent-color, #a65c52);
+}
+
+.btn-gen-accent:hover {
+  background: var(--accent-color, #a65c52);
+  color: #fff;
+}
+
+/* Tarjetas de resultado */
+.gen-results {
+  display: grid;
+  gap: 12px;
+}
+
+.result-card {
+  background: var(--bg-color, #111);
+  border: 1px solid var(--border-color, #333);
+  padding: 14px 18px;
+  border-radius: 4px;
+}
+
+.result-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78em;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--muted-text, #aaa49b);
+  margin-bottom: 4px;
+}
+
+.result-value {
+  margin: 0;
+  font-size: 1.05em;
+  color: var(--text-color, #e5e0d8);
+}
+
+.result-value strong {
+  color: var(--heading-color, #c9b9a5);
+}
+
+.result-value em {
+  color: var(--accent-color, #a65c52);
+  font-style: italic;
+}
+
+.result-card-small {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.result-card-small .result-label {
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.btn-mini {
+  background: transparent;
+  border: 1px solid var(--border-color, #333);
+  color: var(--muted-text, #aaa49b);
+  font-family: Georgia, serif;
+  font-size: 0.8em;
+  padding: 4px 10px;
+  cursor: pointer;
+}
+
+.btn-mini:hover {
+  color: var(--accent-color, #a65c52);
+  border-color: var(--accent-color, #a65c52);
+}
+    
     /* Ajuste exclusivo de la imagen de Delta Green */
     .card img.deltagreen-img,
     .tarjeta-recomendacion img.deltagreen-img {
@@ -418,6 +629,55 @@
   
   <h2>Material de consulta</h2>
   <p>Aquí puedes agregar tablas, referencias y otros recursos.</p>
+  <section class="char-generator">
+  <h3>Generador de Historia del Personaje</h3>
+  <p class="gen-subtitle">Tira por separado para Ocupación y Trasfondo, o usa una misma tirada para toda la fila.</p>
+
+  <!-- Dados visuales: Negro (decenas) y Blanco (unidades) -->
+  <div class="dice-pair">
+    <div class="die-wrapper">
+      <div id="die-black" class="die die-black" data-face="1" aria-label="Dado negro: 1">
+        <span class="pip"></span><span class="pip"></span><span class="pip"></span>
+        <span class="pip"></span><span class="pip"></span><span class="pip"></span>
+      </div>
+      <span>Dado Oscuro</span>
+    </div>
+
+    <div class="die-wrapper">
+      <div id="die-white" class="die die-white" data-face="1" aria-label="Dado blanco: 1">
+        <span class="pip"></span><span class="pip"></span><span class="pip"></span>
+        <span class="pip"></span><span class="pip"></span><span class="pip"></span>
+      </div>
+      <span>Dado Claro</span>
+    </div>
+  </div>
+
+  <!-- Botones de acción -->
+  <div class="gen-controls">
+    <button type="button" id="btn-roll-occ" class="btn-gen">Tirar Ocupación</button>
+    <button type="button" id="btn-roll-bg" class="btn-gen">Tirar Trasfondo</button>
+    <button type="button" id="btn-roll-all" class="btn-gen btn-gen-accent">Tirar Todo (Misma fila)</button>
+  </div>
+
+  <!-- Resultados seleccionados -->
+  <div class="gen-results">
+    <div class="result-card">
+      <span class="result-label">Ocupación y Habilidades <small id="roll-occ-code"></small></span>
+      <p id="res-occ" class="result-value">—</p>
+    </div>
+
+    <div class="result-card">
+      <span class="result-label">Trasfondo y Habilidad <small id="roll-bg-code"></small></span>
+      <p id="res-bg" class="result-value">—</p>
+    </div>
+
+    <div class="result-card result-card-small">
+      <span class="result-label">Nombre sugerido <small id="roll-name-code"></small></span>
+      <p id="res-name" class="result-value">—</p>
+      <button type="button" id="btn-roll-name" class="btn-mini">↻ Cambiar nombre</button>
+    </div>
+  </div>
+</section>
 
 <hr>
 
@@ -520,6 +780,108 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 </script>
+
+<script>
+  const tablaTrophy = {
+    "1-1": { nombre: "Akaleh", occ: ["Anticuario", "artefactos, mitos, ofuscación"], bg: ["Escudero abandonado", "asistencia"] },
+    "1-2": { nombre: "Alina", occ: ["Artificiera", "alquimia, invención, trampas"], bg: ["Bailarina desterrada", "gracia"] },
+    "1-3": { nombre: "Aram", occ: ["Astrólogo", "estrellas, oscuridad, símbolos"], bg: ["Teriántropo curado", "transformación"] },
+    "1-4": { nombre: "Baso", occ: ["Herrero", "aguante, armas, metal"], bg: ["Sacerdote excomulgado", "augurios"] },
+    "1-5": { nombre: "Benah", occ: ["Guardaespaldas", "protección, rapidez, vigilancia"], bg: ["Viuda devota", "paciencia"] },
+    "1-6": { nombre: "Daian", occ: ["Vinculadora", "elementos, mando, rituales"], bg: ["Cortesana caída en desgracia", "adulación"] },
+
+    "2-1": { nombre: "Desarim", occ: ["Campeón", "ferocidad, mando, presencia"], bg: ["Noble desheredado", "tasación"] },
+    "2-2": { nombre: "Elisio", occ: ["Cocinero", "alimentos, improvisación, venenos"], bg: ["Buscador de ratas envalentonado", "guaridas"] },
+    "2-3": { nombre: "Esfahen", occ: ["Demonóloga", "demonios, negociación, triquiñuelas"], bg: ["Minera ilustrada", "orientación"] },
+    "2-4": { nombre: "Fion", occ: ["Geomante", "construcción, orientación, patrones"], bg: ["Caballero errante", "duelos"] },
+    "2-5": { nombre: "Foret", occ: ["Guía", "cazar, forrajear, orientación"], bg: ["Sectaria fugada", "engaño"] },
+    "2-6": { nombre: "Ifori", occ: ["Espiritista", "espíritus, improvisación, rituales"], bg: ["Aprendiz expulsada", "tradición"] },
+
+    "3-1": { nombre: "Inda", occ: ["Herborista", "percepción, plantas, remedios"], bg: ["Peregrina fracasada", "santos"] },
+    "3-2": { nombre: "Kasien", occ: ["Intercesor", "carisma, persistencia, rituales"], bg: ["Pastor irresponsable", "tranquilizar"] },
+    "3-3": { nombre: "Kel", occ: ["Creyente", "inocencia, sacrificio, rituales"], bg: ["Marinero en tierra", "cuerdas"] },
+    "3-4": { nombre: "Kiva", occ: ["Funambulista", "coordinación, equilibrio, precisión"], bg: ["Buhonera desventurada", "comercio"] },
+    "3-5": { nombre: "Lora", occ: ["Matasanos", "cirugía, deducción, sangre"], bg: ["Inquisidor herético", "secretos"] },
+    "3-6": { nombre: "Mahera", occ: ["Ladrona", "acrobacias, seguridad, silencio"], bg: ["Funcionaria desacreditada", "mentiras"] },
+
+    "4-1": { nombre: "Masero", occ: ["Prestidigitador", "interpretación, rituales, triquiñuelas"], bg: ["Barbero torpe", "heridas"] },
+    "4-2": { nombre: "Moradi", occ: ["Médium", "espíritus, fuerza de voluntad, vigilancia"], bg: ["Ballenera herida", "cacería"] },
+    "4-3": { nombre: "Neven", occ: ["Mercader", "concentración, persuasión, soborno"], bg: ["Prisionera liberada", "tratos"] },
+    "4-4": { nombre: "Nima", occ: ["Naturalista", "bestias, plantas, silencio"], bg: ["Niña perdida", "esconderse"] },
+    "4-5": { nombre: "Obeha", occ: ["Colmena", "alimañas, coordinación, rituales"], bg: ["Inocente seducido", "tentación"] },
+    "4-6": { nombre: "Orlen", occ: ["Oráculo", "interpretación, trances, rituales"], bg: ["Ladrón de tumbas oportunista", "muerte"] },
+
+    "5-1": { nombre: "Osto", occ: ["Toro", "destrucción, fuerza, resistencia"], bg: ["Trabajador oprimido", "rebelión"] },
+    "5-2": { nombre: "Parda", occ: ["Poeta", "pasión, persuasión, rituales"], bg: ["Maniquí animada huérfana", "imitación"] },
+    "5-3": { nombre: "Pela", occ: ["Exploradora", "bestias, cacerías, trampas"], bg: ["Granjera azotada por la plaga", "corrupción"] },
+    "5-4": { nombre: "Rasei", occ: ["Mercenario", "atletismo, defensa, sorpresa"], bg: ["Prestamista imprudente", "ambición"] },
+    "5-5": { nombre: "Revel", occ: ["Contrabandista", "destreza, espontaneidad, sigilo"], bg: ["Matón reformado", "intimidación"] },
+    "5-6": { nombre: "Sareh", occ: ["Serpiente", "carisma, interpretación, triquiñuelas"], bg: ["Soldado jubilada", "tácticas"] },
+
+    "6-1": { nombre: "Sibil", occ: ["Hechicera", "alquimia, símbolos, rituales"], bg: ["Guardia real renegada", "rastrear"] },
+    "6-2": { nombre: "Talia", occ: ["Trampera", "alimañas, sorpresas, trampas"], bg: ["Copera traicionera", "traición"] },
+    "6-3": { nombre: "Teodan", occ: ["Recipiente", "atracción, rendición, rituales"], bg: ["Artesano sin inspiración", "fabricación"] },
+    "6-4": { nombre: "Toram", occ: ["Bruja", "hogar, plantas, rituales"], bg: ["Hada desenmascarada", "ilusiones"] },
+    "6-5": { nombre: "Valen", occ: ["Leñador", "bestias, fuerza, orientación"], bg: ["Príncipe usurpado", "mando"] },
+    "6-6": { nombre: "Vero", occ: ["Zelote", "fuerza, interrogatorio, rituales"], bg: ["Refugiada errante", "disfraz"] }
+  };
+
+  const dieBlack = document.getElementById("die-black");
+  const dieWhite = document.getElementById("die-white");
+
+  function tirarDados() {
+    const negro = Math.floor(Math.random() * 6) + 1;
+    const blanco = Math.floor(Math.random() * 6) + 1;
+
+    // Animar ambos dados
+    [dieBlack, dieWhite].forEach(d => {
+      d.classList.remove("rolling");
+      void d.offsetWidth;
+      d.classList.add("rolling");
+    });
+
+    dieBlack.setAttribute("data-face", negro);
+    dieWhite.setAttribute("data-face", blanco);
+
+    const clave = `${negro}-${blanco}`;
+    return { clave, negro, blanco, fila: tablaTrophy[clave] };
+  }
+
+  function actualizarOcupacion(tirada) {
+    document.getElementById("roll-occ-code").textContent = `(Oscuro ${tirada.negro} · Claro ${tirada.blanco})`;
+    document.getElementById("res-occ").innerHTML = `<strong>${tirada.fila.occ[0]}:</strong> <em>${tirada.fila.occ[1]}.</em>`;
+  }
+
+  function actualizarTrasfondo(tirada) {
+    document.getElementById("roll-bg-code").textContent = `(Oscuro ${tirada.negro} · Claro ${tirada.blanco})`;
+    document.getElementById("res-bg").innerHTML = `<strong>${tirada.fila.bg[0]}:</strong> <em>${tirada.fila.bg[1]}.</em>`;
+  }
+
+  function actualizarNombre(tirada) {
+    document.getElementById("roll-name-code").textContent = `(Oscuro ${tirada.negro} · Claro ${tirada.blanco})`;
+    document.getElementById("res-name").innerHTML = `<strong>${tirada.fila.nombre}</strong>`;
+  }
+
+  document.getElementById("btn-roll-occ").addEventListener("click", () => {
+    actualizarOcupacion(tirarDados());
+  });
+
+  document.getElementById("btn-roll-bg").addEventListener("click", () => {
+    actualizarTrasfondo(tirarDados());
+  });
+
+  document.getElementById("btn-roll-name").addEventListener("click", () => {
+    actualizarNombre(tirarDados());
+  });
+
+  document.getElementById("btn-roll-all").addEventListener("click", () => {
+    const tirada = tirarDados();
+    actualizarOcupacion(tirada);
+    actualizarTrasfondo(tirada);
+    actualizarNombre(tirada);
+  });
+</script>
+
   
 </body>
 </html>
