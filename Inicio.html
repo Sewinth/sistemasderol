@@ -1,340 +1,412 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arcanum del Rol</title>
-  
-    <style>
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
-  
-      body {
-        background: var(--bg-color, #111111);
-        color: var(--text-color, #dedbd4);
-        font-family: Georgia, serif;
-        line-height: 1.6;
-        transition: background 0.25s ease, color 0.25s ease;
-      }
-  
-      /* Cabecera principal */
-      header {
-        padding: 0;
-        text-align: center;
-        border-bottom: 1px solid var(--border-color, #38332f);
-      }
-  
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+        content="Biblioteca personal de sistemas de juegos de rol de mesa, reglamentos y recursos.">
+  <meta name="theme-color" content="#111111">
+
+  <title>Arcanum del Rol — Biblioteca de juegos de rol</title>
+
+  <style>
+    :root {
+      --bg-color: #111111;
+      --surface-color: #1b1b1b;
+      --border-color: #38332f;
+      --heading-color: #c9b9a5;
+      --text-color: #dedbd4;
+      --muted-text: #aaa49b;
+      --accent-color: #a65c52;
+      --accent-light: #c86f64;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--bg-color);
+      color: var(--text-color);
+      font-family: Georgia, serif;
+      line-height: 1.6;
+    }
+
+    img {
+      max-width: 100%;
+    }
+
+    header {
+      border-bottom: 1px solid var(--border-color);
+      text-align: center;
+    }
+
+    .hero-cabecera {
+      position: relative;
+      height: 260px;
+      overflow: hidden;
+      border-bottom: 2px solid var(--accent-color);
+    }
+
+    .cabecera {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      filter: brightness(0.45);
+    }
+
+    .hero-contenido {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .hero-contenido h1 {
+      color: #c9b9a5;
+      font-size: clamp(28px, 5vw, 46px);
+      font-weight: normal;
+      letter-spacing: 3px;
+      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.95);
+    }
+
+    .subtitle {
+      margin-top: 8px;
+      color: #dedbd4;
+      font-size: 15px;
+      text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.9);
+    }
+
+    .hero-nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: clamp(36px, 8vh, 80px);
+    }
+
+    .btn-cabecera {
+      padding: 7px 16px;
+      border: 1px solid var(--accent-color);
+      border-radius: 4px;
+      background: rgba(17, 17, 17, 0.85);
+      color: #e5e0d8;
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      letter-spacing: 1.5px;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: background 0.25s ease, color 0.25s ease;
+    }
+
+    .btn-cabecera:hover {
+      background: var(--accent-color);
+      color: #ffffff;
+    }
+
+    .btn-cabecera:focus-visible,
+    .card:focus-visible {
+      outline: 3px solid var(--accent-light);
+      outline-offset: 4px;
+    }
+
+    main {
+      max-width: 1050px;
+      margin: 0 auto;
+      padding: 55px 25px;
+    }
+
+    .intro {
+      max-width: 680px;
+      margin: 0 auto 55px;
+      text-align: center;
+    }
+
+    .intro h2 {
+      margin-bottom: 15px;
+      color: var(--heading-color);
+      font-size: 23px;
+      font-weight: normal;
+    }
+
+    .intro p {
+      color: var(--muted-text);
+      font-size: 15px;
+    }
+
+    .section-title {
+      margin-bottom: 22px;
+      color: var(--accent-color);
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .systems {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      display: block;
+      padding: 25px;
+      border: 1px solid var(--border-color);
+      background: var(--surface-color);
+      color: inherit;
+      text-decoration: none;
+      transition: border-color 0.25s ease, transform 0.25s ease;
+    }
+
+    .card:hover {
+      border-color: var(--accent-color);
+      transform: translateY(-3px);
+    }
+
+    .card img {
+      display: block;
+      width: 100%;
+      height: 180px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      object-fit: cover;
+      transition: opacity 0.25s ease;
+    }
+
+    .card:hover img {
+      opacity: 0.55;
+    }
+
+    .card img.deltagreen-img {
+      object-position: center 100%;
+    }
+
+    .card img.forbiddenlands-img {
+      object-position: center 45%;
+    }
+
+    .card img.punkterra-img {
+      object-position: center 75%;
+    }
+
+    .card img.talesotvaliant-img {
+      object-position: center 15%;
+    }
+
+    .card h2 {
+      margin-bottom: 8px;
+      color: var(--heading-color);
+      font-size: 19px;
+      font-weight: normal;
+    }
+
+    .card p {
+      color: var(--muted-text);
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+    }
+
+    .card span {
+      display: block;
+      margin-top: 17px;
+      color: var(--accent-color);
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      letter-spacing: 1px;
+    }
+
+    footer {
+      border-top: 1px solid var(--border-color);
+      padding: 28px 15px;
+      color: var(--muted-text);
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      text-align: center;
+    }
+
+    @media (max-width: 650px) {
       .hero-cabecera {
-        position: relative;
-        width: 100%;
-        height: 260px;
-        padding: 0;
-        border-bottom: 2px solid var(--accent-color, #a65c52);
-        overflow: hidden;
+        height: 300px;
       }
-  
-      .cabecera {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center;
-        display: block;
-        filter: brightness(0.45);
-      }
-  
-      .hero-contenido {
-        position: absolute;
-        inset: 0;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        padding: 20px;
-        z-index: 2;
-      }
-  
-      .hero-contenido h1 {
-        color: #c9b9a5; /* Se mantiene claro porque va sobre la imagen oscurecida */
-        font-size: clamp(28px, 5vw, 46px);
-        font-weight: normal;
-        letter-spacing: 3px;
-        text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.95);
-        margin: 0;
-      }
-  
-      .subtitle {
-        color: #dedbd4;
-        font-size: 15px;
-        margin-top: 8px;
-        text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.9);
-      }
-  
-      .hero-nav {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 12px;
-        margin-top: 80px;
-      }
-  
-      /* Estilo unificado para enlaces y botón de tema */
-      .btn-cabecera {
-        background: rgba(17, 17, 17, 0.8);
-        color: #e5e0d8;
-        border: 1px solid #a65c52;
-        padding: 7px 16px;
-        border-radius: 4px;
-        text-decoration: none;
-        font-family: Arial, sans-serif;
-        font-size: 0.75rem;
-        letter-spacing: 1.5px;
-        text-transform: uppercase;
-        cursor: pointer;
-        transition: 0.25s;
-      }
-  
-      .btn-cabecera:hover {
-        background: #a65c52;
-        color: #ffffff;
-      }
-  
+
       main {
-        max-width: 1050px;
-        margin: auto;
-        padding: 55px 25px;
+        padding: 40px 16px;
       }
-  
-      .intro {
-        max-width: 680px;
-        margin: 0 auto 55px;
-        text-align: center;
-      }
-  
-      .intro h2 {
-        color: var(--heading-color, #c9b9a5);
-        font-size: 23px;
-        font-weight: normal;
-        margin-bottom: 15px;
-      }
-  
-      .intro p {
-        color: var(--muted-text, #a9a39a);
-        font-size: 15px;
-      }
-  
-      .section-title {
-        font-family: Arial, sans-serif;
-        font-size: 12px;
-        letter-spacing: 3px;
-        color: var(--accent-color, #a65c52);
-        text-transform: uppercase;
-        margin-bottom: 22px;
-      }
-  
+
       .systems {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 16px;
+        grid-template-columns: 1fr;
       }
-  
-      /* Tarjetas adaptadas a modo claro y oscuro */
+
       .card {
-        display: block;
-        padding: 25px;
-        background: var(--surface-color, #1b1b1b);
-        border: 1px solid var(--border-color, #34302d);
-        text-decoration: none;
-        color: inherit;
-        transition: 0.25s;
+        padding: 16px;
       }
-  
-      .card:hover {
-        border-color: var(--accent-color, #a65c52);
-        transform: translateY(-3px);
-      }
-  
+
       .card img {
-        width: 100%;
-        height: 180px;
-        object-fit: cover;
-        display: block;
-        border-radius: 6px;
-        margin-bottom: 15px;
+        height: 220px;
       }
-  
-      .card img.deltagreen-img { object-position: center 100%; }
-      .card img.forbiddenlands-img { object-position: center 45%; }
-      .card img.punkterra-img { object-position: center 75%; }
-      .card img.talesotvaliant-img { object-position: center 15%; }
-  
-      .card:hover img {
-        opacity: 0.55;
-        transition: opacity 0.3s ease;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
       }
-  
-      .card h2 {
-        color: var(--heading-color, #c9b9a5);
-        font-size: 19px;
-        font-weight: normal;
-        margin-bottom: 8px;
-      }
-  
-      .card p {
-        color: var(--muted-text, #918b83);
-        font-family: Arial, sans-serif;
-        font-size: 12px;
-      }
-  
-      .card span {
-        display: block;
-        margin-top: 17px;
-        color: var(--accent-color, #a65c52);
-        font-family: Arial, sans-serif;
-        font-size: 11px;
-        letter-spacing: 1px;
-      }
-  
-      footer {
-        border-top: 1px solid var(--border-color, #38332f);
-        text-align: center;
-        padding: 28px 15px;
-        color: var(--muted-text, #716c65);
-        font-family: Arial, sans-serif;
-        font-size: 11px;
-      }
-  
-      @media (max-width: 650px) {
-        .systems {
-          grid-template-columns: 1fr;
-        }
-      }
-    </style>
-  </head>
+    }
+  </style>
+</head>
+
 <body>
-  
-<header class="hero-cabecera">
-  <img src="imagenes/JDR_Wallpaper.jpeg" alt="Cabecera" class="cabecera">
-  <div class="hero-contenido">
-    <h1>ARCANUM DE ROL</h1>
-    <p class="subtitle">Sistemas, reglamentos y mundos por explorar.</p>
-    
-    <nav class="hero-nav">
+  <header class="hero-cabecera">
+    <img src="imagenes/JDR_Wallpaper.jpeg"
+         alt=""
+         class="cabecera"
+         fetchpriority="high">
+
+    <div class="hero-contenido">
+      <h1>ARCANUM DE ROL</h1>
+      <p class="subtitle">Sistemas, reglamentos y mundos por explorar.</p>
+
+      <nav class="hero-nav" aria-label="Navegación principal">
         <a href="Blog/Entrada.html" class="btn-cabecera">Blog</a>
-        <a href="Inicio/Sobre_Mi.html" class="btn-cabecera">Sobre Mí</a>
-      <!-- Para agregar más botones, solo duplica esta línea debajo: -->
-      <!-- <a href="Inicio/WXYZ.html" class="btn-cabecera">NombreBotón</a> -->
-    </nav>
-  </div>
-</header>
-    
-    <main>
+        <a href="Inicio/Sobre_Mi.html" class="btn-cabecera">Sobre mí</a>
+      </nav>
+    </div>
+  </header>
 
-        <section class="intro">
-            <h2>Un espacio para el juego y la imaginación</h2>
+  <main>
+    <section class="intro" aria-labelledby="titulo-bienvenida">
+      <h2 id="titulo-bienvenida">Un espacio para el juego y la imaginación</h2>
 
-            <p>
-                Este archivo reúne distintos juegos de rol de mesa,
-                sus sistemas de reglas, mecánicas, procedimientos
-                y recursos de consulta. Una biblioteca personal
-                para organizar conocimientos y preparar nuevas partidas.
-            </p>
-        </section>
+      <p>
+        Este archivo reúne distintos juegos de rol de mesa, sus sistemas de
+        reglas, mecánicas, procedimientos y recursos de consulta. Una biblioteca
+        personal para organizar conocimientos y preparar nuevas partidas.
+      </p>
+    </section>
 
-        <section>
-            <div class="section-title">
-                Sistemas de juego
-            </div>
+    <section aria-labelledby="titulo-sistemas">
+      <h2 class="section-title" id="titulo-sistemas">Sistemas de juego</h2>
 
-            <div class="systems">
+      <div class="systems">
+        <a href="Inicio/Alien-RPG.html" class="card">
+          <img src="imagenes/Alien_RPG_Wallpaper.jpeg"
+               alt="Astronauta frente a un entorno alienígena"
+               loading="lazy">
+          <h2>Alien</h2>
+          <p>Year Zero Engine</p>
+          <span>EXPLORAR ARCHIVO →</span>
+        </a>
 
-                <a href="Inicio/Alien-RPG.html" class="card">
-                    <img src="imagenes/Alien_RPG_Wallpaper.jpeg" alt="Alien RPG">
-                    <h2>Alien</h2>
-                    <p>Year Zero Engine</p>
-                    <span>EXPLORAR ARCHIVO →</span>
-                </a>
-                
-                <a href="Inicio/Aquelarre.html" class="card">
-                    <img src="imagenes/Aquelarre_Wallpaper.jpg" alt="Aquelarre">
-                    <h2>Aquelarre</h2>
-                    <p>Basic Role-Playing</p>
-                    <span>EXPLORAR ARCHIVO →</span>
-                </a>
-                
-                <a href="Inicio/Cazador5e.html" class="card">
-                    <img src="imagenes/Cazador_LaVenganza5_Wallpaper.jpg" alt="Cazador: La Venganza 5">
-                    <h2>Cazador 5ta</h2>
-                    <p>Storyteller System</p>
-                    <span>EXPLORAR ARCHIVO →</span>
-                </a>
-                
-                <a href="Inicio/Delta-Green.html" class="card">
-                    <img class="deltagreen-img" src="imagenes/DG-Wallpaper.JPG" alt="Delta Green">
-                  <h2>Delta Green</h2>
-                  <p>Basic Roleplaying (BRP / d100)</p>
-                    <span>EXPLORAR ARCHIVO →</span>
-                </a>
+        <a href="Inicio/Aquelarre.html" class="card">
+          <img src="imagenes/Aquelarre_Wallpaper.jpg"
+               alt="Ilustración de ambientación medieval oscura"
+               loading="lazy">
+          <h2>Aquelarre</h2>
+          <p>Basic Role-Playing</p>
+          <span>EXPLORAR ARCHIVO →</span>
+        </a>
 
-                <a href="Inicio/DnD_5.0.html" class="card">
-                    <img src="imagenes/DnD_Wallpaper.jpg" alt="Dungeon and Dragons 5e">
-                    <h2>Dungeons & Dragons 5.0</h2>
-                    <p>D20 System</p>
-                    <span>EXPLORAR ARCHIVO →</span>
-                </a>
+        <a href="Inicio/Cazador5e.html" class="card">
+          <img src="imagenes/Cazador_LaVenganza5_Wallpaper.jpg"
+               alt="Personajes de Cazador: La Venganza"
+               loading="lazy">
+          <h2>Cazador 5ta</h2>
+          <p>Storyteller System</p>
+          <span>EXPLORAR ARCHIVO →</span>
+        </a>
 
-                <a href="Inicio/Forbidden-Lands.html" class="card">
-                    <img class="forbiddenlands-img" src="imagenes/Forbidden_Lands_Wallpaper.jpeg" alt="Forbidden Lands">
-                    <h2>Forbidden Lands</h2>
-                    <p>Year Zero Engine</p>
-                    <span>EXPLORAR ARCHIVO →</span>
-                </a>
+        <a href="Inicio/Delta-Green.html" class="card">
+          <img class="deltagreen-img"
+               src="imagenes/DG-Wallpaper.JPG"
+               alt="Documento o ilustración relacionada con Delta Green"
+               loading="lazy">
+          <h2>Delta Green</h2>
+          <p>Basic Roleplaying (BRP / d100)</p>
+          <span>EXPLORAR ARCHIVO →</span>
+        </a>
 
-                <a href="Inicio/Llamada-de-Cthulhu.html" class="card">
-                    <img src="imagenes/Cthulhu_RPG_Wallpaper.jpg" alt="La Llamada de Cthulhu">
-                    <h2>La Llamada de Cthulhu</h2>
-                    <p>Basic Roleplaying (BRP / d100)</p>
-                    <span>EXPLORAR ARCHIVO →</span>
-                </a>
+        <a href="Inicio/DnD_5.0.html" class="card">
+          <img src="imagenes/DnD_Wallpaper.jpg"
+               alt="Aventureros de fantasía"
+               loading="lazy">
+          <h2>Dungeons &amp; Dragons 5.0</h2>
+          <p>D20 System</p>
+          <span>EXPLORAR ARCHIVO →</span>
+        </a>
 
-                <a href="Inicio/Punk-Terra.html" class="card">
-                    <img class="punkterra-img" src="imagenes/PunkTerra_Wallpaper.webp" alt="Punk Terra">
-                    <h2>Punk Terra</h2>
-                    <p>Original d12</p>
-                    <span>EXPLORAR ARCHIVO →</span>
-                </a>
-                
-                <a href="Inicio/Tales-of-the-Valiant.html" class="card">
-                    <img class="talesotvaliant-img" src="imagenes/Tales_ot_Valiant_Wallpaper.avif" alt="Tales of the Valiant">
-                    <h2>Tales of the Valiant</h2>
-                    <p>Black Flag Roleplaying</p>
-                    <span>EXPLORAR ARCHIVO →</span>
-                </a>
+        <a href="Inicio/Forbidden-Lands.html" class="card">
+          <img class="forbiddenlands-img"
+               src="imagenes/Forbidden_Lands_Wallpaper.jpeg"
+               alt="Paisaje fantástico de Forbidden Lands"
+               loading="lazy">
+          <h2>Forbidden Lands</h2>
+          <p>Year Zero Engine</p>
+          <span>EXPLORAR ARCHIVO →</span>
+        </a>
 
-                 <a href="Inicio/Tinta.html" class="card">
-                    <img src="imagenes/Tinta_Wallpaper.webp" alt="Tinta">
-                    <h2>Tinta</h2>
-                    <p>Snowbright Studio</p>
-                    <span>EXPLORAR ARCHIVO →</span>
-                </a>
-                
-                <a href="Inicio/Trophy-Dark.html" class="card">
-                    <img src="imagenes/Trophy_Dark_Wallpaper.jpg" alt="Trophy Dark">
-                    <h2>Trophy Dark</h2>
-                    <p>Trophy System</p>
-                    <span>EXPLORAR ARCHIVO →</span>
-                </a>
-            </div>
-        </section>
+        <a href="Inicio/Llamada-de-Cthulhu.html" class="card">
+          <img src="imagenes/Cthulhu_RPG_Wallpaper.jpg"
+               alt="Entidad sobrenatural de La Llamada de Cthulhu"
+               loading="lazy">
+          <h2>La Llamada de Cthulhu</h2>
+          <p>Basic Roleplaying (BRP / d100)</p>
+          <span>EXPLORAR ARCHIVO →</span>
+        </a>
 
-    </main>
+        <a href="Inicio/Punk-Terra.html" class="card">
+          <img class="punkterra-img"
+               src="imagenes/PunkTerra_Wallpaper.webp"
+               alt="Ilustración ciberpunk de Punk Terra"
+               loading="lazy">
+          <h2>Punk Terra</h2>
+          <p>Original d12</p>
+          <span>EXPLORAR ARCHIVO →</span>
+        </a>
 
-    <footer>
-        ARCHIVO DE ROL · BIBLIOTECA PERSONAL
-    </footer>
+        <a href="Inicio/Tales-of-the-Valiant.html" class="card">
+          <img class="talesotvaliant-img"
+               src="imagenes/Tales_ot_Valiant_Wallpaper.avif"
+               alt="Aventureros de Tales of the Valiant"
+               loading="lazy">
+          <h2>Tales of the Valiant</h2>
+          <p>Black Flag Roleplaying</p>
+          <span>EXPLORAR ARCHIVO →</span>
+        </a>
 
+        <a href="Inicio/Tinta.html" class="card">
+          <img src="imagenes/Tinta_Wallpaper.webp"
+               alt="Ilustración artística de Tinta"
+               loading="lazy">
+          <h2>Tinta</h2>
+          <p>Snowbright Studio</p>
+          <span>EXPLORAR ARCHIVO →</span>
+        </a>
+
+        <a href="Inicio/Trophy-Dark.html" class="card">
+          <img src="imagenes/Trophy_Dark_Wallpaper.jpg"
+               alt="Ilustración oscura de Trophy Dark"
+               loading="lazy">
+          <h2>Trophy Dark</h2>
+          <p>Trophy System</p>
+          <span>EXPLORAR ARCHIVO →</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    ARCHIVO DE ROL · BIBLIOTECA PERSONAL
+  </footer>
 </body>
 </html>
