@@ -1,15 +1,15 @@
 /* Colores por defecto (Tema Oscuro) */
 :root {
-  --bg-color: #111;
+  --bg-color: #111111;
   --text-color: #e5e0d8;
   --heading-color: #c9b9a5;
   --accent-color: #a65c52;
   --muted-text: #aaa49b;
-  --border-color: #333;
+  --border-color: #333333;
   --surface-color: #181818;
 }
 
-/* Colores para el Tema Claro */
+/* Colores para el Tema Claro (Pergamino) */
 [data-theme="light"] {
   --bg-color: #f4efe6;
   --text-color: #24201c;
@@ -20,7 +20,7 @@
   --surface-color: #e8e0d4;
 }
 
-/* Estilos globales que usan esos colores */
+/* Base limpia a pantalla completa (sin márgenes ni encogimiento) */
 body {
   background: var(--bg-color);
   color: var(--text-color);
@@ -49,20 +49,4 @@ h1, h2 {
 
 .recomendaciones p {
   color: var(--muted-text);
-}
-
-/* Estilo del botón de cambio */
-.theme-toggle {
-  background: transparent;
-  color: var(--heading-color);
-  border: 1px solid var(--border-color);
-  font-family: Georgia, serif;
-  padding: 6px 12px;
-  cursor: pointer;
-  float: right;
-}
-
-.theme-toggle:hover {
-  border-color: var(--accent-color);
-  color: var(--accent-color);
 }
