@@ -114,6 +114,24 @@
     }
 
     /* =========================================================
+       Galería Horizontal
+       ========================================================= */
+    .galeria-horizontal {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin: 20px 0;
+    }
+    
+    .galeria-horizontal.dos-imagenes img {
+      width: calc((100% - 15px) / 2);
+      height: 220px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      object-fit: cover;
+    }
+    
+    /* =========================================================
        Desplegables
        ========================================================= */
     details {
@@ -521,7 +539,7 @@
 </head>
 <body>
   <header class="hero-cabecera">
-    <img src="../imagenes/Trophy_Dark_Wallpaper.jpg" alt="Cabecera Trophy Dark" class="cabecera">
+    <img src="../imagenes/Trophy_Wallpaper.webp" alt="Cabecera Trophy Dark" class="cabecera">
     <h1>Trophy Dark</h1>
     <a href="https://sewinth.github.io/sistemasderol/Inicio.html" class="btn-volver">← VOLVER AL INICIO</a>
   </header>
@@ -550,8 +568,15 @@
 
   <p>Cuando un jugador intenta algo arriesgado, el DJ puede pedirle una tirada. La cantidad y el tipo de dados dependen de las circunstancias, las características del personaje y las habilidades que pueda utilizar.</p>
 
+<div class="details-content">
+  <div class="galeria-horizontal dos-imagenes">
+    <img src="imagenes/TD_3.jpg.jpg" alt="Descripción de la primera imagen">
+    <img src="imagenes/TD_2.avif" alt="Descripción de la segunda imagen">
+  </div>
+</div>
+  
   <h2>¿CÓMO JUGAR?</h2>
-  <p>Aquí puedes organizar las reglas del sistema.</p>
+  <p>Trophy Dark utiliza tiradas de dados de seis caras en las que se busca un seis para tener éxito combinando dados claros ligados a habilidades u ocupaciones, con dados oscuros que arriesgan aumentar la «ruina» física y mental del personaje.</p>
 
   <details>
     <summary>
