@@ -1,887 +1,809 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Trophy Dark | Archivo de Rol</title>
-  <style>
+  <link rel="icon" type="image/webp" href="imagenes/01_Icono_Pestaña.webp">
 
-    /* Contenedor principal de la cabecera */
+  <style>
+    /* =========================================================
+       Variables y estilos generales
+       ========================================================= */
+    :root {
+      --bg-color: #111;
+      --surface-color: #181818;
+      --card-color: #1b1b1b;
+      --border-color: #333;
+      --card-border-color: #34302d;
+      --control-border-color: #45413d;
+      --heading-color: #c9b9a5;
+      --text-color: #e5e0d8;
+      --muted-text: #aaa49b;
+      --accent-color: #a65c52;
+      --accent-light: #c86f64;
+      --bone-color: #9e968b;
+      --black-die-color: #0d0d0d;
+      --dark-pip-color: #141414;
+      --font-family: Georgia, serif;
+    }
+
+    body {
+      max-width: 900px;
+      margin: 50px auto;
+      padding: 20px;
+      background: var(--bg-color);
+      color: var(--text-color);
+      font-family: var(--font-family);
+      line-height: 1.7;
+    }
+
+    a {
+      color: var(--accent-color);
+    }
+
+    h1,
+    h2,
+    h3 {
+      color: var(--heading-color);
+    }
+
+    ul,
+    ol {
+      margin-bottom: 20px;
+      padding-left: 25px;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+
+    /* =========================================================
+       Cabecera
+       ========================================================= */
     .hero-cabecera {
       position: relative;
       width: 100%;
-      height: 220px; /* ~40% de la altura original que se ve en tu captura */
-      margin: 0 auto 30px auto;
-      border-bottom: 2px solid #a65c52;
+      height: 220px;
+      margin: 0 auto 30px;
       overflow: hidden;
+      border-bottom: 2px solid var(--accent-color);
     }
 
-    /* Imagen centrada y oscurecida */
     .cabecera {
+      display: block;
       width: 100%;
       height: 100%;
       object-fit: cover;
       object-position: center;
-      display: block;
       filter: brightness(0.55);
     }
 
-    /* Título centrado en medio de la imagen */
     .hero-cabecera h1 {
       position: absolute;
+      z-index: 2;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%);
-      margin: 0;
       width: 90%;
-      text-align: center;
-      color: #c9b9a5;
+      margin: 0;
+      color: var(--heading-color);
       font-size: 2.4rem;
+      text-align: center;
       text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.95);
-      z-index: 2;
+      transform: translate(-50%, -50%);
     }
 
-    .contenido-cabecera {
-      position: absolute;
-      inset: 0;
-      padding: 20px 25px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between; /* Pone el botón arriba y el título abajo */
-      z-index: 2;
-    }
-    
-    /* Botón: Volver al inicio */
     .btn-volver {
       position: absolute;
+      z-index: 2;
       bottom: 15px;
       left: 15px;
-      background: rgba(17, 17, 17, 0.8);
-      color: #e5e0d8;
-      border: 1px solid #a65c52;
       padding: 6px 12px;
+      border: 1px solid var(--accent-color);
       border-radius: 4px;
-      text-decoration: none;
+      background: rgba(17, 17, 17, 0.8);
+      color: var(--text-color);
       font-size: 0.8rem;
       letter-spacing: 0.5px;
-      z-index: 2;
+      text-decoration: none;
     }
 
     .btn-volver:hover {
-      background: #a65c52;
+      background: var(--accent-color);
       color: #fff;
     }
 
-    .contenido-cabecera h1 {
-      margin: 0;
-      color: #c9b9a5;
-      font-size: 2.2rem;
-      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.9);
+    /* =========================================================
+       Desplegables
+       ========================================================= */
+    details {
+      margin-top: 25px;
+      padding-left: 15px;
+      border-left: 2px solid var(--accent-color);
     }
 
-.char-generator {
-  border: 1px solid var(--border-color, #333);
-  background: var(--surface-color, #181818);
-  padding: 25px;
-  border-radius: 6px;
-  margin: 30px 0;
-}
+    summary {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      list-style: none;
+      cursor: pointer;
+      user-select: none;
+    }
 
-.char-generator h3 {
-  margin: 0 0 5px 0;
-  color: var(--heading-color, #c9b9a5);
-}
+    summary::-webkit-details-marker {
+      display: none;
+    }
 
-.gen-subtitle {
-  margin: 0 0 20px 0;
-  font-size: 0.9em;
-  color: var(--muted-text, #aaa49b);
-}
+    summary::before {
+      color: var(--accent-color);
+      content: "▸";
+      font-size: 1.3em;
+      line-height: 1.2;
+      transition: transform 0.2s ease;
+    }
 
-/* Contenedor de los dos dados */
-.dice-pair {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  margin-bottom: 20px;
-}
+    details[open] summary::before {
+      transform: rotate(90deg);
+    }
 
-.die-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.8em;
-  color: var(--muted-text, #aaa49b);
-}
+    .summary-title {
+      display: block;
+      color: var(--heading-color);
+      font-size: 1.3em;
+      font-weight: bold;
+      line-height: 1.2;
+    }
 
-/* Base de ambos dados */
-.die {
-  width: 64px;
-  height: 64px;
-  border-radius: 10px;
-  padding: 9px;
-  box-sizing: border-box;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  place-items: center;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.45);
-}
+    summary:hover .summary-title {
+      color: var(--accent-color);
+    }
 
-/* Dado Negro */
-.die-black {
-  background: #0d0d0d;
-  border: 2px solid #3a3530;
-}
-.die-black .pip {
-  background-color: #e5e0d8;
-}
+    .summary-desc {
+      display: block;
+      margin-top: 4px;
+      color: var(--bone-color);
+      font-size: 0.95em;
+      font-style: italic;
+      line-height: 1.4;
+    }
 
-/* Dado Blanco / Hueso */
-.die-white {
-  background: #e5e0d8;
-  border: 2px solid #9e968b;
-}
-.die-white .pip {
-  background-color: #141414;
-}
+    .details-content {
+      margin-top: 15px;
+      padding-left: 22px;
+    }
 
-/* Puntos de los dados */
-.die .pip {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  display: none;
-}
+    /* =========================================================
+       Tablas
+       ========================================================= */
+    table {
+      width: 100%;
+      margin: 25px 0;
+      border-collapse: collapse;
+      font-size: 0.95em;
+    }
 
-.die[data-face="1"] .pip:nth-child(1) { display: block; grid-area: 2 / 2; }
-.die[data-face="2"] .pip:nth-child(1) { display: block; grid-area: 1 / 3; }
-.die[data-face="2"] .pip:nth-child(2) { display: block; grid-area: 3 / 1; }
-.die[data-face="3"] .pip:nth-child(1) { display: block; grid-area: 1 / 3; }
-.die[data-face="3"] .pip:nth-child(2) { display: block; grid-area: 2 / 2; }
-.die[data-face="3"] .pip:nth-child(3) { display: block; grid-area: 3 / 1; }
-.die[data-face="4"] .pip:nth-child(1) { display: block; grid-area: 1 / 1; }
-.die[data-face="4"] .pip:nth-child(2) { display: block; grid-area: 1 / 3; }
-.die[data-face="4"] .pip:nth-child(3) { display: block; grid-area: 3 / 1; }
-.die[data-face="4"] .pip:nth-child(4) { display: block; grid-area: 3 / 3; }
-.die[data-face="5"] .pip:nth-child(1) { display: block; grid-area: 1 / 1; }
-.die[data-face="5"] .pip:nth-child(2) { display: block; grid-area: 1 / 3; }
-.die[data-face="5"] .pip:nth-child(3) { display: block; grid-area: 2 / 2; }
-.die[data-face="5"] .pip:nth-child(4) { display: block; grid-area: 3 / 1; }
-.die[data-face="5"] .pip:nth-child(5) { display: block; grid-area: 3 / 3; }
-.die[data-face="6"] .pip:nth-child(1) { display: block; grid-area: 1 / 1; }
-.die[data-face="6"] .pip:nth-child(2) { display: block; grid-area: 1 / 3; }
-.die[data-face="6"] .pip:nth-child(3) { display: block; grid-area: 2 / 1; }
-.die[data-face="6"] .pip:nth-child(4) { display: block; grid-area: 2 / 3; }
-.die[data-face="6"] .pip:nth-child(5) { display: block; grid-area: 3 / 1; }
-.die[data-face="6"] .pip:nth-child(6) { display: block; grid-area: 3 / 3; }
+    th,
+    td {
+      padding: 12px 15px;
+      border: 1px solid var(--border-color);
+      text-align: left;
+    }
 
-@keyframes shake-die {
-  0%   { transform: rotate(0deg) scale(1); }
-  25%  { transform: rotate(-15deg) scale(1.07); }
-  50%  { transform: rotate(12deg) scale(1.07); }
-  75%  { transform: rotate(-6deg) scale(1.03); }
-  100% { transform: rotate(0deg) scale(1); }
-}
+    th {
+      background-color: var(--surface-color);
+      color: var(--heading-color);
+      font-weight: bold;
+    }
 
-.die.rolling {
-  animation: shake-die 0.3s ease;
-}
+    /* =========================================================
+       Generador de historia del personaje
+       ========================================================= */
+    .char-generator {
+      margin: 30px 0;
+      padding: 25px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      background: var(--surface-color);
+    }
 
-/* Botones */
-.gen-controls {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 22px;
-}
+    .char-generator h3 {
+      margin: 0 0 5px;
+      color: var(--heading-color);
+    }
 
-.btn-gen {
-  background: transparent;
-  color: var(--heading-color, #c9b9a5);
-  border: 1px solid var(--border-color, #333);
-  font-family: Georgia, serif;
-  padding: 8px 14px;
-  cursor: pointer;
-  font-size: 0.9em;
-  transition: all 0.2s ease;
-}
+    .gen-subtitle {
+      margin: 0 0 20px;
+      color: var(--muted-text);
+      font-size: 0.9em;
+    }
 
-.btn-gen:hover {
-  border-color: var(--accent-color, #a65c52);
-  color: var(--accent-color, #a65c52);
-}
+    .dice-pair {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-bottom: 20px;
+    }
 
-.btn-gen-accent {
-  border-color: var(--accent-color, #a65c52);
-  color: var(--accent-color, #a65c52);
-}
+    .die-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted-text);
+      font-size: 0.8em;
+    }
 
-.btn-gen-accent:hover {
-  background: var(--accent-color, #a65c52);
-  color: #fff;
-}
+    .die {
+      display: grid;
+      box-sizing: border-box;
+      width: 64px;
+      height: 64px;
+      padding: 9px;
+      border-radius: 10px;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      place-items: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.45);
+    }
 
-/* Tarjetas de resultado */
-.gen-results {
-  display: grid;
-  gap: 12px;
-}
+    .die-black {
+      border: 2px solid #3a3530;
+      background: var(--black-die-color);
+    }
 
-.result-card {
-  background: var(--bg-color, #111);
-  border: 1px solid var(--border-color, #333);
-  padding: 14px 18px;
-  border-radius: 4px;
-}
+    .die-black .pip {
+      background-color: var(--text-color);
+    }
 
-.result-label {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.78em;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  color: var(--muted-text, #aaa49b);
-  margin-bottom: 4px;
-}
+    .die-white {
+      border: 2px solid var(--bone-color);
+      background: var(--text-color);
+    }
 
-.result-value {
-  margin: 0;
-  font-size: 1.05em;
-  color: var(--text-color, #e5e0d8);
-}
+    .die-white .pip {
+      background-color: var(--dark-pip-color);
+    }
 
-.result-value strong {
-  color: var(--heading-color, #c9b9a5);
-}
+    .die .pip {
+      display: none;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
 
-.result-value em {
-  color: var(--accent-color, #a65c52);
-  font-style: italic;
-}
+    .die[data-face="1"] .pip:nth-child(1) { display: block; grid-area: 2 / 2; }
+    .die[data-face="2"] .pip:nth-child(1) { display: block; grid-area: 1 / 3; }
+    .die[data-face="2"] .pip:nth-child(2) { display: block; grid-area: 3 / 1; }
+    .die[data-face="3"] .pip:nth-child(1) { display: block; grid-area: 1 / 3; }
+    .die[data-face="3"] .pip:nth-child(2) { display: block; grid-area: 2 / 2; }
+    .die[data-face="3"] .pip:nth-child(3) { display: block; grid-area: 3 / 1; }
+    .die[data-face="4"] .pip:nth-child(1) { display: block; grid-area: 1 / 1; }
+    .die[data-face="4"] .pip:nth-child(2) { display: block; grid-area: 1 / 3; }
+    .die[data-face="4"] .pip:nth-child(3) { display: block; grid-area: 3 / 1; }
+    .die[data-face="4"] .pip:nth-child(4) { display: block; grid-area: 3 / 3; }
+    .die[data-face="5"] .pip:nth-child(1) { display: block; grid-area: 1 / 1; }
+    .die[data-face="5"] .pip:nth-child(2) { display: block; grid-area: 1 / 3; }
+    .die[data-face="5"] .pip:nth-child(3) { display: block; grid-area: 2 / 2; }
+    .die[data-face="5"] .pip:nth-child(4) { display: block; grid-area: 3 / 1; }
+    .die[data-face="5"] .pip:nth-child(5) { display: block; grid-area: 3 / 3; }
+    .die[data-face="6"] .pip:nth-child(1) { display: block; grid-area: 1 / 1; }
+    .die[data-face="6"] .pip:nth-child(2) { display: block; grid-area: 1 / 3; }
+    .die[data-face="6"] .pip:nth-child(3) { display: block; grid-area: 2 / 1; }
+    .die[data-face="6"] .pip:nth-child(4) { display: block; grid-area: 2 / 3; }
+    .die[data-face="6"] .pip:nth-child(5) { display: block; grid-area: 3 / 1; }
+    .die[data-face="6"] .pip:nth-child(6) { display: block; grid-area: 3 / 3; }
 
-.result-card-small {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-}
+    @keyframes shake-die {
+      0% { transform: rotate(0deg) scale(1); }
+      25% { transform: rotate(-15deg) scale(1.07); }
+      50% { transform: rotate(12deg) scale(1.07); }
+      75% { transform: rotate(-6deg) scale(1.03); }
+      100% { transform: rotate(0deg) scale(1); }
+    }
 
-.result-card-small .result-label {
-  width: 100%;
-  margin-bottom: 0;
-}
+    .die.rolling {
+      animation: shake-die 0.3s ease;
+    }
 
-.btn-mini {
-  background: transparent;
-  border: 1px solid var(--border-color, #333);
-  color: var(--muted-text, #aaa49b);
-  font-family: Georgia, serif;
-  font-size: 0.8em;
-  padding: 4px 10px;
-  cursor: pointer;
-}
+    .gen-controls {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
 
-.btn-mini:hover {
-  color: var(--accent-color, #a65c52);
-  border-color: var(--accent-color, #a65c52);
-}
-    
-    /* Ajuste exclusivo de la imagen de Delta Green */
+    .btn-gen {
+      padding: 8px 14px;
+      border: 1px solid var(--border-color);
+      background: transparent;
+      color: var(--heading-color);
+      font-family: var(--font-family);
+      font-size: 0.9em;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-gen:hover {
+      border-color: var(--accent-color);
+      color: var(--accent-color);
+    }
+
+    .btn-gen-accent {
+      border-color: var(--accent-color);
+      color: var(--accent-color);
+    }
+
+    .btn-gen-accent:hover {
+      background: var(--accent-color);
+      color: #fff;
+    }
+
+    .gen-results {
+      display: grid;
+      gap: 12px;
+    }
+
+    .result-card {
+      padding: 14px 18px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      background: var(--bg-color);
+    }
+
+    .result-label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 4px;
+      color: var(--muted-text);
+      font-size: 0.78em;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+    }
+
+    .result-value {
+      margin: 0;
+      color: var(--text-color);
+      font-size: 1.05em;
+    }
+
+    .result-value strong {
+      color: var(--heading-color);
+    }
+
+    .result-value em {
+      color: var(--accent-color);
+      font-style: italic;
+    }
+
+    .result-card-small {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .result-card-small .result-label {
+      width: 100%;
+      margin-bottom: 0;
+    }
+
+    .btn-mini {
+      padding: 4px 10px;
+      border: 1px solid var(--border-color);
+      background: transparent;
+      color: var(--muted-text);
+      font-family: var(--font-family);
+      font-size: 0.8em;
+      cursor: pointer;
+    }
+
+    .btn-mini:hover {
+      border-color: var(--accent-color);
+      color: var(--accent-color);
+    }
+
+    /* =========================================================
+       Recomendaciones y carrusel
+       ========================================================= */
+    .recomendaciones {
+      margin-top: 45px;
+    }
+
+    .recomendaciones h2 {
+      color: var(--heading-color);
+    }
+
+    .recomendaciones p {
+      color: var(--muted-text);
+    }
+
+    .carrusel-contenedor {
+      overflow: hidden;
+      margin-top: 20px;
+    }
+
+    .carrusel {
+      display: flex;
+      gap: 15px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+    }
+
+    .carrusel::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tarjeta-recomendacion {
+      box-sizing: border-box;
+      flex: 0 0 calc(50% - 8px);
+      padding: 12px;
+      border: 1px solid var(--card-border-color);
+      border-radius: 7px;
+      background: var(--card-color);
+      text-decoration: none;
+    }
+
+    .tarjeta-recomendacion img {
+      display: block;
+      width: 100%;
+      height: 130px;
+      border-radius: 4px;
+      object-fit: cover;
+    }
+
+    /* Encuadres específicos de imágenes, cuando se usan estas clases. */
     .card img.deltagreen-img,
     .tarjeta-recomendacion img.deltagreen-img {
       object-fit: cover;
       object-position: center 100%;
     }
 
-    /* Ajuste exclusivo de la imagen de Forbidden Lands */
     .card img.forbiddenlands-img,
     .tarjeta-recomendacion img.forbiddenlands-img {
       object-fit: cover;
       object-position: center 25%;
     }
 
-    /* DESPLEGABLES*/
-    details {
-      margin-top: 25px;
-      border-left: 2px solid #a65c52;
-      padding-left: 15px;
+    .tarjeta-recomendacion h3 {
+      margin: 12px 0 5px;
+      color: var(--heading-color);
     }
 
-    summary {
-      list-style: none; /* Oculta el triángulo por defecto del navegador */
-      cursor: pointer;
-      user-select: none;
+    .tarjeta-recomendacion span {
+      color: var(--muted-text);
+      font-size: 0.85rem;
+    }
+
+    .tarjeta-recomendacion:hover {
+      border-color: var(--accent-color);
+    }
+
+    .carrusel-controles {
       display: flex;
-      align-items: flex-start; /* Alinea el símbolo con la primera línea del título */
+      justify-content: flex-end;
       gap: 10px;
-    }
-
-    summary::-webkit-details-marker {
-      display: none; /* Oculta el triángulo por defecto en Safari/Chrome */
-    }
-
-/* Símbolo personalizado a la izquierda */
-    summary::before {
-      content: "▸";
-      color: #a65c52;
-      font-size: 1.3em;
-      line-height: 1.2;
-      transition: transform 0.2s ease;
-    }
-/* Rotacón de símbolo */
-    details[open] summary::before {
-      transform: rotate(90deg);
-    }
-
-/* Título del desplegable */
-    .summary-title {
-      display: block;
-      color: #c9b9a5;
-      font-size: 1.3em;
-      font-weight: bold;
-      line-height: 1.2;
-    }
-    summary:hover .summary-title {
-      color: #a65c52;
-    }
-
-/* Pequeña descripción siempre visible debajo del título */
-    .summary-desc {
-      display: block;
-      color: #9e968b;
-      font-size: 0.95em;
-      font-style: italic;
-      margin-top: 4px;
-      line-height: 1.4;
-    }
-
-/* Contenido que se despliega */
-    .details-content {
       margin-top: 15px;
-      padding-left: 22px; /* Alinea el texto desplegado con el título, salvando el símbolo */
     }
 
-/* Espaciado para listas */
-    ul, ol {
-      margin-bottom: 20px;
-      padding-left: 25px;
-    }
-    
-    li {
-      margin-bottom: 8px;
-    }
-
-/* Diseño de tablas igual al de la imagen */
-    table {
-      width: 100%;
-      border-collapse: collapse; /* Une los bordes de las celdas en una sola línea */
-      margin: 25px 0;
-      font-size: 0.95em;
-    }
-    
-    th, td {
-      border: 1px solid #333; /* Bordes sutiles oscuros */
-      padding: 12px 15px;
-      text-align: left;
-    }
-    
-    th {
-      color: #c9b9a5; /* Color de encabezados de tu tema */
-      font-weight: bold;
-      background-color: #181818; /* Fondo ligeramente más claro para la cabecera */
-    }
-    
-    body {
-      background: #111;
-      color: #e5e0d8;
-      font-family: Georgia, serif;
-      max-width: 900px;
-      margin: 50px auto;
-      padding: 20px;
-      line-height: 1.7;
+    .carrusel-controles button {
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--control-border-color);
+      border-radius: 50%;
+      background: var(--card-color);
+      color: var(--heading-color);
+      font-size: 20px;
+      cursor: pointer;
     }
 
-    a {
-      color: #a65c52;
+    .carrusel-controles button:hover {
+      background: var(--accent-color);
+      color: #fff;
     }
 
-    h1, h2 {
-      color: #c9b9a5;
-    }
-
-.recomendaciones {
-    margin-top: 45px;
-}
-
-.recomendaciones h2 {
-    color: #c9b9a5;
-}
-
-.recomendaciones p {
-    color: #aaa49b;
-}
-
-.carrusel-contenedor {
-    overflow: hidden;
-    margin-top: 20px;
-}
-
-.carrusel {
-    display: flex;
-    gap: 15px;
-    overflow-x: auto;
-    scroll-behavior: smooth;
-    scrollbar-width: none;
-}
-
-.carrusel::-webkit-scrollbar {
-    display: none;
-}
-
-.tarjeta-recomendacion {
-    flex: 0 0 calc(50% - 8px);
-    box-sizing: border-box;
-    background: #1b1b1b;
-    border: 1px solid #34302d;
-    border-radius: 7px;
-    padding: 12px;
-    text-decoration: none;
-}
-
-.tarjeta-recomendacion img {
-    width: 100%;
-    height: 130px;
-    object-fit: cover;
-    border-radius: 4px;
-    display: block;
-}
-
-.tarjeta-recomendacion h3 {
-    color: #c9b9a5;
-    margin: 12px 0 5px;
-}
-
-.tarjeta-recomendacion span {
-    color: #aaa49b;
-    font-size: 0.85rem;
-}
-
-.tarjeta-recomendacion:hover {
-    border-color: #a65c52;
-}
-
-.carrusel-controles {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 15px;
-}
-
-.carrusel-controles button {
-    background: #1b1b1b;
-    color: #c9b9a5;
-    border: 1px solid #45413d;
-    border-radius: 50%;
-    width: 38px;
-    height: 38px;
-    font-size: 20px;
-    cursor: pointer;
-}
-
-.carrusel-controles button:hover {
-    background: #a65c52;
-    color: white;
-}
-
-@media (max-width: 600px) {
-    .tarjeta-recomendacion {
+    /* =========================================================
+       Diseño adaptable
+       ========================================================= */
+    @media (max-width: 600px) {
+      .tarjeta-recomendacion {
         flex: 0 0 85%;
+      }
     }
-}
-    
   </style>
 </head>
 <body>
-
- <header class="hero-cabecera">
+  <header class="hero-cabecera">
     <img src="../imagenes/Trophy_Dark_Wallpaper.jpg" alt="Cabecera Trophy Dark" class="cabecera">
     <h1>Trophy Dark</h1>
     <a href="https://sewinth.github.io/sistemasderol/Inicio.html" class="btn-volver">← VOLVER AL INICIO</a>
-</header>
-  
+  </header>
+
   <h4><i>Trophy System</i></h4>
   <p><i>Trophy Dark es un juego de rol de fantasía oscura y terror psicológico en el que encarnaréis a buscadores de tesoros desesperados que exploran un bosque antiguo que no los quiere allí. A medida que los buscadores de tesoros se acercan más y más al corazón del bosque, este hace todo lo posible por destrozarlos, enloquecerlos y, si tienen suerte, matarlos. Incluso si los buscadores de tesoros sobreviven a la incursión y cumplen sus objetivos personales, lo harán pagando un terrible precio y es probable que queden marcados para siempre.</i></p>
 
   <hr>
 
   <h2>CONCEPTOS BÁSICOS</h2>
-
-  <p>Una aventura de Trophy Dark se denomina incursión. Normalmente, estas aventuras tienen una estructura de cinco anillos. Cada anillo representa una etapa de la expedición y acerca progresivamente a los personajes al tesoro y a su probable perdición.</p>  
-
+  <p>Una aventura de Trophy Dark se denomina incursión. Normalmente, estas aventuras tienen una estructura de cinco anillos. Cada anillo representa una etapa de la expedición y acerca progresivamente a los personajes al tesoro y a su probable perdición.</p>
   <p>Los anillos son una representación orientativa de la progresión; cada incursión tiene su propia estructura y contenido, pero no necesitas que los jugadores sigan un camino rígido. La idea es que la expedición avance y que cada anillo incremente la tensión.</p>
-  
-    <ul style="margin: 0px 15px;">
-        <li><b>Momentos:</b> situaciones, escenas o acontecimientos que pueden ocurrir.</li>
-        <li><b>Condiciones:</b> representan la capacidad del personaje para conseguir lo que busca sin exponerse de la misma manera.</li>
-        <li><b>Amenazas:</b> criaturas, peligros y situaciones propias de la incursión.</li>
-        <li><b>Tesoro:</b> aquello que motiva a los buscadores a continuar.</li>
-    </ul>
+
+  <ul style="margin: 0 15px;">
+    <li><b>Momentos:</b> situaciones, escenas o acontecimientos que pueden ocurrir.</li>
+    <li><b>Condiciones:</b> representan la capacidad del personaje para conseguir lo que busca sin exponerse de la misma manera.</li>
+    <li><b>Amenazas:</b> criaturas, peligros y situaciones propias de la incursión.</li>
+    <li><b>Tesoro:</b> aquello que motiva a los buscadores a continuar.</li>
+  </ul>
 
   <p>Trophy Dark utiliza dados de seis caras para resolver situaciones inciertas. Existen dos tipos de dados:</p>
+  <ul style="margin: 0 15px;">
+    <li><b>Dados de Riesgo:</b> representan las posibilidades de éxito, pero también el peligro de sufrir consecuencias.</li>
+    <li><b>Dados de Esperanza:</b> alteraciones que pueden afectar a los personajes.</li>
+  </ul>
 
-  <ul style="margin: 0px 15px;">
-        <li><b> Dados de Riesgo:</b> representan las posibilidades de éxito, pero también el peligro de sufrir consecuencias.</li>
-        <li><b> Dados de Esperanza:</b> alteraciones que pueden afectar a los personajes.</li>
-    </ul>
-
-<p>Cuando un jugador intenta algo arriesgado, el DJ puede pedirle una tirada. La cantidad y el tipo de dados dependen de las circunstancias, las características del personaje y las habilidades que pueda utilizar.</p>
+  <p>Cuando un jugador intenta algo arriesgado, el DJ puede pedirle una tirada. La cantidad y el tipo de dados dependen de las circunstancias, las características del personaje y las habilidades que pueda utilizar.</p>
 
   <h2>¿CÓMO JUGAR?</h2>
   <p>Aquí puedes organizar las reglas del sistema.</p>
 
-  
-  <!-- Menú desplegable > -->
-<details>
-  <summary>
-    <div class="summary-header">
-      <span class="summary-title">Tirada de Riesgo </span>
-      <span class="summary-desc">Esta es la mecánica principal del juego.</span>
+  <details>
+    <summary>
+      <div class="summary-header">
+        <span class="summary-title">Tirada de Riesgo</span>
+        <span class="summary-desc">Esta es la mecánica principal del juego.</span>
+      </div>
+    </summary>
+
+    <div class="details-content">
+      <p>Se utilizan dados de dos colores:</p>
+      <ul>
+        <li><strong>Dados claros:</strong> representan las capacidades, conocimientos y ventajas del personaje.</li>
+        <li><strong>Dados oscuros:</strong> representan el peligro y el riesgo que está asumiendo.</li>
+      </ul>
+
+      <p>El procedimiento es el siguiente:</p>
+      <ol>
+        <li>El jugador explica qué quiere conseguir.</li>
+        <li>El DJ y los demás jugadores plantean qué podría salir mal.</li>
+        <li>Se reúnen los dados correspondientes.</li>
+        <li>Se lanzan todos los dados y se observa el resultado más alto.</li>
+      </ol>
+
+      <table>
+        <thead>
+          <tr><th>Situación</th><th>Dados</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>El personaje tiene una ocupación o trasfondo pertinente</td><td>+1 claro</td></tr>
+          <tr><td>Acepta un Pacto con el Diablo</td><td>+1 claro</td></tr>
+          <tr><td>*Arriesga su cuerpo o mente</td><td>+1 oscuro</td></tr>
+          <tr><td>Realiza un ritual</td><td>+1 oscuro obligatorio</td></tr>
+        </tbody>
+      </table>
+
+      <p>Hay una regla especialmente importante: si el dado oscuro más alto iguala o supera al dado claro más alto, el personaje marca 1 punto de Ruina.</p>
+      <p>Además, si el jugador no está conforme con el resultado y su dado más alto es claro, puede agregar un dado oscuro (Arriesga su cuerpo o mente) y volver a lanzar todos los dados. Esta acción se puede repetir, pero si el dado oscuro termina dominando, sufrirá Ruina.</p>
+
+      <table>
+        <thead>
+          <tr><th>Resultado más alto</th><th>Consecuencia</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1, 2 o 3</td><td>Fracaso. La situación empeora.</td></tr>
+          <tr><td>4 o 5</td><td>Éxito con una complicación.</td></tr>
+          <tr><td>6</td><td>Éxito sin complicaciones adicionales.</td></tr>
+        </tbody>
+      </table>
     </div>
-  </summary>
+  </details>
 
-  <div class="details-content">
-<p>Se utilizan dados de dos colores:</p>
-
-<ul>
-  <li><strong>Dados claros:</strong> representan las capacidades, conocimientos y ventajas del personaje.</li>
-  <li><strong>Dados oscuros:</strong> representan el peligro y el riesgo que está asumiendo.</li>
-</ul>
-
-<p>El procedimiento es el siguiente:</p>
-
-<ol>
-  <li>El jugador explica qué quiere conseguir.</li>
-  <li>El DJ y los demás jugadores plantean qué podría salir mal.</li>
-  <li>Se reúnen los dados correspondientes.</li>
-  <li>Se lanzan todos los dados y se observa el resultado más alto.</li>
-</ol>
-
-<table>
-  <thead>
-    <tr>
-      <th>Situación</th>
-      <th>Dados</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>El personaje tiene una ocupación o trasfondo pertinente</td>
-      <td>+1 claro</td>
-    </tr>
-    <tr>
-      <td>Acepta un Pacto con el Diablo</td>
-      <td>+1 claro</td>
-    </tr>
-    <tr>
-      <td>*Arriesga su cuerpo o mente</td>
-      <td>+1 oscuro</td>
-    </tr>
-    <tr>
-      <td>Realiza un ritual</td>
-      <td>+1 oscuro obligatorio</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>Hay una regla especialmente importante: si el dado oscuro más alto iguala o supera al dado claro más alto, el personaje marca 1 punto de Ruina.</p>
-
-<p>Además, si el jugador no está conforme con el resultado y su dado más alto es claro, puede agregar un dado oscuro (Arriesga su cuerpo o mente) y volver a lanzar todos los dados. Esta acción se puede repetir, pero si el dado oscuro termina dominando, sufrirá Ruina.</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Resultado más alto</th>
-      <th>Consecuencia</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>1, 2 o 3</td>
-      <td>Fracaso. La situación empeora.</td>
-    </tr>
-    <tr>
-      <td>4 o 5</td>
-      <td>Éxito con una complicación.</td>
-    </tr>
-    <tr>
-      <td>6</td>
-      <td>Éxito sin complicaciones adicionales.</td>
-    </tr>
-  </tbody>
-</table>
-  </div>
-</details>
-  
   <h2>Material de consulta</h2>
   <p>Aquí puedes agregar tablas, referencias y otros recursos.</p>
+
   <section class="char-generator">
-  <h3>Generador de Historia del Personaje</h3>
-  <p class="gen-subtitle">Tira por separado para Ocupación y Trasfondo, o usa una misma tirada para toda la fila.</p>
+    <h3>Generador de Historia del Personaje</h3>
+    <p class="gen-subtitle">Tira por separado para Ocupación y Trasfondo, o usa una misma tirada para toda la fila.</p>
 
-  <!-- Dados visuales: Negro (decenas) y Blanco (unidades) -->
-  <div class="dice-pair">
-    <div class="die-wrapper">
-      <div id="die-black" class="die die-black" data-face="1" aria-label="Dado negro: 1">
-        <span class="pip"></span><span class="pip"></span><span class="pip"></span>
-        <span class="pip"></span><span class="pip"></span><span class="pip"></span>
+    <div class="dice-pair">
+      <div class="die-wrapper">
+        <div id="die-black" class="die die-black" data-face="1" aria-label="Dado negro: 1">
+          <span class="pip"></span><span class="pip"></span><span class="pip"></span>
+          <span class="pip"></span><span class="pip"></span><span class="pip"></span>
+        </div>
+        <span>Dado Oscuro</span>
       </div>
-      <span>Dado Oscuro</span>
-    </div>
 
-    <div class="die-wrapper">
-      <div id="die-white" class="die die-white" data-face="1" aria-label="Dado blanco: 1">
-        <span class="pip"></span><span class="pip"></span><span class="pip"></span>
-        <span class="pip"></span><span class="pip"></span><span class="pip"></span>
+      <div class="die-wrapper">
+        <div id="die-white" class="die die-white" data-face="1" aria-label="Dado blanco: 1">
+          <span class="pip"></span><span class="pip"></span><span class="pip"></span>
+          <span class="pip"></span><span class="pip"></span><span class="pip"></span>
+        </div>
+        <span>Dado Claro</span>
       </div>
-      <span>Dado Claro</span>
-    </div>
-  </div>
-
-  <!-- Botones de acción -->
-  <div class="gen-controls">
-    <button type="button" id="btn-roll-occ" class="btn-gen">Tirar Ocupación</button>
-    <button type="button" id="btn-roll-bg" class="btn-gen">Tirar Trasfondo</button>
-    <button type="button" id="btn-roll-all" class="btn-gen btn-gen-accent">Tirar Todo (Misma fila)</button>
-  </div>
-
-  <!-- Resultados seleccionados -->
-  <div class="gen-results">
-    <div class="result-card">
-      <span class="result-label">Ocupación y Habilidades <small id="roll-occ-code"></small></span>
-      <p id="res-occ" class="result-value">—</p>
     </div>
 
-    <div class="result-card">
-      <span class="result-label">Trasfondo y Habilidad <small id="roll-bg-code"></small></span>
-      <p id="res-bg" class="result-value">—</p>
+    <div class="gen-controls">
+      <button type="button" id="btn-roll-occ" class="btn-gen">Tirar Ocupación</button>
+      <button type="button" id="btn-roll-bg" class="btn-gen">Tirar Trasfondo</button>
+      <button type="button" id="btn-roll-all" class="btn-gen btn-gen-accent">Tirar Todo (Misma fila)</button>
     </div>
 
-    <div class="result-card result-card-small">
-      <span class="result-label">Nombre sugerido <small id="roll-name-code"></small></span>
-      <p id="res-name" class="result-value">—</p>
-      <button type="button" id="btn-roll-name" class="btn-mini">↻ Cambiar nombre</button>
+    <div class="gen-results">
+      <div class="result-card">
+        <span class="result-label">Ocupación y Habilidades <small id="roll-occ-code"></small></span>
+        <p id="res-occ" class="result-value">—</p>
+      </div>
+
+      <div class="result-card">
+        <span class="result-label">Trasfondo y Habilidad <small id="roll-bg-code"></small></span>
+        <p id="res-bg" class="result-value">—</p>
+      </div>
+
+      <div class="result-card result-card-small">
+        <span class="result-label">Nombre sugerido <small id="roll-name-code"></small></span>
+        <p id="res-name" class="result-value">—</p>
+        <button type="button" id="btn-roll-name" class="btn-mini">↻ Cambiar nombre</button>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<hr>
+  <hr>
 
-<section class="recomendaciones">
-
+  <section class="recomendaciones">
     <h2>Explora otros juegos de rol</h2>
 
     <div class="carrusel-contenedor">
+      <div class="carrusel" id="carrusel">
+        <a href="Delta-Green.html" class="tarjeta-recomendacion">
+          <img src="../imagenes/DG-Wallpaper.JPG" alt="Delta Green">
+          <h3>Delta Green</h3>
+          <span>Investigación y horror</span>
+        </a>
 
-        <div class="carrusel" id="carrusel">
+        <a href="Alien-RPG.html" class="tarjeta-recomendacion">
+          <img src="../imagenes/Alien_RPG_Wallpaper.jpeg" alt="Alien RPG">
+          <h3>Alien RPG</h3>
+          <span>Terror y supervivencia</span>
+        </a>
 
-            <a href="Delta-Green.html" class="tarjeta-recomendacion">
-                <img src="../imagenes/DG-Wallpaper.JPG" alt="Delta Green">
-                <h3>Delta Green</h3>
-                <span>Investigación y horror</span>
-            </a>
+        <a href="Forbidden-Lands.html" class="tarjeta-recomendacion">
+          <img src="../imagenes/Forbidden_Lands_Wallpaper.jpeg" alt="Forbidden Lands">
+          <h3>Forbidden Lands</h3>
+          <span>Fantasía oscura y exploración</span>
+        </a>
 
-            <a href="Alien-RPG.html" class="tarjeta-recomendacion">
-                <img src="../imagenes/Alien_RPG_Wallpaper.jpeg" alt="Alien RPG">
-                <h3>Alien RPG</h3>
-                <span>Terror y supervivencia</span>
-            </a>
+        <a href="/La-Llamada-de-Cthulhu.html" class="tarjeta-recomendacion">
+          <img src="../imagenes/Cthulhu_RPG_Wallpaper.jpg" alt="La Llamada de Cthulhu">
+          <h3>La Llamada de Cthulhu</h3>
+          <span>Misterio, horror e investigación</span>
+        </a>
+      </div>
 
-            <a href="Forbidden-Lands.html" class="tarjeta-recomendacion">
-                <img src="../imagenes/Forbidden_Lands_Wallpaper.jpeg" alt="Forbidden Lands">
-                <h3>Forbidden Lands</h3>
-                <span>Fantasía oscura y exploración</span>
-            </a>
-
-            <a href="/La-Llamada-de-Cthulhu.html" class="tarjeta-recomendacion">
-                <img src="../imagenes/Cthulhu_RPG_Wallpaper.jpg" alt="La Llamada de Cthulhu">
-                <h3>La Llamada de Cthulhu</h3>
-                <span>Misterio, horror e investigación</span>
-             </a>
-
-        </div>
-
-        <div class="carrusel-controles">
-
-            <button type="button" aria-label="Anterior">
-                &#8592;
-            </button>
-
-            <button type="button" aria-label="Siguiente">
-                &#8594;
-            </button>
-        </div>
-
+      <div class="carrusel-controles">
+        <button type="button" aria-label="Anterior">&#8592;</button>
+        <button type="button" aria-label="Siguiente">&#8594;</button>
+      </div>
     </div>
+  </section>
 
-</section>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const carrusel = document.getElementById("carrusel");
+      const botonesCarrusel = document.querySelectorAll(".carrusel-controles button");
+      const dieBlack = document.getElementById("die-black");
+      const dieWhite = document.getElementById("die-white");
 
-      <script>
-document.addEventListener("DOMContentLoaded", function () {
-
-    const carrusel = document.getElementById("carrusel");
-
-    const botones = document.querySelectorAll(
-        ".carrusel-controles button"
-    );
-
-    function moverCarrusel(direccion) {
-
-        const tarjetas = carrusel.querySelectorAll(
-            ".tarjeta-recomendacion"
-        );
+      function moverCarrusel(direccion) {
+        const tarjetas = carrusel.querySelectorAll(".tarjeta-recomendacion");
+        if (tarjetas.length === 0) return;
 
         const espacio = 15;
+        const desplazamiento = tarjetas[0].offsetWidth + espacio;
+        const maximo = carrusel.scrollWidth - carrusel.clientWidth;
+        let nuevaPosicion = carrusel.scrollLeft + desplazamiento * direccion;
 
-        const desplazamiento =
-            tarjetas[0].offsetWidth + espacio;
+        if (nuevaPosicion > maximo + 5) nuevaPosicion = 0;
+        if (nuevaPosicion < -5) nuevaPosicion = maximo;
 
-        const maximo =
-            carrusel.scrollWidth - carrusel.clientWidth;
+        carrusel.scrollTo({ left: nuevaPosicion, behavior: "smooth" });
+      }
 
-        let nuevaPosicion =
-            carrusel.scrollLeft + desplazamiento * direccion;
+      botonesCarrusel[0].addEventListener("click", () => moverCarrusel(-1));
+      botonesCarrusel[1].addEventListener("click", () => moverCarrusel(1));
 
-        if (nuevaPosicion > maximo + 5) {
-            nuevaPosicion = 0;
-        }
+      const tablaTrophy = {
+        "1-1": { nombre: "Akaleh", occ: ["Anticuario", "artefactos, mitos, ofuscación"], bg: ["Escudero abandonado", "asistencia"] },
+        "1-2": { nombre: "Alina", occ: ["Artificiera", "alquimia, invención, trampas"], bg: ["Bailarina desterrada", "gracia"] },
+        "1-3": { nombre: "Aram", occ: ["Astrólogo", "estrellas, oscuridad, símbolos"], bg: ["Teriántropo curado", "transformación"] },
+        "1-4": { nombre: "Baso", occ: ["Herrero", "aguante, armas, metal"], bg: ["Sacerdote excomulgado", "augurios"] },
+        "1-5": { nombre: "Benah", occ: ["Guardaespaldas", "protección, rapidez, vigilancia"], bg: ["Viuda devota", "paciencia"] },
+        "1-6": { nombre: "Daian", occ: ["Vinculadora", "elementos, mando, rituales"], bg: ["Cortesana caída en desgracia", "adulación"] },
+        "2-1": { nombre: "Desarim", occ: ["Campeón", "ferocidad, mando, presencia"], bg: ["Noble desheredado", "tasación"] },
+        "2-2": { nombre: "Elisio", occ: ["Cocinero", "alimentos, improvisación, venenos"], bg: ["Buscador de ratas envalentonado", "guaridas"] },
+        "2-3": { nombre: "Esfahen", occ: ["Demonóloga", "demonios, negociación, triquiñuelas"], bg: ["Minera ilustrada", "orientación"] },
+        "2-4": { nombre: "Fion", occ: ["Geomante", "construcción, orientación, patrones"], bg: ["Caballero errante", "duelos"] },
+        "2-5": { nombre: "Foret", occ: ["Guía", "cazar, forrajear, orientación"], bg: ["Sectaria fugada", "engaño"] },
+        "2-6": { nombre: "Ifori", occ: ["Espiritista", "espíritus, improvisación, rituales"], bg: ["Aprendiz expulsada", "tradición"] },
+        "3-1": { nombre: "Inda", occ: ["Herborista", "percepción, plantas, remedios"], bg: ["Peregrina fracasada", "santos"] },
+        "3-2": { nombre: "Kasien", occ: ["Intercesor", "carisma, persistencia, rituales"], bg: ["Pastor irresponsable", "tranquilizar"] },
+        "3-3": { nombre: "Kel", occ: ["Creyente", "inocencia, sacrificio, rituales"], bg: ["Marinero en tierra", "cuerdas"] },
+        "3-4": { nombre: "Kiva", occ: ["Funambulista", "coordinación, equilibrio, precisión"], bg: ["Buhonera desventurada", "comercio"] },
+        "3-5": { nombre: "Lora", occ: ["Matasanos", "cirugía, deducción, sangre"], bg: ["Inquisidor herético", "secretos"] },
+        "3-6": { nombre: "Mahera", occ: ["Ladrona", "acrobacias, seguridad, silencio"], bg: ["Funcionaria desacreditada", "mentiras"] },
+        "4-1": { nombre: "Masero", occ: ["Prestidigitador", "interpretación, rituales, triquiñuelas"], bg: ["Barbero torpe", "heridas"] },
+        "4-2": { nombre: "Moradi", occ: ["Médium", "espíritus, fuerza de voluntad, vigilancia"], bg: ["Ballenera herida", "cacería"] },
+        "4-3": { nombre: "Neven", occ: ["Mercader", "concentración, persuasión, soborno"], bg: ["Prisionera liberada", "tratos"] },
+        "4-4": { nombre: "Nima", occ: ["Naturalista", "bestias, plantas, silencio"], bg: ["Niña perdida", "esconderse"] },
+        "4-5": { nombre: "Obeha", occ: ["Colmena", "alimañas, coordinación, rituales"], bg: ["Inocente seducido", "tentación"] },
+        "4-6": { nombre: "Orlen", occ: ["Oráculo", "interpretación, trances, rituales"], bg: ["Ladrón de tumbas oportunista", "muerte"] },
+        "5-1": { nombre: "Osto", occ: ["Toro", "destrucción, fuerza, resistencia"], bg: ["Trabajador oprimido", "rebelión"] },
+        "5-2": { nombre: "Parda", occ: ["Poeta", "pasión, persuasión, rituales"], bg: ["Maniquí animada huérfana", "imitación"] },
+        "5-3": { nombre: "Pela", occ: ["Exploradora", "bestias, cacerías, trampas"], bg: ["Granjera azotada por la plaga", "corrupción"] },
+        "5-4": { nombre: "Rasei", occ: ["Mercenario", "atletismo, defensa, sorpresa"], bg: ["Prestamista imprudente", "ambición"] },
+        "5-5": { nombre: "Revel", occ: ["Contrabandista", "destreza, espontaneidad, sigilo"], bg: ["Matón reformado", "intimidación"] },
+        "5-6": { nombre: "Sareh", occ: ["Serpiente", "carisma, interpretación, triquiñuelas"], bg: ["Soldado jubilada", "tácticas"] },
+        "6-1": { nombre: "Sibil", occ: ["Hechicera", "alquimia, símbolos, rituales"], bg: ["Guardia real renegada", "rastrear"] },
+        "6-2": { nombre: "Talia", occ: ["Trampera", "alimañas, sorpresas, trampas"], bg: ["Copera traicionera", "traición"] },
+        "6-3": { nombre: "Teodan", occ: ["Recipiente", "atracción, rendición, rituales"], bg: ["Artesano sin inspiración", "fabricación"] },
+        "6-4": { nombre: "Toram", occ: ["Bruja", "hogar, plantas, rituales"], bg: ["Hada desenmascarada", "ilusiones"] },
+        "6-5": { nombre: "Valen", occ: ["Leñador", "bestias, fuerza, orientación"], bg: ["Príncipe usurpado", "mando"] },
+        "6-6": { nombre: "Vero", occ: ["Zelote", "fuerza, interrogatorio, rituales"], bg: ["Refugiada errante", "disfraz"] }
+      };
 
-        if (nuevaPosicion < -5) {
-            nuevaPosicion = maximo;
-        }
+      function tirarDados() {
+        const negro = Math.floor(Math.random() * 6) + 1;
+        const blanco = Math.floor(Math.random() * 6) + 1;
 
-        carrusel.scrollTo({
-            left: nuevaPosicion,
-            behavior: "smooth"
+        [dieBlack, dieWhite].forEach((dado) => {
+          dado.classList.remove("rolling");
+          void dado.offsetWidth;
+          dado.classList.add("rolling");
         });
-    }
 
-    botones[0].addEventListener("click", function () {
-        moverCarrusel(-1);
+        dieBlack.setAttribute("data-face", negro);
+        dieWhite.setAttribute("data-face", blanco);
+
+        const clave = `${negro}-${blanco}`;
+        return { negro, blanco, fila: tablaTrophy[clave] };
+      }
+
+      function actualizarOcupacion(tirada) {
+        document.getElementById("roll-occ-code").textContent = `(Oscuro ${tirada.negro} · Claro ${tirada.blanco})`;
+        document.getElementById("res-occ").innerHTML = `<strong>${tirada.fila.occ[0]}:</strong> <em>${tirada.fila.occ[1]}.</em>`;
+      }
+
+      function actualizarTrasfondo(tirada) {
+        document.getElementById("roll-bg-code").textContent = `(Oscuro ${tirada.negro} · Claro ${tirada.blanco})`;
+        document.getElementById("res-bg").innerHTML = `<strong>${tirada.fila.bg[0]}:</strong> <em>${tirada.fila.bg[1]}.</em>`;
+      }
+
+      function actualizarNombre(tirada) {
+        document.getElementById("roll-name-code").textContent = `(Oscuro ${tirada.negro} · Claro ${tirada.blanco})`;
+        document.getElementById("res-name").innerHTML = `<strong>${tirada.fila.nombre}</strong>`;
+      }
+
+      document.getElementById("btn-roll-occ").addEventListener("click", () => {
+        actualizarOcupacion(tirarDados());
+      });
+
+      document.getElementById("btn-roll-bg").addEventListener("click", () => {
+        actualizarTrasfondo(tirarDados());
+      });
+
+      document.getElementById("btn-roll-name").addEventListener("click", () => {
+        actualizarNombre(tirarDados());
+      });
+
+      document.getElementById("btn-roll-all").addEventListener("click", () => {
+        const tirada = tirarDados();
+        actualizarOcupacion(tirada);
+        actualizarTrasfondo(tirada);
+        actualizarNombre(tirada);
+      });
     });
-
-    botones[1].addEventListener("click", function () {
-        moverCarrusel(1);
-    });
-
-});
-</script>
-
-<script>
-  const tablaTrophy = {
-    "1-1": { nombre: "Akaleh", occ: ["Anticuario", "artefactos, mitos, ofuscación"], bg: ["Escudero abandonado", "asistencia"] },
-    "1-2": { nombre: "Alina", occ: ["Artificiera", "alquimia, invención, trampas"], bg: ["Bailarina desterrada", "gracia"] },
-    "1-3": { nombre: "Aram", occ: ["Astrólogo", "estrellas, oscuridad, símbolos"], bg: ["Teriántropo curado", "transformación"] },
-    "1-4": { nombre: "Baso", occ: ["Herrero", "aguante, armas, metal"], bg: ["Sacerdote excomulgado", "augurios"] },
-    "1-5": { nombre: "Benah", occ: ["Guardaespaldas", "protección, rapidez, vigilancia"], bg: ["Viuda devota", "paciencia"] },
-    "1-6": { nombre: "Daian", occ: ["Vinculadora", "elementos, mando, rituales"], bg: ["Cortesana caída en desgracia", "adulación"] },
-
-    "2-1": { nombre: "Desarim", occ: ["Campeón", "ferocidad, mando, presencia"], bg: ["Noble desheredado", "tasación"] },
-    "2-2": { nombre: "Elisio", occ: ["Cocinero", "alimentos, improvisación, venenos"], bg: ["Buscador de ratas envalentonado", "guaridas"] },
-    "2-3": { nombre: "Esfahen", occ: ["Demonóloga", "demonios, negociación, triquiñuelas"], bg: ["Minera ilustrada", "orientación"] },
-    "2-4": { nombre: "Fion", occ: ["Geomante", "construcción, orientación, patrones"], bg: ["Caballero errante", "duelos"] },
-    "2-5": { nombre: "Foret", occ: ["Guía", "cazar, forrajear, orientación"], bg: ["Sectaria fugada", "engaño"] },
-    "2-6": { nombre: "Ifori", occ: ["Espiritista", "espíritus, improvisación, rituales"], bg: ["Aprendiz expulsada", "tradición"] },
-
-    "3-1": { nombre: "Inda", occ: ["Herborista", "percepción, plantas, remedios"], bg: ["Peregrina fracasada", "santos"] },
-    "3-2": { nombre: "Kasien", occ: ["Intercesor", "carisma, persistencia, rituales"], bg: ["Pastor irresponsable", "tranquilizar"] },
-    "3-3": { nombre: "Kel", occ: ["Creyente", "inocencia, sacrificio, rituales"], bg: ["Marinero en tierra", "cuerdas"] },
-    "3-4": { nombre: "Kiva", occ: ["Funambulista", "coordinación, equilibrio, precisión"], bg: ["Buhonera desventurada", "comercio"] },
-    "3-5": { nombre: "Lora", occ: ["Matasanos", "cirugía, deducción, sangre"], bg: ["Inquisidor herético", "secretos"] },
-    "3-6": { nombre: "Mahera", occ: ["Ladrona", "acrobacias, seguridad, silencio"], bg: ["Funcionaria desacreditada", "mentiras"] },
-
-    "4-1": { nombre: "Masero", occ: ["Prestidigitador", "interpretación, rituales, triquiñuelas"], bg: ["Barbero torpe", "heridas"] },
-    "4-2": { nombre: "Moradi", occ: ["Médium", "espíritus, fuerza de voluntad, vigilancia"], bg: ["Ballenera herida", "cacería"] },
-    "4-3": { nombre: "Neven", occ: ["Mercader", "concentración, persuasión, soborno"], bg: ["Prisionera liberada", "tratos"] },
-    "4-4": { nombre: "Nima", occ: ["Naturalista", "bestias, plantas, silencio"], bg: ["Niña perdida", "esconderse"] },
-    "4-5": { nombre: "Obeha", occ: ["Colmena", "alimañas, coordinación, rituales"], bg: ["Inocente seducido", "tentación"] },
-    "4-6": { nombre: "Orlen", occ: ["Oráculo", "interpretación, trances, rituales"], bg: ["Ladrón de tumbas oportunista", "muerte"] },
-
-    "5-1": { nombre: "Osto", occ: ["Toro", "destrucción, fuerza, resistencia"], bg: ["Trabajador oprimido", "rebelión"] },
-    "5-2": { nombre: "Parda", occ: ["Poeta", "pasión, persuasión, rituales"], bg: ["Maniquí animada huérfana", "imitación"] },
-    "5-3": { nombre: "Pela", occ: ["Exploradora", "bestias, cacerías, trampas"], bg: ["Granjera azotada por la plaga", "corrupción"] },
-    "5-4": { nombre: "Rasei", occ: ["Mercenario", "atletismo, defensa, sorpresa"], bg: ["Prestamista imprudente", "ambición"] },
-    "5-5": { nombre: "Revel", occ: ["Contrabandista", "destreza, espontaneidad, sigilo"], bg: ["Matón reformado", "intimidación"] },
-    "5-6": { nombre: "Sareh", occ: ["Serpiente", "carisma, interpretación, triquiñuelas"], bg: ["Soldado jubilada", "tácticas"] },
-
-    "6-1": { nombre: "Sibil", occ: ["Hechicera", "alquimia, símbolos, rituales"], bg: ["Guardia real renegada", "rastrear"] },
-    "6-2": { nombre: "Talia", occ: ["Trampera", "alimañas, sorpresas, trampas"], bg: ["Copera traicionera", "traición"] },
-    "6-3": { nombre: "Teodan", occ: ["Recipiente", "atracción, rendición, rituales"], bg: ["Artesano sin inspiración", "fabricación"] },
-    "6-4": { nombre: "Toram", occ: ["Bruja", "hogar, plantas, rituales"], bg: ["Hada desenmascarada", "ilusiones"] },
-    "6-5": { nombre: "Valen", occ: ["Leñador", "bestias, fuerza, orientación"], bg: ["Príncipe usurpado", "mando"] },
-    "6-6": { nombre: "Vero", occ: ["Zelote", "fuerza, interrogatorio, rituales"], bg: ["Refugiada errante", "disfraz"] }
-  };
-
-  const dieBlack = document.getElementById("die-black");
-  const dieWhite = document.getElementById("die-white");
-
-  function tirarDados() {
-    const negro = Math.floor(Math.random() * 6) + 1;
-    const blanco = Math.floor(Math.random() * 6) + 1;
-
-    // Animar ambos dados
-    [dieBlack, dieWhite].forEach(d => {
-      d.classList.remove("rolling");
-      void d.offsetWidth;
-      d.classList.add("rolling");
-    });
-
-    dieBlack.setAttribute("data-face", negro);
-    dieWhite.setAttribute("data-face", blanco);
-
-    const clave = `${negro}-${blanco}`;
-    return { clave, negro, blanco, fila: tablaTrophy[clave] };
-  }
-
-  function actualizarOcupacion(tirada) {
-    document.getElementById("roll-occ-code").textContent = `(Oscuro ${tirada.negro} · Claro ${tirada.blanco})`;
-    document.getElementById("res-occ").innerHTML = `<strong>${tirada.fila.occ[0]}:</strong> <em>${tirada.fila.occ[1]}.</em>`;
-  }
-
-  function actualizarTrasfondo(tirada) {
-    document.getElementById("roll-bg-code").textContent = `(Oscuro ${tirada.negro} · Claro ${tirada.blanco})`;
-    document.getElementById("res-bg").innerHTML = `<strong>${tirada.fila.bg[0]}:</strong> <em>${tirada.fila.bg[1]}.</em>`;
-  }
-
-  function actualizarNombre(tirada) {
-    document.getElementById("roll-name-code").textContent = `(Oscuro ${tirada.negro} · Claro ${tirada.blanco})`;
-    document.getElementById("res-name").innerHTML = `<strong>${tirada.fila.nombre}</strong>`;
-  }
-
-  document.getElementById("btn-roll-occ").addEventListener("click", () => {
-    actualizarOcupacion(tirarDados());
-  });
-
-  document.getElementById("btn-roll-bg").addEventListener("click", () => {
-    actualizarTrasfondo(tirarDados());
-  });
-
-  document.getElementById("btn-roll-name").addEventListener("click", () => {
-    actualizarNombre(tirarDados());
-  });
-
-  document.getElementById("btn-roll-all").addEventListener("click", () => {
-    const tirada = tirarDados();
-    actualizarOcupacion(tirada);
-    actualizarTrasfondo(tirada);
-    actualizarNombre(tirada);
-  });
-</script>
-
-  
+  </script>
 </body>
 </html>
