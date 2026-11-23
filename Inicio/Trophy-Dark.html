@@ -61,7 +61,11 @@
     /* =========================================================
        Cabecera
        ========================================================= */
-.hero-cabecera {
+    img {
+      max-width: 100%;
+    }
+    
+    .hero-cabecera {
       position: relative;
       height: 260px;
       overflow: hidden;
@@ -79,12 +83,15 @@
 
     .hero-contenido {
       position: absolute;
+      <-index: 2;
       inset: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      gap: 10px;
       padding: 20px;
+      text-align: center;
     }
 
     .hero-contenido h1 {
@@ -705,7 +712,7 @@
    <details>
     <summary>
       <div class="summary-header">
-        <span class="summary-title">Tiradas Enfrentada</span>
+        <span class="summary-title">Tiradas Enfrentadas</span>
         <span class="summary-desc">Es la tirada que resuelve el conflicto de interés entre jugadores.</span>
       </div>
     </summary>
@@ -714,7 +721,7 @@
       <p>Primero se decide que está en juego, luego se lanzan los dados.</p>
         <ul>
           <li>1 Dado Claro: Ocupación o Trasfondo</li>
-          <li>1 Dado Claro: Por cada **Marca de Ruina</li>
+          <li>1 Dado Claro: Por cada <strong>Marca de Ruina</strong></li>
           <li>1 Dado Oscuro: Si el enfrentamiento es letal o peligroso</li>
           <li>Añade tantos Dados Oscuros adicionales como estés dispuesto a arriesgarte</li>
         </ul>
@@ -735,7 +742,7 @@
       <p>Cuando un personaje presencia algo perturbador o experimenta una situación traumática, el DJ puede solicitar una Tirada de Ruina: El jugador lanza 1 dado oscuro:</p>
         <ul>
           <li>Si el resultado es superior a su Ruina actual, aumenta su Ruina en 1 y obtiene un Estado.</li>
-          <li>Si el resultado es igual o inferior, no ocurre nada..</li>
+          <li>Si el resultado es igual o inferior, no ocurre nada.</li>
         </ul>
         <div class="details-content">
           <details>
@@ -747,10 +754,12 @@
 
               <div class="details-content">
                   <p><strong>La Ruina</strong> representa el deterioro físico, psicológico y espiritual del personaje. Cuanto más se adentran los buscadores en el bosque, más difícil resulta conservar su humanidad.</p>
-                  <li>Los personajes comienzan normalmente con 1 punto de Ruina.</li>
-                  <li>La Ruina aumenta mediante determinadas tiradas y situaciones.</li>
-                  <li>Al aumentar la Ruina, el personaje adquiere Estados.</li>
-                  <li>Cuando alcanza 6 puntos de Ruina, el personaje se pierde definitivamente (Muerte o transforma en parte del bosque).</li>
+                  <ul>
+                    <li>Los personajes comienzan normalmente con 1 punto de Ruina.</li>
+                    <li>La Ruina aumenta mediante determinadas tiradas y situaciones.</li>
+                    <li>Al aumentar la Ruina, el personaje adquiere Estados.</li>
+                    <li>Cuando alcanza 6 puntos de Ruina, el personaje se pierde definitivamente (Muerte o transforma en parte del bosque).</li>
+                  </ul>
                   <p><strong>Estados:</strong> Es una alteración física, psicológica o sobrenatural que afecta al personaje. Las Condiciones son principalmente narrativas: permiten representar cómo el entorno transforma a los personajes.</p>
                 </div>
               </details>
@@ -791,7 +800,7 @@
 
     <div class="details-content">
       <p>El juego está construido sobre el principio de "Play to Lose"</p>
-        <li><stron>Personas y criaturas comunes: Pueden enfrentarse utilizando una Tirada de Riesgo. Por ejemplo, combatir contra un bandido, un cazador rival o una persona poseída.</stron></li>
+        <li><strong>Personas y criaturas comunes: </strong>Pueden enfrentarse utilizando una Tirada de Riesgo. Por ejemplo, combatir contra un bandido, un cazador rival o una persona poseída.</li>
         <li><strong>Monstruosidades: </strong>Son entidades vinculadas a las fuerzas sobrenaturales del bosque. Intentar matarlas mediante una Tirada de Riesgo significa exponerse a una muerte segura. Escapar, Esconderte, Distraerlas, Evitar su territorio, Utilizar rituales y Encontrar una manera de superar el obstáculo sin enfrentarlas directamente, son mejores opciones</li>
       </ul>
 
