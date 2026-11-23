@@ -130,10 +130,18 @@
     }
 
  .hero-nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
       gap: 12px;
+      margin: 0;
+      padding: 12px;
+      background: rgba(17, 17, 17, 0.95);
+      border-bottom: 1px solid var(--accent-color);
+      backdrop-filter: blur(8px);
       margin-top: clamp(36px, 8vh, 80px);
     }
 
@@ -598,15 +606,15 @@
     <div class="hero-contenido">
       <h1>Trophy Dark</h1>
       <p class="subtitle">Subtítulo o descripción breve</p>
-
-      <nav class="hero-nav" aria-label="Navegación principal">
+    </div>
+  </header>
+ 
+  <nav class="hero-nav" aria-label="Navegación principal">
         <a href="../Inicio.html" class="btn-cabecera">Inicio</a>
         <a href="../Blog/Entrada.html" class="btn-cabecera">Blog</a>
         <a href="../Inicio/Sobre_Mi.html" class="btn-cabecera">Sobre Mi</a>
       </nav>
-    </div>
-  </header>
-
+  
   <h4><i>Trophy System</i></h4>
   <p><i>Trophy Dark es un juego de rol de fantasía oscura y terror psicológico en el que encarnaréis a buscadores de tesoros desesperados que exploran un bosque antiguo que no los quiere allí. A medida que los buscadores de tesoros se acercan más y más al corazón del bosque, este hace todo lo posible por destrozarlos, enloquecerlos y, si tienen suerte, matarlos. Incluso si los buscadores de tesoros sobreviven a la incursión y cumplen sus objetivos personales, lo harán pagando un terrible precio y es probable que queden marcados para siempre.</i></p>
 
