@@ -252,6 +252,27 @@
       color: var(--heading-color);
     }
 
+    main {
+      box-sizing: border-box;
+      min-height: calc(100vh - 300px);
+      width: 100%;
+      padding: 0 20px;
+    }
+
+    footer {
+      box-sizing: border-box;
+      width: 100%;
+      margin-top: 40px;
+      padding: 20px;
+      border-top: 1px solid var(--accent-color);
+      background: var(--surface-color);
+      color: var(--muted-text);
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
     @media (max-width: 650px) {
       .hero-cabecera {
         height: 300px;
