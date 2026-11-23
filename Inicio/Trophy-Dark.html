@@ -86,7 +86,7 @@
        ========================================================= */
     .hero-cabecera {
       position: sticky;
-      top: -224px;
+      top: -230px;
       z-index: 1000;
       box-sizing: border-box;
       width: 100vw;
@@ -131,20 +131,24 @@
       text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.9);
     }
 
- .hero-nav {
+     .hero-nav {
       position: absolute;
       right: 0;
       bottom: 0;
       left: 0;
+      box-sizing: border-box;
+      height: 58px;
       display: flex;
+      align-items: center;
       justify-content: center;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
       gap: 12px;
       margin: 0;
-      padding: 12px;
-      background: rgba(17, 17, 17, 0.95);
-      backdrop-filter: blur(8px);
-    }
+      padding: 8px;
+      background: rgba(17, 17, 17, 0.55);
+      border-top: 1px solid rgba(166, 92, 82, 0.55);
+      backdrop-filter: blur(6px);
+      }
 
     .btn-cabecera {
       padding: 7px 16px;
