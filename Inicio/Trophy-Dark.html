@@ -36,11 +36,30 @@
       color: var(--text-color);
       font-family: var(--font-family);
       line-height: 1.7;
-      background-color: var(--bg-color);
-      background-image: url("../imagenes/Trophy_Fondo.png");
-      background-repeat: repeat;
     }
 
+    body::before {
+      content: "";
+      position: fixed;
+      inset: -10px;
+      z-index: -2;
+      background-image: url("../imagenes/Trophy_Fondo.png");
+      background-repeat: repeat;
+      background-position: center;
+      filter: blur(3px);
+      opacity: 0.55;
+      transform: scale(1.02);
+      pointer-events: none;
+    }
+    
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background: rgba(17, 17, 17, 0.72);
+      pointer-events: none;
+    }
     a {
       color: var(--accent-color);
     }
