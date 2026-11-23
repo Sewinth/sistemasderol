@@ -85,7 +85,9 @@
        Cabecera
        ========================================================= */
     .hero-cabecera {
-      position: relative;
+      position: sticky;
+      top: -224px;
+      z-index: 1000;
       box-sizing: border-box;
       width: 100vw;
       height: 300px;
@@ -130,9 +132,11 @@
     }
 
  .hero-nav {
-      position: sticky;
+      position: absolute;
       top: 0;
-      z-index: 1000;
+      right: 0;
+      bottom: 0;
+      left: 0;
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
@@ -140,9 +144,7 @@
       margin: 0;
       padding: 12px;
       background: rgba(17, 17, 17, 0.95);
-      border-bottom: 1px solid var(--accent-color);
       backdrop-filter: blur(8px);
-      margin-top: clamp(36px, 8vh, 80px);
     }
 
     .btn-cabecera {
