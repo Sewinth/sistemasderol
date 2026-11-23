@@ -61,36 +61,53 @@
     /* =========================================================
        Cabecera
        ========================================================= */
-    .hero-cabecera {
+.hero-cabecera {
       position: relative;
-      width: 100%;
-      height: 220px;
-      margin: 0 auto 30px;
+      height: 260px;
       overflow: hidden;
       border-bottom: 2px solid var(--accent-color);
+      text-align: center;
     }
 
     .cabecera {
-      display: block;
       width: 100%;
       height: 100%;
       object-fit: cover;
       object-position: center;
-      filter: brightness(0.55);
+      filter: brightness(0.45);
     }
 
-    .hero-cabecera h1 {
+    .hero-contenido {
       position: absolute;
-      z-index: 2;
-      top: 50%;
-      left: 50%;
-      width: 90%;
-      margin: 0;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .hero-contenido h1 {
       color: var(--heading-color);
-      font-size: 2.6rem;
-      text-align: center;
+      font-size: clamp(35px, 5vw, 46px);
+      font-weight: normal;
+      letter-spacing: 3px;
       text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.95);
-      transform: translate(-50%, -50%);
+    }
+
+    .subtitle {
+      margin-top: 8px;
+      color: var(--text-color);
+      font-size: 18px;
+      text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.9);
+    }
+
+    .hero-nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: clamp(36px, 8vh, 80px);
     }
 
     .btn-cabecera {
