@@ -61,10 +61,6 @@
     /* =========================================================
        Cabecera
        ========================================================= */
-    img {
-      max-width: 100%;
-    }
-    
     .hero-cabecera {
       position: relative;
       height: 260px;
@@ -73,7 +69,7 @@
       text-align: center;
     }
 
-    .cabecera {
+     .cabecera {
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -81,20 +77,18 @@
       filter: brightness(0.45);
     }
 
-    .hero-contenido {
+     .hero-contenido {
       position: absolute;
-      z-index: 2;
       inset: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 10px;
       padding: 20px;
-      text-align: center;
     }
-
+ 
     .hero-contenido h1 {
+      margin: 0;
       color: var(--heading-color);
       font-size: clamp(35px, 5vw, 46px);
       font-weight: normal;
@@ -109,7 +103,7 @@
       text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.9);
     }
 
-    .hero-nav {
+ .hero-nav {
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
@@ -558,10 +552,13 @@
     /* =========================================================
        Diseño adaptable
        ========================================================= */
-    @media (max-width: 600px) {
+    @media (max-width: 650px) {
       .tarjeta-recomendacion {
         flex: 0 0 85%;
       }
+      .hero-cabecera {
+    height: 300px;
+  }
     }
   </style>
 </head>
