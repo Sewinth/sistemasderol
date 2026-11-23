@@ -28,9 +28,9 @@
       --font-family: "Barlow", "Barlow Semi Condensed", sans-serif;
     }
 
-    body {
+        body {
       max-width: 900px;
-      margin: 0 auto;
+      margin: 0px auto;
       padding: 0px;
       background: var(--bg-color);
       color: var(--text-color);
@@ -38,6 +38,29 @@
       line-height: 1.7;
     }
 
+    body::before {
+      content: "";
+      position: fixed;
+      inset: -10px;
+      z-index: -2;
+      background-image: url("../imagenes/Trophy_Fondo.png");
+      background-repeat: repeat;
+      background-position: center;
+      background-size: 494px 505px;
+      filter: blur(2px);
+      opacity: 0.90;
+      transform: scale(1.02);
+      pointer-events: none;
+    }
+    
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background: rgba(17, 17, 17, 0.72);
+      pointer-events: none;
+    }
     a {
       color: var(--accent-color);
     }
@@ -58,9 +81,13 @@
       margin-bottom: 8px;
     }
 
-    /* Cabecera */
+    /* =========================================================
+       Cabecera
+       ========================================================= */
     .hero-cabecera {
-      position: relative;
+      position: sticky;
+      top: -230px;
+      z-index: 1000;
       box-sizing: border-box;
       width: 100vw;
       height: 300px;
@@ -70,7 +97,7 @@
       text-align: center;
     }
 
-    .cabecera {
+     .cabecera {
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -78,7 +105,7 @@
       filter: brightness(0.45);
     }
 
-    .hero-contenido {
+     .hero-contenido {
       position: absolute;
       inset: 0;
       display: flex;
@@ -87,7 +114,7 @@
       justify-content: center;
       padding: 20px;
     }
-
+ 
     .hero-contenido h1 {
       margin: 0;
       color: var(--heading-color);
@@ -104,21 +131,31 @@
       text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.9);
     }
 
-    .hero-nav {
+     .hero-nav {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      box-sizing: border-box;
+      height: 58px;
       display: flex;
+      align-items: center;
       justify-content: center;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
       gap: 12px;
-      margin-top: clamp(36px, 8vh, 80px);
-    }
+      margin: 0;
+      padding: 8px;
+      background: rgba(17, 17, 17, 0);
+      backdrop-filter: blur(0px);
+      }
 
     .btn-cabecera {
       padding: 7px 16px;
       border: 1px solid var(--accent-color);
       border-radius: 4px;
       background: rgba(17, 17, 17, 0.85);
-      color: var(--text-color);
-      font-family: var(--font-family);
+      color: #e5e0d8;
+      font-family: "Barlow", "Barlow Semi Condensed", sans-serif;
       font-size: 12px;
       letter-spacing: 1.5px;
       text-decoration: none;
@@ -128,14 +165,13 @@
 
     .btn-cabecera:hover {
       background: var(--accent-color);
-      color: #fff;
+      color: #ffffff;
     }
 
     .btn-cabecera:focus-visible {
       outline: 3px solid var(--accent-light);
       outline-offset: 4px;
-    }
-    }
+    }    
 
     main {
       max-width: 1050px;
