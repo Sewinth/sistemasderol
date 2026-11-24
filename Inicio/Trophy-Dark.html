@@ -284,7 +284,7 @@
     .char-generator {
       max-width: 520px;
       margin: 20px auto;
-      padding: 10px;
+      padding: 14px;
       border: 1px solid var(--border-color);
       border-radius: 6px;
       background: var(--surface-color);
@@ -977,8 +977,7 @@
 
   <section class="char-generator">
     <h3>Generador de Historia del Personaje</h3>
-    <p class="gen-subtitle">Tira por separado para Ocupación y Trasfondo, o usa una misma tirada para toda la fila.</p>
-
+    <p class="gen-subtitle">Tira por separado para cada rasgo o usa una misma tirada para la base del personaje.</p>
     <div class="dice-pair">
       <div class="die-wrapper">
         <div id="die-black" class="die die-black" data-face="1" aria-label="Dado negro: 1">
@@ -987,7 +986,6 @@
         </div>
         <span>Dado Oscuro</span>
       </div>
-
       <div class="die-wrapper">
         <div id="die-white" class="die die-white" data-face="1" aria-label="Dado blanco: 1">
           <span class="pip"></span><span class="pip"></span><span class="pip"></span>
@@ -1000,7 +998,11 @@
     <div class="gen-controls">
       <button type="button" id="btn-roll-occ" class="btn-gen">Tirar Ocupación</button>
       <button type="button" id="btn-roll-bg" class="btn-gen">Tirar Trasfondo</button>
-      <button type="button" id="btn-roll-all" class="btn-gen btn-gen-accent">Tirar Todo (Misma fila)</button>
+      <button type="button" id="btn-roll-mot" class="btn-gen">Tirar Motivación</button>
+      <button type="button" id="btn-roll-all" class="btn-gen btn-gen-accent">Tirar Todo (Base)</button>
+      <button type="button" id="btn-roll-rit1" class="btn-gen">Ritual (1 de 3)</button>
+      <button type="button" id="btn-roll-rit2" class="btn-gen">Ritual (2 de 3)</button>
+      <button type="button" id="btn-roll-rit3" class="btn-gen">Ritual (3 de 3)</button>
     </div>
 
     <div class="gen-results">
@@ -1008,12 +1010,26 @@
         <span class="result-label">Ocupación y Habilidades <small id="roll-occ-code"></small></span>
         <p id="res-occ" class="result-value">—</p>
       </div>
-
       <div class="result-card">
         <span class="result-label">Trasfondo y Habilidad <small id="roll-bg-code"></small></span>
         <p id="res-bg" class="result-value">—</p>
       </div>
-
+      <div class="result-card">
+        <span class="result-label">Motivación <small id="roll-mot-code"></small></span>
+        <p id="res-mot" class="result-value">—</p>
+      </div>
+      <div class="result-card">
+        <span class="result-label">Ritual (1 de 3) <small id="roll-rit1-code"></small></span>
+        <p id="res-rit1" class="result-value">—</p>
+      </div>
+      <div class="result-card">
+        <span class="result-label">Ritual (2 de 3) <small id="roll-rit2-code"></small></span>
+        <p id="res-rit2" class="result-value">—</p>
+      </div>
+      <div class="result-card">
+        <span class="result-label">Ritual (3 de 3) <small id="roll-rit3-code"></small></span>
+        <p id="res-rit3" class="result-value">—</p>
+      </div>
       <div class="result-card result-card-small">
         <span class="result-label">Nombre sugerido <small id="roll-name-code"></small></span>
         <p id="res-name" class="result-value">—</p>
@@ -1021,6 +1037,7 @@
       </div>
     </div>
   </section>
+
 
   <hr>
 
@@ -1087,7 +1104,7 @@
       botonesCarrusel.item(1).addEventListener("click", () => moverCarrusel(1));
     }
 
-    // --- 2. CREACIÓN AUTOMÁTICA DEL ESCENARIO 3D ---
+    // --- 2. ESCENARIO 3D DE DADOS ---
     function crearHTMLCubo(id, claseColor) {
       let caras = "";
       for (let i = 1; i <= 6; i++) {
@@ -1165,6 +1182,160 @@
       "6-5": { nombre: "Valen", occ: ["Leñador", "bestias, fuerza, orientación"], bg: ["Príncipe usurpado", "mando"] },
       "6-6": { nombre: "Vero", occ: ["Zelote", "fuerza, interrogatorio, rituales"], bg: ["Refugiada errante", "disfraz"] }
     };
+    const tablaMotivaciones = {
+      "1-1": "Adquirir el Alijo Brillante antes de que sea demasiado tarde.",
+      "1-2": "Organizar una revuelta contra la tiranía de lord Haffir.",
+      "1-3": "Participar en el Festival Prohibido de la condesa Shima.",
+      "1-4": "Formar parte de la Corte Arremolinante.",
+      "1-5": "Convertirte en el único cliente de la deseada Ansem.",
+      "1-6": "Romper la maldición lanzada por la Bruja de Nevask.",
+      "2-1": "Romper el asedio a la fortaleza de tu hermano.",
+      "2-2": "Sobornar a los jueces para que perdonen tus crímenes.",
+      "2-3": "Liberar Tirollis.",
+      "2-4": "Comprar el orfanato donde fuiste maltratado.",
+      "2-5": "Comprar la libertad de tu hermano, encerrado en la prisión de Barsul.",
+      "2-6": "Encargar una gloriosa estatua que represente a la deidad que adoras.",
+      "3-1": "Destruir las obras de Ajino, el pintor depravado.",
+      "3-2": "Ganarte el respeto del gobernador de Fuerte Duhrin.",
+      "3-3": "Ganarte el derecho a llevar el apellido familiar.",
+      "3-4": "Establecer una hacienda rural en Levasti.",
+      "3-5": "Financiar una expedición al mar Floreciente.",
+      "3-6": "Encontrar el artefacto que revelará la auténtica naturaleza del rey.",
+      "4-1": "Encontrar la tumba del Caballero de la Mañana.",
+      "4-2": "Liberar a los amables seguidores del Flautista.",
+      "4-3": "Entregar a tu prometida el regalo que tanto desea.",
+      "4-4": "Escribir el nombre de tu madre en los Archivos Cerúleos.",
+      "4-5": "Localizar la joya que embruja los sueños de Eriol.",
+      "4-6": "Pagar el peaje del puente Esmeralda.",
+      "5-1": "Pagar las deudas que tu padre contrajo con Assyrio Dientesbrillantes.",
+      "5-2": "Publicar tus descubrimientos sobre la antigua Kalduhr.",
+      "5-3": "Reconstruir la fuente de Hisham.",
+      "5-4": "Compensar las pérdidas que provocaste a la Compañía del Paso del Sur.",
+      "5-5": "Restaurar la gloria perdida de la Arboleda Colaginosa.",
+      "5-6": "Restaurar el templo de Tanahlot.",
+      "6-1": "Insuflar nueva vida al Culto de Derawan.",
+      "6-2": "Jubilarte rodeado de lujos en el Distrito Rosa de Ambaret.",
+      "6-3": "Recuperar el estandarte perdido de la Legión Sin Nombre.",
+      "6-4": "Hacerte con el control absoluto de la Rueda de Kormoran.",
+      "6-5": "Ocupar el lugar de Cyrus en el Consejo de la Tierra.",
+      "6-6": "Ganarte el corazón del supuesto heredero de Naganeh."
+    };
+
+    const tablaRituales1 = {
+      "1-1": ["Almenara", "Las criaturas u objetos cercanos que estén ocultos brillarán con un intenso fulgor."],
+      "1-2": ["Animar", "Animas a una estatua, que se mueve como si estuviera viva."],
+      "1-3": ["Arcilla", "Usas tus manos para alterar y transformar la materia inorgánica."],
+      "1-4": ["Asalvajar", "Aumentas el tamaño, la ferocidad y la monstruosidad de una criatura que toques."],
+      "1-5": ["Atadura", "Inmovilizas a una criatura en un lugar siempre que tú también permanezcas inmóvil."],
+      "1-6": ["Aura", "Determinas el estado emocional y la auténtica forma de una criatura, además de si dice la verdad."],
+      "2-1": ["Azufre", "Algo se vuelve tan caliente al tacto que quema."],
+      "2-2": ["Bestia", "Adoptas una forma mixta a medio camino entre humano y animal."],
+      "2-3": ["Borrón", "Tocas a una criatura y difuminas su forma, dificultando que se puedan distinguir detalles y su composición exacta."],
+      "2-4": ["Canalizar", "Permites que un espíritu actúe a través de ti."],
+      "2-5": ["Captura", "Provocas que las plantas se retuerzan, agarrando o ralentizando a una criatura."],
+      "2-6": ["Cenizas", "Quemas algo irremplazable para convertir a una criatura u objeto en polvo."],
+      "3-1": ["Círculo", "Una criatura en el interior de un círculo de sal no podrá infligir ni sufrir daño."],
+      "3-2": ["Compeler", "Fuerzas a una criatura a realizar una tarea no letal o la liberas de un uso previo de este Ritual."],
+      "3-3": ["Crisol", "Calientas un objeto tanto que se funde."],
+      "3-4": ["Dardo", "Lanzas un proyectil de calor y energía."],
+      "3-5": ["Defecto", "Golpeas en el punto más débil de un objeto utilizando una fuerza espectral."],
+      "3-6": ["Drenaje", "Eliminas todo el agua de una criatura."],
+      "4-1": ["Dríade", "Si no te mueves, te transformas en un árbol y puedes comunicarte con otros árboles."],
+      "4-2": ["Ejército", "Creas copias ilusorias de ti mismo que imitan tus acciones."],
+      "4-3": ["Elegía", "Aparentas haber muerto."],
+      "4-4": ["Embotellar", "Obligas a un espíritu a entrar en un objeto."],
+      "4-5": ["Embrujar", "Una criatura seguirá una orden simple que le des, pero solo si recibe un regalo a cambio."],
+      "4-6": ["Éter", "La criatura u objeto que tocas se vuelve espectral e intangible."],
+      "5-1": ["Excavar", "Puedes moverte a través del suelo."],
+      "5-2": ["Fantasía", "Observas y alteras los sueños de una criatura que conozcas."],
+      "5-3": ["Fatalidad", "Haces que una criatura tenga la sensación de un desastre inminente."],
+      "5-4": ["Oscuridad", "Una sombra viviente devora toda la luz cercana."],
+      "5-5": ["Parpadeo", "Teletransportas a una criatura que toques a otro lugar en tu rango de visión."],
+      "5-6": ["Pluma", "Reduces la densidad de un objeto."],
+      "6-1": ["Portal", "Dibujas una puerta sobre una superficie sólida para crear un portal que la atraviesa."],
+      "6-2": ["Reloj", "El tiempo en una pequeña zona avanza mucho más rápido o lento de lo normal."],
+      "6-3": ["Resplandor", "Distraes y confundes a las criaturas cercanas con un espectáculo de luces danzantes."],
+      "6-4": ["Sentimiento", "Potencias o reduces la intensidad de todas las sensaciones en tu presencia."],
+      "6-5": ["Tallar", "Alteras una criatura u objeto mediante la manipulación arcana."],
+      "6-6": ["Tolerar", "Una criatura que toques será capaz de soportar temperaturas extremas."]
+    };
+    const tablaRituales2 = {
+      "1-1": ["Análisis", "Descubres el significado de cualquier palabra, texto escrito, sonido, símbolo o señal."],
+      "1-2": ["Aparición", "Invocas un espíritu para que atormente a una criatura."],
+      "1-3": ["Ascender", "Inviertes la gravedad en una pequeña área de manera temporal."],
+      "1-4": ["Brillo", "Vinculas un espíritu luminoso a un objeto, el cual ahora emite luz."],
+      "1-5": ["Canal", "Un objetivo queda abrumado por los pensamientos superficiales de todas las criaturas cercanas."],
+      "1-6": ["Cerrojo", "Dibujas un símbolo que impide que nadie atraviese un pasaje durante un corto espacio de tiempo."],
+      "2-1": ["Corriente", "Puedes alterar la forma y controlar masas de agua."],
+      "2-2": ["Espejismo", "Creas una ilusión que, al examinarse de cerca, se ve claramente que es falsa."],
+      "2-3": ["Exorcismo", "Extraes un espíritu de un cuerpo."],
+      "2-4": ["Flotar", "Levitas suavemente al contener el aliento."],
+      "2-5": ["Fuente", "Un fuerte chorro de agua surge del lugar que tocas."],
+      "2-6": ["Futuro", "Un objeto desaparece para, tras un breve periodo de tiempo, reaparecer exactamente en el mismo sitio."],
+      "3-1": ["Galerna", "Invocas y guías un feroz vendaval."],
+      "3-2": ["Germinar", "Fuerzas a las plantas a crecer con gran rapidez."],
+      "3-3": ["Glamour", "Algo o alguien parece más encantador y atractivo de lo que es en realidad."],
+      "3-4": ["Guía", "Creas un hilo que se puede seguir hasta un destino."],
+      "3-5": ["Hospitalidad", "Mantienes la paz mientras compartas bebida y alimentos."],
+      "3-6": ["Huerto", "Invocas un buen puñado de manzanas, aunque alguna estará envenenada."],
+      "4-1": ["Inmolar", "Envuelves tu cuerpo en llamas."],
+      "4-2": ["Inscribir", "Creas o alteras un mensaje escrito o grabado en una superficie."],
+      "4-3": ["Insensibilidad", "Reduces las sensaciones internas de una criatura."],
+      "4-4": ["Jardinero", "Al consumir una planta obtienes una parte de sus recuerdos."],
+      "4-5": ["Laberinto", "El entorno que te rodea se convierte en un laberinto cuyo centro eres tú."],
+      "4-6": ["Leviatán", "Invocas una criatura de las profundidades."],
+      "5-1": ["Llamada", "Abres un portal que esté cerrado."],
+      "5-2": ["Mano", "Si te concentras, puedes mover con la mente un objeto pequeño que puedas ver."],
+      "5-3": ["Mártir", "Tocas a una criatura y te transfieres sus Estados."],
+      "5-4": ["Máscara", "Al cubrirte el rostro los demás no pueden percibirte a través de los sentidos."],
+      "5-5": ["Mensajero", "Envías un mensaje a través de una criatura."],
+      "5-6": ["Mentiroso", "Invocas un espíritu capaz de responder a cualquier pregunta, pero solo con mentiras."],
+      "6-1": ["Obnubilar", "Ocultas a una criatura u objeto de la vista de otra criatura."],
+      "6-2": ["Posesión", "Posees el cuerpo de otra criatura."],
+      "6-3": ["Prender", "Generas fuego."],
+      "6-4": ["Reflejo", "Adoptas la forma de otra criatura que conozcas."],
+      "6-5": ["Tinieblas", "Puedes moverte por lugares oscuros sin dejar rastro."],
+      "6-6": ["Zombi", "Das vida a un cadáver."]
+    };
+
+    const tablaRituales3 = {
+      "1-1": ["Amputar", "Puedes separar y volver a unir partes de tu cuerpo, así como controlarlas mientras estén separadas."],
+      "1-2": ["Caparazón", "Tu piel genera una capa externa de gran dureza que funciona como una armadura."],
+      "1-3": ["Castigo", "Golpeas al objetivo con un arma de carácter espiritual."],
+      "1-4": ["Corcel", "Invocas una montura espectral capaz de caminar por el aire y el agua."],
+      "1-5": ["Culebra", "Transformas palos y ramas cercanas en serpientes que siguen tus órdenes."],
+      "1-6": ["Chispa vital", "Al tocar a una criatura que acaba de morir, la revives, pero un segundo toque (aunque sea accidental) la matará al instante."],
+      "2-1": ["Enjambre", "Intercambias favores con una colonia de bichos."],
+      "2-2": ["Escala", "Doblas o reduces a la mitad el tamaño de un objeto que toques."],
+      "2-3": ["Escudriñar", "Observas una localización remota en forma de espíritu."],
+      "2-4": ["Goma", "El cuerpo de una criatura que toques se vuelve elástico y puede estirarse por encima de sus límites normales."],
+      "2-5": ["Guarda", "Si permaneces concentrado, puedes proteger una pequeña zona."],
+      "2-6": ["Intercambio", "Si tocas a otra criatura puedes intercambiar tu cuerpo con el suyo."],
+      "3-1": ["Invocación", "Traes ante tu presencia a una criatura que conozcas."],
+      "3-2": ["Lamento", "Provocas un sonido que desorienta a quien lo escuche."],
+      "3-3": ["Marchitar", "Reduces las plantas cercanas a polvo y cenizas."],
+      "3-4": ["Muro", "Creas un denso muro de hielo, fuego, piedra, espinas o agua."],
+      "3-5": ["Olfato", "Atraviesas un lugar orientándote solo por el olor o sigues el rastro dejado por el aroma de una criatura que conozcas."],
+      "3-6": ["Percutor", "Una escena ilusoria predeterminada se activa en cuanto ocurre un suceso a tu elección."],
+      "4-1": ["Petrificar", "Tocas a una criatura, objeto o superficie para convertirla en piedra."],
+      "4-2": ["Provocar", "Obligas al oponente a elegir entre quedarse paralizado, luchar o huir."],
+      "4-3": ["Redes", "Creas telarañas que pueden cubrir a una criatura o permitirte llegar a algún lugar cercano."],
+      "4-4": ["Renacimiento", "Fuerzas a un espíritu que conozcas a renacer en un cuerpo nuevo."],
+      "4-5": ["Renacuajo", "Mientras tú mantengas la boca cerrada, otra criatura de tu elección podrá respirar sin importar el entorno."],
+      "4-6": ["Repulsión", "Empujas hacia atrás a una criatura mediante una gran fuerza espiritual."],
+      "5-1": ["Retroceder", "Haces que una criatura retroceda un breve espacio en el tiempo."],
+      "5-2": ["Rueca", "Cardas los hilos arcanos de un Ritual para detener sus efectos y poder activarlo de nuevo más adelante en otro lugar."],
+      "5-3": ["Sello", "Una criatura que toques olvidará todos sus Rituales hasta el siguiente amanecer."],
+      "5-4": ["Sifón", "Detectas y extraes la ponzoña del agua, alimentos o una criatura."],
+      "5-5": ["Silencio", "Acallas todos los sonidos cercanos durante una pequeña cantidad de tiempo."],
+      "5-6": ["Sueño", "Provocas que una criatura se sumerja en un profundo sueño."],
+      "6-1": ["Susurro", "Creas un sonido ilusorio a tu elección que parece proceder de algún lugar cercano."],
+      "6-2": ["Vacío", "Permaneces en completo silencio para impedir el lanzamiento de otros Rituales en tu presencia."],
+      "6-3": ["Vapor", "Llenas un área pequeña de vapores nocivos."],
+      "6-4": ["Velo", "Mientras permanezcas inmóvil, serás invisible a los sentidos de un grupo de criaturas."],
+      "6-5": ["Voz", "Alteras el tono de tu voz o haces que parezca proceder de otro lugar cercano."],
+      "6-6": ["Yugo", "Aplicas la fuerza de un toro espectral a una situación."]
+    };
     let tirando = false;
 
     function lanzarDados(callback) {
@@ -1196,7 +1367,7 @@
         if (dieWhiteMini) dieWhiteMini.setAttribute("data-face", blanco);
 
         const clave = `${negro}-${blanco}`;
-        callback({ negro, blanco, fila: tablaTrophy[clave] });
+        callback({ negro, blanco, clave });
       }, 1150);
 
       setTimeout(() => {
@@ -1206,38 +1377,56 @@
     }
 
     function actualizarOcupacion(tirada) {
-      const [titulo, habilidades] = tirada.fila.occ;
+      const [titulo, habilidades] = tablaTrophy[tirada.clave].occ;
       document.getElementById("roll-occ-code").textContent = `(Oscuro ${tirada.negro} · Claro ${tirada.blanco})`;
       document.getElementById("res-occ").innerHTML = `<strong>${titulo}:</strong> <em>${habilidades}.</em>`;
     }
 
     function actualizarTrasfondo(tirada) {
-      const [titulo, habilidad] = tirada.fila.bg;
+      const [titulo, habilidad] = tablaTrophy[tirada.clave].bg;
       document.getElementById("roll-bg-code").textContent = `(Oscuro ${tirada.negro} · Claro ${tirada.blanco})`;
       document.getElementById("res-bg").innerHTML = `<strong>${titulo}:</strong> <em>${habilidad}.</em>`;
     }
 
-    function actualizarNombre(tirada) {
-      document.getElementById("roll-name-code").textContent = `(Oscuro ${tirada.negro} · Claro ${tirada.blanco})`;
-      document.getElementById("res-name").innerHTML = `<strong>${tirada.fila.nombre}</strong>`;
+    function actualizarMotivacion(tirada) {
+      const texto = tablaMotivaciones[tirada.clave];
+      document.getElementById("roll-mot-code").textContent = `(Oscuro ${tirada.negro} · Claro ${tirada.blanco})`;
+      document.getElementById("res-mot").innerHTML = texto;
     }
 
-    document.getElementById("btn-roll-occ").addEventListener("click", () => {
-      lanzarDados(actualizarOcupacion);
+    function actualizarRitual(numero, tabla, tirada) {
+      const [nombre, efecto] = tabla[tirada.clave];
+      document.getElementById(`roll-rit${numero}-code`).textContent = `(Oscuro ${tirada.negro} · Claro ${tirada.blanco})`;
+      document.getElementById(`res-rit${numero}`).innerHTML = `<strong>${nombre}</strong> — <em>${efecto}</em>`;
+    }
+
+    function actualizarNombre(tirada) {
+      document.getElementById("roll-name-code").textContent = `(Oscuro ${tirada.negro} · Claro ${tirada.blanco})`;
+      document.getElementById("res-name").innerHTML = `<strong>${tablaTrophy[tirada.clave].nombre}</strong>`;
+    }
+
+    document.getElementById("btn-roll-occ").addEventListener("click", () => lanzarDados(actualizarOcupacion));
+    document.getElementById("btn-roll-bg").addEventListener("click", () => lanzarDados(actualizarTrasfondo));
+    document.getElementById("btn-roll-mot").addEventListener("click", () => lanzarDados(actualizarMotivacion));
+    document.getElementById("btn-roll-name").addEventListener("click", () => lanzarDados(actualizarNombre));
+
+    document.getElementById("btn-roll-rit1").addEventListener("click", () => {
+      lanzarDados((tirada) => actualizarRitual(1, tablaRituales1, tirada));
     });
 
-    document.getElementById("btn-roll-bg").addEventListener("click", () => {
-      lanzarDados(actualizarTrasfondo);
+    document.getElementById("btn-roll-rit2").addEventListener("click", () => {
+      lanzarDados((tirada) => actualizarRitual(2, tablaRituales2, tirada));
     });
 
-    document.getElementById("btn-roll-name").addEventListener("click", () => {
-      lanzarDados(actualizarNombre);
+    document.getElementById("btn-roll-rit3").addEventListener("click", () => {
+      lanzarDados((tirada) => actualizarRitual(3, tablaRituales3, tirada));
     });
 
     document.getElementById("btn-roll-all").addEventListener("click", () => {
       lanzarDados((tirada) => {
         actualizarOcupacion(tirada);
         actualizarTrasfondo(tirada);
+        actualizarMotivacion(tirada);
         actualizarNombre(tirada);
       });
     });
