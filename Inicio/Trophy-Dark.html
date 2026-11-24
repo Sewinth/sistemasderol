@@ -935,155 +935,122 @@
     </div>
   </section>
 
-  <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    // --- 1. LÓGICA DEL CARRUSEL ---
-    const carrusel = document.getElementById("carrusel");
-    const botonesCarrusel = document.querySelectorAll(".carrusel-controles button");
+ <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const carrusel = document.getElementById("carrusel");
+      const botonesCarrusel = document.querySelectorAll(".carrusel-controles button");
+      const dieBlack = document.getElementById("die-black");
+      const dieWhite = document.getElementById("die-white");
 
-    function moverCarrusel(direccion) {
-      const tarjetas = carrusel.querySelectorAll(".tarjeta-recomendacion");
-      if (tarjetas.length === 0) return;
+      function moverCarrusel(direccion) {
+        const tarjetas = carrusel.querySelectorAll(".tarjeta-recomendacion");
+        if (tarjetas.length === 0) return;
 
-      const espacio = 15;
-      const desplazamiento = tarjetas[0].offsetWidth + espacio;
-      const maximo = carrusel.scrollWidth - carrusel.clientWidth;
-      let nuevaPosicion = carrusel.scrollLeft + desplazamiento * direccion;
+        const espacio = 15;
+        const desplazamiento = tarjetas[0].offsetWidth + espacio;
+        const maximo = carrusel.scrollWidth - carrusel.clientWidth;
+        let nuevaPosicion = carrusel.scrollLeft + desplazamiento * direccion;
 
-      if (nuevaPosicion > maximo + 5) nuevaPosicion = 0;
-      if (nuevaPosicion < -5) nuevaPosicion = maximo;
+        if (nuevaPosicion > maximo + 5) nuevaPosicion = 0;
+        if (nuevaPosicion < -5) nuevaPosicion = maximo;
 
-      carrusel.scrollTo({ left: nuevaPosicion, behavior: "smooth" });
-    }
+        carrusel.scrollTo({ left: nuevaPosicion, behavior: "smooth" });
+      }
 
-    if (carrusel && botonesCarrusel.length >= 2) {
       botonesCarrusel[0].addEventListener("click", () => moverCarrusel(-1));
       botonesCarrusel[1].addEventListener("click", () => moverCarrusel(1));
-    }
 
-    // --- 2. LÓGICA DEL GENERADOR DE PERSONAJES ---
-    const dieBlack = document.getElementById("die-black");
-    const dieWhite = document.getElementById("die-white");
+      const tablaTrophy = {
+        "1-1": { nombre: "Akaleh", occ: ["Anticuario", "artefactos, mitos, ofuscación"], bg: ["Escudero abandonado", "asistencia"] },
+        "1-2": { nombre: "Alina", occ: ["Artificiera", "alquimia, invención, trampas"], bg: ["Bailarina desterrada", "gracia"] },
+        "1-3": { nombre: "Aram", occ: ["Astrólogo", "estrellas, oscuridad, símbolos"], bg: ["Teriántropo curado", "transformación"] },
+        "1-4": { nombre: "Baso", occ: ["Herrero", "aguante, armas, metal"], bg: ["Sacerdote excomulgado", "augurios"] },
+        "1-5": { nombre: "Benah", occ: ["Guardaespaldas", "protección, rapidez, vigilancia"], bg: ["Viuda devota", "paciencia"] },
+        "1-6": { nombre: "Daian", occ: ["Vinculadora", "elementos, mando, rituales"], bg: ["Cortesana caída en desgracia", "adulación"] },
+        "2-1": { nombre: "Desarim", occ: ["Campeón", "ferocidad, mando, presencia"], bg: ["Noble desheredado", "tasación"] },
+        "2-2": { nombre: "Elisio", occ: ["Cocinero", "alimentos, improvisación, venenos"], bg: ["Buscador de ratas envalentonado", "guaridas"] },
+        "2-3": { nombre: "Esfahen", occ: ["Demonóloga", "demonios, negociación, triquiñuelas"], bg: ["Minera ilustrada", "orientación"] },
+        "2-4": { nombre: "Fion", occ: ["Geomante", "construcción, orientación, patrones"], bg: ["Caballero errante", "duelos"] },
+        "2-5": { nombre: "Foret", occ: ["Guía", "cazar, forrajear, orientación"], bg: ["Sectaria fugada", "engaño"] },
+        "2-6": { nombre: "Ifori", occ: ["Espiritista", "espíritus, improvisación, rituales"], bg: ["Aprendiz expulsada", "tradición"] },
+        "3-1": { nombre: "Inda", occ: ["Herborista", "percepción, plantas, remedios"], bg: ["Peregrina fracasada", "santos"] },
+        "3-2": { nombre: "Kasien", occ: ["Intercesor", "carisma, persistencia, rituales"], bg: ["Pastor irresponsable", "tranquilizar"] },
+        "3-3": { nombre: "Kel", occ: ["Creyente", "inocencia, sacrificio, rituales"], bg: ["Marinero en tierra", "cuerdas"] },
+        "3-4": { nombre: "Kiva", occ: ["Funambulista", "coordinación, equilibrio, precisión"], bg: ["Buhonera desventurada", "comercio"] },
+        "3-5": { nombre: "Lora", occ: ["Matasanos", "cirugía, deducción, sangre"], bg: ["Inquisidor herético", "secretos"] },
+        "3-6": { nombre: "Mahera", occ: ["Ladrona", "acrobacias, seguridad, silencio"], bg: ["Funcionaria desacreditada", "mentiras"] },
+        "4-1": { nombre: "Masero", occ: ["Prestidigitador", "interpretación, rituales, triquiñuelas"], bg: ["Barbero torpe", "heridas"] },
+        "4-2": { nombre: "Moradi", occ: ["Médium", "espíritus, fuerza de voluntad, vigilancia"], bg: ["Ballenera herida", "cacería"] },
+        "4-3": { nombre: "Neven", occ: ["Mercader", "concentración, persuasión, soborno"], bg: ["Prisionera liberada", "tratos"] },
+        "4-4": { nombre: "Nima", occ: ["Naturalista", "bestias, plantas, silencio"], bg: ["Niña perdida", "esconderse"] },
+        "4-5": { nombre: "Obeha", occ: ["Colmena", "alimañas, coordinación, rituales"], bg: ["Inocente seducido", "tentación"] },
+        "4-6": { nombre: "Orlen", occ: ["Oráculo", "interpretación, trances, rituales"], bg: ["Ladrón de tumbas oportunista", "muerte"] },
+        "5-1": { nombre: "Osto", occ: ["Toro", "destrucción, fuerza, resistencia"], bg: ["Trabajador oprimido", "rebelión"] },
+        "5-2": { nombre: "Parda", occ: ["Poeta", "pasión, persuasión, rituales"], bg: ["Maniquí animada huérfana", "imitación"] },
+        "5-3": { nombre: "Pela", occ: ["Exploradora", "bestias, cacerías, trampas"], bg: ["Granjera azotada por la plaga", "corrupción"] },
+        "5-4": { nombre: "Rasei", occ: ["Mercenario", "atletismo, defensa, sorpresa"], bg: ["Prestamista imprudente", "ambición"] },
+        "5-5": { nombre: "Revel", occ: ["Contrabandista", "destreza, espontaneidad, sigilo"], bg: ["Matón reformado", "intimidación"] },
+        "5-6": { nombre: "Sareh", occ: ["Serpiente", "carisma, interpretación, triquiñuelas"], bg: ["Soldado jubilada", "tácticas"] },
+        "6-1": { nombre: "Sibil", occ: ["Hechicera", "alquimia, símbolos, rituales"], bg: ["Guardia real renegada", "rastrear"] },
+        "6-2": { nombre: "Talia", occ: ["Trampera", "alimañas, sorpresas, trampas"], bg: ["Copera traicionera", "traición"] },
+        "6-3": { nombre: "Teodan", occ: ["Recipiente", "atracción, rendición, rituales"], bg: ["Artesano sin inspiración", "fabricación"] },
+        "6-4": { nombre: "Toram", occ: ["Bruja", "hogar, plantas, rituales"], bg: ["Hada desenmascarada", "ilusiones"] },
+        "6-5": { nombre: "Valen", occ: ["Leñador", "bestias, fuerza, orientación"], bg: ["Príncipe usurpado", "mando"] },
+        "6-6": { nombre: "Vero", occ: ["Zelote", "fuerza, interrogatorio, rituales"], bg: ["Refugiada errante", "disfraz"] }
+      };
 
-    const tablaTrophy = {
-      "1-1": { nombre: "Akaleh", occ: ["Anticuario", "artefactos, mitos, ofuscación"], bg: ["Escudero abandonado", "asistencia"] },
-      "1-2": { nombre: "Alina", occ: ["Artificiera", "alquimia, invención, trampas"], bg: ["Bailarina desterrada", "gracia"] },
-      "1-3": { nombre: "Aram", occ: ["Astrólogo", "estrellas, oscuridad, símbolos"], bg: ["Teriántropo curado", "transformación"] },
-      "1-4": { nombre: "Baso", occ: ["Herrero", "aguante, armas, metal"], bg: ["Sacerdote excomulgado", "augurios"] },
-      "1-5": { nombre: "Benah", occ: ["Guardaespaldas", "protección, rapidez, vigilancia"], bg: ["Viuda devota", "paciencia"] },
-      "1-6": { nombre: "Daian", occ: ["Vinculadora", "elementos, mando, rituales"], bg: ["Cortesana caída en desgracia", "adulación"] },
-      "2-1": { nombre: "Desarim", occ: ["Campeón", "ferocidad, mando, presencia"], bg: ["Noble desheredado", "tasación"] },
-      "2-2": { nombre: "Elisio", occ: ["Cocinero", "alimentos, improvisación, venenos"], bg: ["Buscador de ratas envalentonado", "guaridas"] },
-      "2-3": { nombre: "Esfahen", occ: ["Demonóloga", "demonios, negociación, triquiñuelas"], bg: ["Minera ilustrada", "orientación"] },
-      "2-4": { nombre: "Fion", occ: ["Geomante", "construcción, orientación, patrones"], bg: ["Caballero errante", "duelos"] },
-      "2-5": { nombre: "Foret", occ: ["Guía", "cazar, forrajear, orientación"], bg: ["Sectaria fugada", "engaño"] },
-      "2-6": { nombre: "Ifori", occ: ["Espiritista", "espíritus, improvisación, rituales"], bg: ["Aprendiz expulsada", "tradición"] },
-      "3-1": { nombre: "Inda", occ: ["Herborista", "percepción, plantas, remedios"], bg: ["Peregrina fracasada", "santos"] },
-      "3-2": { nombre: "Kasien", occ: ["Intercesor", "carisma, persistencia, rituales"], bg: ["Pastor irresponsable", "tranquilizar"] },
-      "3-3": { nombre: "Kel", occ: ["Creyente", "inocencia, sacrificio, rituales"], bg: ["Marinero en tierra", "cuerdas"] },
-      "3-4": { nombre: "Kiva", occ: ["Funambulista", "coordinación, equilibrio, precisión"], bg: ["Buhonera desventurada", "comercio"] },
-      "3-5": { nombre: "Lora", occ: ["Matasanos", "cirugía, deducción, sangre"], bg: ["Inquisidor herético", "secretos"] },
-      "3-6": { nombre: "Mahera", occ: ["Ladrona", "acrobacias, seguridad, silencio"], bg: ["Funcionaria desacreditada", "mentiras"] },
-      "4-1": { nombre: "Masero", occ: ["Prestidigitador", "interpretación, rituales, triquiñuelas"], bg: ["Barbero torpe", "heridas"] },
-      "4-2": { nombre: "Moradi", occ: ["Médium", "espíritus, fuerza de voluntad, vigilancia"], bg: ["Ballenera herida", "cacería"] },
-      "4-3": { nombre: "Neven", occ: ["Mercader", "concentración, persuasión, soborno"], bg: ["Prisionera liberada", "tratos"] },
-      "4-4": { nombre: "Nima", occ: ["Naturalista", "bestias, plantas, silencio"], bg: ["Niña perdida", "esconderse"] },
-      "4-5": { nombre: "Obeha", occ: ["Colmena", "alimañas, coordinación, rituales"], bg: ["Inocente seducido", "tentación"] },
-      "4-6": { nombre: "Orlen", occ: ["Oráculo", "interpretación, trances, rituales"], bg: ["Ladrón de tumbas oportunista", "muerte"] },
-      "5-1": { nombre: "Osto", occ: ["Toro", "destrucción, fuerza, resistencia"], bg: ["Trabajador oprimido", "rebelión"] },
-      "5-2": { nombre: "Parda", occ: ["Poeta", "pasión, persuasión, rituales"], bg: ["Maniquí animada huérfana", "imitación"] },
-      "5-3": { nombre: "Pela", occ: ["Exploradora", "bestias, cacerías, trampas"], bg: ["Granjera azotada por la plaga", "corrupción"] },
-      "5-4": { nombre: "Rasei", occ: ["Mercenario", "atletismo, defensa, sorpresa"], bg: ["Prestamista imprudente", "ambición"] },
-      "5-5": { nombre: "Revel", occ: ["Contrabandista", "destreza, espontaneidad, sigilo"], bg: ["Matón reformado", "intimidación"] },
-      "5-6": { nombre: "Sareh", occ: ["Serpiente", "carisma, interpretación, triquiñuelas"], bg: ["Soldado jubilada", "tácticas"] },
-      "6-1": { nombre: "Sibil", occ: ["Hechicera", "alquimia, símbolos, rituales"], bg: ["Guardia real renegada", "rastrear"] },
-      "6-2": { nombre: "Talia", occ: ["Trampera", "alimañas, sorpresas, trampas"], bg: ["Copera traicionera", "traición"] },
-      "6-3": { nombre: "Teodan", occ: ["Recipiente", "atracción, rendición, rituales"], bg: ["Artesano sin inspiración", "fabricación"] },
-      "6-4": { nombre: "Toram", occ: ["Bruja", "hogar, plantas, rituales"], bg: ["Hada desenmascarada", "ilusiones"] },
-      "6-5": { nombre: "Valen", occ: ["Leñador", "bestias, fuerza, orientación"], bg: ["Príncipe usurpado", "mando"] },
-      "6-6": { nombre: "Vero", occ: ["Zelote", "fuerza, interrogatorio, rituales"], bg: ["Refugiada errante", "disfraz"] }
-    };
+      function tirarDados() {
+        const negro = Math.floor(Math.random() * 6) + 1;
+        const blanco = Math.floor(Math.random() * 6) + 1;
 
-    let tirando = false;
+        [dieBlack, dieWhite].forEach((dado) => {
+          dado.classList.remove("rolling");
+          void dado.offsetWidth;
+          dado.classList.add("rolling");
+        });
 
-    function lanzarDados(callback) {
-      if (tirando) return;
-      tirando = true;
-
-      const negro = Math.floor(Math.random() * 6) + 1;
-      const blanco = Math.floor(Math.random() * 6) + 1;
-
-      [dieBlack, dieWhite].forEach((dado) => {
-        dado.classList.remove("rolling");
-        void dado.offsetWidth;
-        dado.classList.add("rolling");
-      });
-
-      const intervalo = setInterval(() => {
-        dieBlack.setAttribute("data-face", Math.floor(Math.random() * 6) + 1);
-        dieWhite.setAttribute("data-face", Math.floor(Math.random() * 6) + 1);
-      }, 65);
-
-      setTimeout(() => {
-        clearInterval(intervalo);
         dieBlack.setAttribute("data-face", negro);
         dieWhite.setAttribute("data-face", blanco);
-        dieBlack.setAttribute("aria-label", `Dado negro: ${negro}`);
-        dieWhite.setAttribute("aria-label", `Dado blanco: ${blanco}`);
 
         const clave = `${negro}-${blanco}`;
-        callback({ negro, blanco, fila: tablaTrophy[clave] });
-        tirando = false;
-      }, 480);
-    }
+        return { negro, blanco, fila: tablaTrophy[clave] };
+      }
 
-    function destacarTarjeta(elementId) {
-      const tarjeta = document.getElementById(elementId).closest(".result-card");
-      if (!tarjeta) return;
-      tarjeta.classList.remove("updated");
-      void tarjeta.offsetWidth;
-      tarjeta.classList.add("updated");
-    }
+      function actualizarOcupacion(tirada) {
+        document.getElementById("roll-occ-code").textContent = `(Oscuro ${tirada.negro} · Claro ${tirada.blanco})`;
+        document.getElementById("res-occ").innerHTML = `<strong>${tirada.fila.occ[0]}:</strong> <em>${tirada.fila.occ[1]}.</em>`;
+      }
 
-    function actualizarOcupacion(tirada) {
-      document.getElementById("roll-occ-code").textContent = `(Oscuro ${tirada.negro} · Claro ${tirada.blanco})`;
-      document.getElementById("res-occ").innerHTML = `<strong>${tirada.fila.occ[0]}:</strong> <em>${tirada.fila.occ[1]}.</em>`;
-      destacarTarjeta("res-occ");
-    }
+      function actualizarTrasfondo(tirada) {
+        document.getElementById("roll-bg-code").textContent = `(Oscuro ${tirada.negro} · Claro ${tirada.blanco})`;
+        document.getElementById("res-bg").innerHTML = `<strong>${tirada.fila.bg[0]}:</strong> <em>${tirada.fila.bg[1]}.</em>`;
+      }
 
-    function actualizarTrasfondo(tirada) {
-      document.getElementById("roll-bg-code").textContent = `(Oscuro ${tirada.negro} · Claro ${tirada.blanco})`;
-      document.getElementById("res-bg").innerHTML = `<strong>${tirada.fila.bg[0]}:</strong> <em>${tirada.fila.bg[1]}.</em>`;
-      destacarTarjeta("res-bg");
-    }
+      function actualizarNombre(tirada) {
+        document.getElementById("roll-name-code").textContent = `(Oscuro ${tirada.negro} · Claro ${tirada.blanco})`;
+        document.getElementById("res-name").innerHTML = `<strong>${tirada.fila.nombre}</strong>`;
+      }
 
-    function actualizarNombre(tirada) {
-      document.getElementById("roll-name-code").textContent = `(Oscuro ${tirada.negro} · Claro ${tirada.blanco})`;
-      document.getElementById("res-name").innerHTML = `<strong>${tirada.fila.nombre}</strong>`;
-      destacarTarjeta("res-name");
-    }
+      document.getElementById("btn-roll-occ").addEventListener("click", () => {
+        actualizarOcupacion(tirarDados());
+      });
 
-    document.getElementById("btn-roll-occ").addEventListener("click", () => {
-      lanzarDados(actualizarOcupacion);
-    });
+      document.getElementById("btn-roll-bg").addEventListener("click", () => {
+        actualizarTrasfondo(tirarDados());
+      });
 
-    document.getElementById("btn-roll-bg").addEventListener("click", () => {
-      lanzarDados(actualizarTrasfondo);
-    });
+      document.getElementById("btn-roll-name").addEventListener("click", () => {
+        actualizarNombre(tirarDados());
+      });
 
-    document.getElementById("btn-roll-name").addEventListener("click", () => {
-      lanzarDados(actualizarNombre);
-    });
-
-    document.getElementById("btn-roll-all").addEventListener("click", () => {
-      lanzarDados((tirada) => {
+      document.getElementById("btn-roll-all").addEventListener("click", () => {
+        const tirada = tirarDados();
         actualizarOcupacion(tirada);
         actualizarTrasfondo(tirada);
         actualizarNombre(tirada);
       });
     });
-  });
-</script>
+  </script>
 
 </body>
 </html>
