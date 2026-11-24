@@ -488,6 +488,132 @@
       color: var(--accent-color);
     }
 
+    /* --- CAPA OSCURA Y DADOS 3D EN EL CENTRO DE LA PANTALLA --- */
+.dice-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(8, 8, 8, 0.86);
+  backdrop-filter: blur(4px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 28px;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.dice-modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.dice-arena {
+  display: flex;
+  gap: 55px;
+  perspective: 900px;
+}
+
+.cube-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.cube-label {
+  color: var(--muted-text, #aaa49b);
+  font-size: 0.85em;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.cube-die {
+  width: 88px;
+  height: 88px;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 1.15s cubic-bezier(0.16, 0.88, 0.3, 1.04);
+}
+
+.cube-face {
+  position: absolute;
+  width: 88px;
+  height: 88px;
+  border-radius: 14px;
+  padding: 13px;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  place-items: center;
+  backface-visibility: hidden;
+}
+
+/* Estilo Dado Oscuro */
+.cube-black .cube-face {
+  background: radial-gradient(circle at 30% 30%, #24211e, var(--black-die-color, #0d0d0d));
+  border: 2px solid #46403a;
+  box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.85);
+}
+
+.cube-black .cube-pip {
+  background: var(--text-color, #e5e0d8);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* Estilo Dado Claro */
+.cube-white .cube-face {
+  background: radial-gradient(circle at 30% 30%, #f2ede4, var(--text-color, #dcd5c9));
+  border: 2px solid var(--bone-color, #9e968b);
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.25);
+}
+
+.cube-white .cube-pip {
+  background: var(--dark-pip-color, #141414);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.cube-pip {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+}
+
+/* Posición 3D de las 6 caras (mitad de 88px = 44px) */
+.face-1 { transform: rotateY(0deg) translateZ(44px); }
+.face-6 { transform: rotateY(180deg) translateZ(44px); }
+.face-3 { transform: rotateY(90deg) translateZ(44px); }
+.face-4 { transform: rotateY(-90deg) translateZ(44px); }
+.face-5 { transform: rotateX(90deg) translateZ(44px); }
+.face-2 { transform: rotateX(-90deg) translateZ(44px); }
+
+/* Distribución de puntos en cada cara */
+.face-1 .cube-pip:nth-child(1) { grid-area: 2 / 2; }
+.face-2 .cube-pip:nth-child(1) { grid-area: 1 / 3; }
+.face-2 .cube-pip:nth-child(2) { grid-area: 3 / 1; }
+.face-3 .cube-pip:nth-child(1) { grid-area: 1 / 3; }
+.face-3 .cube-pip:nth-child(2) { grid-area: 2 / 2; }
+.face-3 .cube-pip:nth-child(3) { grid-area: 3 / 1; }
+.face-4 .cube-pip:nth-child(1) { grid-area: 1 / 1; }
+.face-4 .cube-pip:nth-child(2) { grid-area: 1 / 3; }
+.face-4 .cube-pip:nth-child(3) { grid-area: 3 / 1; }
+.face-4 .cube-pip:nth-child(4) { grid-area: 3 / 3; }
+.face-5 .cube-pip:nth-child(1) { grid-area: 1 / 1; }
+.face-5 .cube-pip:nth-child(2) { grid-area: 1 / 3; }
+.face-5 .cube-pip:nth-child(3) { grid-area: 2 / 2; }
+.face-5 .cube-pip:nth-child(4) { grid-area: 3 / 1; }
+.face-5 .cube-pip:nth-child(5) { grid-area: 3 / 3; }
+.face-6 .cube-pip:nth-child(1) { grid-area: 1 / 1; }
+.face-6 .cube-pip:nth-child(2) { grid-area: 1 / 3; }
+.face-6 .cube-pip:nth-child(3) { grid-area: 2 / 1; }
+.face-6 .cube-pip:nth-child(4) { grid-area: 2 / 3; }
+.face-6 .cube-pip:nth-child(5) { grid-area: 3 / 1; }
+.face-6 .cube-pip:nth-child(6) { grid-area: 3 / 3; }
+
+
     /* =========================================================
        Recomendaciones y carrusel
        ========================================================= */
@@ -935,122 +1061,188 @@
     </div>
   </section>
 
- <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const carrusel = document.getElementById("carrusel");
-      const botonesCarrusel = document.querySelectorAll(".carrusel-controles button");
-      const dieBlack = document.getElementById("die-black");
-      const dieWhite = document.getElementById("die-white");
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    // --- 1. LÓGICA DEL CARRUSEL ---
+    const carrusel = document.getElementById("carrusel");
+    const botonesCarrusel = document.querySelectorAll(".carrusel-controles button");
 
-      function moverCarrusel(direccion) {
-        const tarjetas = carrusel.querySelectorAll(".tarjeta-recomendacion");
-        if (tarjetas.length === 0) return;
+    function moverCarrusel(direccion) {
+      const primeraTarjeta = carrusel.querySelector(".tarjeta-recomendacion");
+      if (!primeraTarjeta) return;
 
-        const espacio = 15;
-        const desplazamiento = tarjetas[0].offsetWidth + espacio;
-        const maximo = carrusel.scrollWidth - carrusel.clientWidth;
-        let nuevaPosicion = carrusel.scrollLeft + desplazamiento * direccion;
+      const espacio = 15;
+      const desplazamiento = primeraTarjeta.offsetWidth + espacio;
+      const maximo = carrusel.scrollWidth - carrusel.clientWidth;
+      let nuevaPosicion = carrusel.scrollLeft + desplazamiento * direccion;
 
-        if (nuevaPosicion > maximo + 5) nuevaPosicion = 0;
-        if (nuevaPosicion < -5) nuevaPosicion = maximo;
+      if (nuevaPosicion > maximo + 5) nuevaPosicion = 0;
+      if (nuevaPosicion < -5) nuevaPosicion = maximo;
 
-        carrusel.scrollTo({ left: nuevaPosicion, behavior: "smooth" });
+      carrusel.scrollTo({ left: nuevaPosicion, behavior: "smooth" });
+    }
+
+    if (carrusel && botonesCarrusel.length >= 2) {
+      botonesCarrusel.item(0).addEventListener("click", () => moverCarrusel(-1));
+      botonesCarrusel.item(1).addEventListener("click", () => moverCarrusel(1));
+    }
+
+    // --- 2. CREACIÓN AUTOMÁTICA DEL ESCENARIO 3D ---
+    function crearHTMLCubo(id, claseColor) {
+      let caras = "";
+      for (let i = 1; i <= 6; i++) {
+        const puntos = '<span class="cube-pip"></span>'.repeat(i);
+        caras += `<div class="cube-face face-${i}">${puntos}</div>`;
       }
+      return `<div id="${id}" class="cube-die ${claseColor}">${caras}</div>`;
+    }
 
-      botonesCarrusel[0].addEventListener("click", () => moverCarrusel(-1));
-      botonesCarrusel[1].addEventListener("click", () => moverCarrusel(1));
+    const overlay = document.createElement("div");
+    overlay.className = "dice-modal-overlay";
+    overlay.innerHTML = `
+      <div class="dice-arena">
+        <div class="cube-wrapper">
+          ${crearHTMLCubo("cube-black", "cube-black")}
+          <span class="cube-label">Dado Oscuro</span>
+        </div>
+        <div class="cube-wrapper">
+          ${crearHTMLCubo("cube-white", "cube-white")}
+          <span class="cube-label">Dado Claro</span>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(overlay);
 
-      const tablaTrophy = {
-        "1-1": { nombre: "Akaleh", occ: ["Anticuario", "artefactos, mitos, ofuscación"], bg: ["Escudero abandonado", "asistencia"] },
-        "1-2": { nombre: "Alina", occ: ["Artificiera", "alquimia, invención, trampas"], bg: ["Bailarina desterrada", "gracia"] },
-        "1-3": { nombre: "Aram", occ: ["Astrólogo", "estrellas, oscuridad, símbolos"], bg: ["Teriántropo curado", "transformación"] },
-        "1-4": { nombre: "Baso", occ: ["Herrero", "aguante, armas, metal"], bg: ["Sacerdote excomulgado", "augurios"] },
-        "1-5": { nombre: "Benah", occ: ["Guardaespaldas", "protección, rapidez, vigilancia"], bg: ["Viuda devota", "paciencia"] },
-        "1-6": { nombre: "Daian", occ: ["Vinculadora", "elementos, mando, rituales"], bg: ["Cortesana caída en desgracia", "adulación"] },
-        "2-1": { nombre: "Desarim", occ: ["Campeón", "ferocidad, mando, presencia"], bg: ["Noble desheredado", "tasación"] },
-        "2-2": { nombre: "Elisio", occ: ["Cocinero", "alimentos, improvisación, venenos"], bg: ["Buscador de ratas envalentonado", "guaridas"] },
-        "2-3": { nombre: "Esfahen", occ: ["Demonóloga", "demonios, negociación, triquiñuelas"], bg: ["Minera ilustrada", "orientación"] },
-        "2-4": { nombre: "Fion", occ: ["Geomante", "construcción, orientación, patrones"], bg: ["Caballero errante", "duelos"] },
-        "2-5": { nombre: "Foret", occ: ["Guía", "cazar, forrajear, orientación"], bg: ["Sectaria fugada", "engaño"] },
-        "2-6": { nombre: "Ifori", occ: ["Espiritista", "espíritus, improvisación, rituales"], bg: ["Aprendiz expulsada", "tradición"] },
-        "3-1": { nombre: "Inda", occ: ["Herborista", "percepción, plantas, remedios"], bg: ["Peregrina fracasada", "santos"] },
-        "3-2": { nombre: "Kasien", occ: ["Intercesor", "carisma, persistencia, rituales"], bg: ["Pastor irresponsable", "tranquilizar"] },
-        "3-3": { nombre: "Kel", occ: ["Creyente", "inocencia, sacrificio, rituales"], bg: ["Marinero en tierra", "cuerdas"] },
-        "3-4": { nombre: "Kiva", occ: ["Funambulista", "coordinación, equilibrio, precisión"], bg: ["Buhonera desventurada", "comercio"] },
-        "3-5": { nombre: "Lora", occ: ["Matasanos", "cirugía, deducción, sangre"], bg: ["Inquisidor herético", "secretos"] },
-        "3-6": { nombre: "Mahera", occ: ["Ladrona", "acrobacias, seguridad, silencio"], bg: ["Funcionaria desacreditada", "mentiras"] },
-        "4-1": { nombre: "Masero", occ: ["Prestidigitador", "interpretación, rituales, triquiñuelas"], bg: ["Barbero torpe", "heridas"] },
-        "4-2": { nombre: "Moradi", occ: ["Médium", "espíritus, fuerza de voluntad, vigilancia"], bg: ["Ballenera herida", "cacería"] },
-        "4-3": { nombre: "Neven", occ: ["Mercader", "concentración, persuasión, soborno"], bg: ["Prisionera liberada", "tratos"] },
-        "4-4": { nombre: "Nima", occ: ["Naturalista", "bestias, plantas, silencio"], bg: ["Niña perdida", "esconderse"] },
-        "4-5": { nombre: "Obeha", occ: ["Colmena", "alimañas, coordinación, rituales"], bg: ["Inocente seducido", "tentación"] },
-        "4-6": { nombre: "Orlen", occ: ["Oráculo", "interpretación, trances, rituales"], bg: ["Ladrón de tumbas oportunista", "muerte"] },
-        "5-1": { nombre: "Osto", occ: ["Toro", "destrucción, fuerza, resistencia"], bg: ["Trabajador oprimido", "rebelión"] },
-        "5-2": { nombre: "Parda", occ: ["Poeta", "pasión, persuasión, rituales"], bg: ["Maniquí animada huérfana", "imitación"] },
-        "5-3": { nombre: "Pela", occ: ["Exploradora", "bestias, cacerías, trampas"], bg: ["Granjera azotada por la plaga", "corrupción"] },
-        "5-4": { nombre: "Rasei", occ: ["Mercenario", "atletismo, defensa, sorpresa"], bg: ["Prestamista imprudente", "ambición"] },
-        "5-5": { nombre: "Revel", occ: ["Contrabandista", "destreza, espontaneidad, sigilo"], bg: ["Matón reformado", "intimidación"] },
-        "5-6": { nombre: "Sareh", occ: ["Serpiente", "carisma, interpretación, triquiñuelas"], bg: ["Soldado jubilada", "tácticas"] },
-        "6-1": { nombre: "Sibil", occ: ["Hechicera", "alquimia, símbolos, rituales"], bg: ["Guardia real renegada", "rastrear"] },
-        "6-2": { nombre: "Talia", occ: ["Trampera", "alimañas, sorpresas, trampas"], bg: ["Copera traicionera", "traición"] },
-        "6-3": { nombre: "Teodan", occ: ["Recipiente", "atracción, rendición, rituales"], bg: ["Artesano sin inspiración", "fabricación"] },
-        "6-4": { nombre: "Toram", occ: ["Bruja", "hogar, plantas, rituales"], bg: ["Hada desenmascarada", "ilusiones"] },
-        "6-5": { nombre: "Valen", occ: ["Leñador", "bestias, fuerza, orientación"], bg: ["Príncipe usurpado", "mando"] },
-        "6-6": { nombre: "Vero", occ: ["Zelote", "fuerza, interrogatorio, rituales"], bg: ["Refugiada errante", "disfraz"] }
-      };
+    const cubeBlack = document.getElementById("cube-black");
+    const cubeWhite = document.getElementById("cube-white");
+    const dieBlackMini = document.getElementById("die-black");
+    const dieWhiteMini = document.getElementById("die-white");
 
-      function tirarDados() {
-        const negro = Math.floor(Math.random() * 6) + 1;
-        const blanco = Math.floor(Math.random() * 6) + 1;
+    const rotacionesCaras = {
+      1: { x: 0, y: 0 },
+      2: { x: 90, y: 0 },
+      3: { x: 0, y: -90 },
+      4: { x: 0, y: 90 },
+      5: { x: -90, y: 0 },
+      6: { x: 0, y: 180 }
+    };
 
-        [dieBlack, dieWhite].forEach((dado) => {
-          dado.classList.remove("rolling");
-          void dado.offsetWidth;
-          dado.classList.add("rolling");
-        });
+    const tablaTrophy = {
+      "1-1": { nombre: "Akaleh", occ: ["Anticuario", "artefactos, mitos, ofuscación"], bg: ["Escudero abandonado", "asistencia"] },
+      "1-2": { nombre: "Alina", occ: ["Artificiera", "alquimia, invención, trampas"], bg: ["Bailarina desterrada", "gracia"] },
+      "1-3": { nombre: "Aram", occ: ["Astrólogo", "estrellas, oscuridad, símbolos"], bg: ["Teriántropo curado", "transformación"] },
+      "1-4": { nombre: "Baso", occ: ["Herrero", "aguante, armas, metal"], bg: ["Sacerdote excomulgado", "augurios"] },
+      "1-5": { nombre: "Benah", occ: ["Guardaespaldas", "protección, rapidez, vigilancia"], bg: ["Viuda devota", "paciencia"] },
+      "1-6": { nombre: "Daian", occ: ["Vinculadora", "elementos, mando, rituales"], bg: ["Cortesana caída en desgracia", "adulación"] },
+      "2-1": { nombre: "Desarim", occ: ["Campeón", "ferocidad, mando, presencia"], bg: ["Noble desheredado", "tasación"] },
+      "2-2": { nombre: "Elisio", occ: ["Cocinero", "alimentos, improvisación, venenos"], bg: ["Buscador de ratas envalentonado", "guaridas"] },
+      "2-3": { nombre: "Esfahen", occ: ["Demonóloga", "demonios, negociación, triquiñuelas"], bg: ["Minera ilustrada", "orientación"] },
+      "2-4": { nombre: "Fion", occ: ["Geomante", "construcción, orientación, patrones"], bg: ["Caballero errante", "duelos"] },
+      "2-5": { nombre: "Foret", occ: ["Guía", "cazar, forrajear, orientación"], bg: ["Sectaria fugada", "engaño"] },
+      "2-6": { nombre: "Ifori", occ: ["Espiritista", "espíritus, improvisación, rituales"], bg: ["Aprendiz expulsada", "tradición"] },
+      "3-1": { nombre: "Inda", occ: ["Herborista", "percepción, plantas, remedios"], bg: ["Peregrina fracasada", "santos"] },
+      "3-2": { nombre: "Kasien", occ: ["Intercesor", "carisma, persistencia, rituales"], bg: ["Pastor irresponsable", "tranquilizar"] },
+      "3-3": { nombre: "Kel", occ: ["Creyente", "inocencia, sacrificio, rituales"], bg: ["Marinero en tierra", "cuerdas"] },
+      "3-4": { nombre: "Kiva", occ: ["Funambulista", "coordinación, equilibrio, precisión"], bg: ["Buhonera desventurada", "comercio"] },
+      "3-5": { nombre: "Lora", occ: ["Matasanos", "cirugía, deducción, sangre"], bg: ["Inquisidor herético", "secretos"] },
+      "3-6": { nombre: "Mahera", occ: ["Ladrona", "acrobacias, seguridad, silencio"], bg: ["Funcionaria desacreditada", "mentiras"] },
+      "4-1": { nombre: "Masero", occ: ["Prestidigitador", "interpretación, rituales, triquiñuelas"], bg: ["Barbero torpe", "heridas"] },
+      "4-2": { nombre: "Moradi", occ: ["Médium", "espíritus, fuerza de voluntad, vigilancia"], bg: ["Ballenera herida", "cacería"] },
+      "4-3": { nombre: "Neven", occ: ["Mercader", "concentración, persuasión, soborno"], bg: ["Prisionera liberada", "tratos"] },
+      "4-4": { nombre: "Nima", occ: ["Naturalista", "bestias, plantas, silencio"], bg: ["Niña perdida", "esconderse"] },
+      "4-5": { nombre: "Obeha", occ: ["Colmena", "alimañas, coordinación, rituales"], bg: ["Inocente seducido", "tentación"] },
+      "4-6": { nombre: "Orlen", occ: ["Oráculo", "interpretación, trances, rituales"], bg: ["Ladrón de tumbas oportunista", "muerte"] },
+      "5-1": { nombre: "Osto", occ: ["Toro", "destrucción, fuerza, resistencia"], bg: ["Trabajador oprimido", "rebelión"] },
+      "5-2": { nombre: "Parda", occ: ["Poeta", "pasión, persuasión, rituales"], bg: ["Maniquí animada huérfana", "imitación"] },
+      "5-3": { nombre: "Pela", occ: ["Exploradora", "bestias, cacerías, trampas"], bg: ["Granjera azotada por la plaga", "corrupción"] },
+      "5-4": { nombre: "Rasei", occ: ["Mercenario", "atletismo, defensa, sorpresa"], bg: ["Prestamista imprudente", "ambición"] },
+      "5-5": { nombre: "Revel", occ: ["Contrabandista", "destreza, espontaneidad, sigilo"], bg: ["Matón reformado", "intimidación"] },
+      "5-6": { nombre: "Sareh", occ: ["Serpiente", "carisma, interpretación, triquiñuelas"], bg: ["Soldado jubilada", "tácticas"] },
+      "6-1": { nombre: "Sibil", occ: ["Hechicera", "alquimia, símbolos, rituales"], bg: ["Guardia real renegada", "rastrear"] },
+      "6-2": { nombre: "Talia", occ: ["Trampera", "alimañas, sorpresas, trampas"], bg: ["Copera traicionera", "traición"] },
+      "6-3": { nombre: "Teodan", occ: ["Recipiente", "atracción, rendición, rituales"], bg: ["Artesano sin inspiración", "fabricación"] },
+      "6-4": { nombre: "Toram", occ: ["Bruja", "hogar, plantas, rituales"], bg: ["Hada desenmascarada", "ilusiones"] },
+      "6-5": { nombre: "Valen", occ: ["Leñador", "bestias, fuerza, orientación"], bg: ["Príncipe usurpado", "mando"] },
+      "6-6": { nombre: "Vero", occ: ["Zelote", "fuerza, interrogatorio, rituales"], bg: ["Refugiada errante", "disfraz"] }
+    };
+    let tirando = false;
 
-        dieBlack.setAttribute("data-face", negro);
-        dieWhite.setAttribute("data-face", blanco);
+    function lanzarDados(callback) {
+      if (tirando) return;
+      tirando = true;
+
+      const negro = Math.floor(Math.random() * 6) + 1;
+      const blanco = Math.floor(Math.random() * 6) + 1;
+
+      cubeBlack.style.transition = "none";
+      cubeWhite.style.transition = "none";
+      cubeBlack.style.transform = "translate3d(-90px, 140px, 120px) rotateX(0deg) rotateY(0deg) rotateZ(-45deg)";
+      cubeWhite.style.transform = "translate3d(90px, 140px, 120px) rotateX(0deg) rotateY(0deg) rotateZ(45deg)";
+
+      overlay.classList.add("active");
+      void cubeBlack.offsetWidth;
+
+      const rotNegro = rotacionesCaras[negro];
+      const rotBlanco = rotacionesCaras[blanco];
+
+      cubeBlack.style.transition = "transform 1.15s cubic-bezier(0.16, 0.88, 0.3, 1.04)";
+      cubeWhite.style.transition = "transform 1.15s cubic-bezier(0.16, 0.88, 0.3, 1.04)";
+
+      cubeBlack.style.transform = `translate3d(0, 0, 0) rotateX(${rotNegro.x + 720}deg) rotateY(${rotNegro.y + 1080}deg) rotateZ(0deg)`;
+      cubeWhite.style.transform = `translate3d(0, 0, 0) rotateX(${rotBlanco.x - 720}deg) rotateY(${rotBlanco.y - 1080}deg) rotateZ(0deg)`;
+
+      setTimeout(() => {
+        if (dieBlackMini) dieBlackMini.setAttribute("data-face", negro);
+        if (dieWhiteMini) dieWhiteMini.setAttribute("data-face", blanco);
 
         const clave = `${negro}-${blanco}`;
-        return { negro, blanco, fila: tablaTrophy[clave] };
-      }
+        callback({ negro, blanco, fila: tablaTrophy[clave] });
+      }, 1150);
 
-      function actualizarOcupacion(tirada) {
-        document.getElementById("roll-occ-code").textContent = `(Oscuro ${tirada.negro} · Claro ${tirada.blanco})`;
-        document.getElementById("res-occ").innerHTML = `<strong>${tirada.fila.occ[0]}:</strong> <em>${tirada.fila.occ[1]}.</em>`;
-      }
+      setTimeout(() => {
+        overlay.classList.remove("active");
+        tirando = false;
+      }, 1800);
+    }
 
-      function actualizarTrasfondo(tirada) {
-        document.getElementById("roll-bg-code").textContent = `(Oscuro ${tirada.negro} · Claro ${tirada.blanco})`;
-        document.getElementById("res-bg").innerHTML = `<strong>${tirada.fila.bg[0]}:</strong> <em>${tirada.fila.bg[1]}.</em>`;
-      }
+    function actualizarOcupacion(tirada) {
+      const [titulo, habilidades] = tirada.fila.occ;
+      document.getElementById("roll-occ-code").textContent = `(Oscuro ${tirada.negro} · Claro ${tirada.blanco})`;
+      document.getElementById("res-occ").innerHTML = `<strong>${titulo}:</strong> <em>${habilidades}.</em>`;
+    }
 
-      function actualizarNombre(tirada) {
-        document.getElementById("roll-name-code").textContent = `(Oscuro ${tirada.negro} · Claro ${tirada.blanco})`;
-        document.getElementById("res-name").innerHTML = `<strong>${tirada.fila.nombre}</strong>`;
-      }
+    function actualizarTrasfondo(tirada) {
+      const [titulo, habilidad] = tirada.fila.bg;
+      document.getElementById("roll-bg-code").textContent = `(Oscuro ${tirada.negro} · Claro ${tirada.blanco})`;
+      document.getElementById("res-bg").innerHTML = `<strong>${titulo}:</strong> <em>${habilidad}.</em>`;
+    }
 
-      document.getElementById("btn-roll-occ").addEventListener("click", () => {
-        actualizarOcupacion(tirarDados());
-      });
+    function actualizarNombre(tirada) {
+      document.getElementById("roll-name-code").textContent = `(Oscuro ${tirada.negro} · Claro ${tirada.blanco})`;
+      document.getElementById("res-name").innerHTML = `<strong>${tirada.fila.nombre}</strong>`;
+    }
 
-      document.getElementById("btn-roll-bg").addEventListener("click", () => {
-        actualizarTrasfondo(tirarDados());
-      });
+    document.getElementById("btn-roll-occ").addEventListener("click", () => {
+      lanzarDados(actualizarOcupacion);
+    });
 
-      document.getElementById("btn-roll-name").addEventListener("click", () => {
-        actualizarNombre(tirarDados());
-      });
+    document.getElementById("btn-roll-bg").addEventListener("click", () => {
+      lanzarDados(actualizarTrasfondo);
+    });
 
-      document.getElementById("btn-roll-all").addEventListener("click", () => {
-        const tirada = tirarDados();
+    document.getElementById("btn-roll-name").addEventListener("click", () => {
+      lanzarDados(actualizarNombre);
+    });
+
+    document.getElementById("btn-roll-all").addEventListener("click", () => {
+      lanzarDados((tirada) => {
         actualizarOcupacion(tirada);
         actualizarTrasfondo(tirada);
         actualizarNombre(tirada);
       });
     });
-  </script>
+  });
+</script>
 
 </body>
 </html>
